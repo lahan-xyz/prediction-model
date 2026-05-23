@@ -65,6 +65,15 @@ const MODEL_CONFIG = {
   xGMax: 3.2
 };
 
+const leagueStrength = {
+  "EPL": 1.000,
+  "La Liga": 0.929,
+  "Bundesliga": 0.921,
+  "Serie A": 0.911,
+  "Ligue 1": 0.909
+};
+
+
 function logit(p) {
   return Math.log(p / (1 - p));
 }
@@ -172,7 +181,7 @@ function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
  * @param {string} opponentName - The team they are playing against.
  * @param {boolean} isSubjectHome - Whether the subject team is playing at home.
  */
-function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, league) {
+function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, league, isNeutral) {
   // 1. DATA ACQUISITION
   const [subject, subjectLeagueAvg, subjectLeague] = getTeamData(subjectName);
   const [opponent, oppLeagueAvg, oppLeague] = getTeamData(opponentName);
@@ -191,8 +200,8 @@ function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, league
   
   // 3. CONTEXTUAL BASE STATS
   // Selects stats based on Home/Away status to capture inherent home advantage.
-  const seasonAttack = isSubjectHome ? subject.homeXG : subject.awayXG;
-  const seasonDefense = isSubjectHome ? opponent.awayXGA : opponent.homeXGA;
+  const seasonAttack = isNeutral ? (subject.homeXG + subject.awayXG) / 2 : isSubjectHome ? subject.homeXG : subject.awayXG;
+  const seasonDefense = isNeutral ? (opponent.homeXGA + opponent.awayXGA) / 2 : isSubjectHome ? opponent.awayXGA : opponent.homeXGA;
   
   // 4. RECENT FORM (Weighted)
   const recentAttack = weightedAverage(subject.last6XG);
@@ -235,14 +244,9 @@ function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, league
     }
   }
   
-  if (subjectLeague === "EPL") {
-    baseXG *= 114.686/89.759;
+  if (subjectLeague !== oppLeague) {
+    baseXG *= leagueStrength[subjectLeague]/leagueStrength[oppLeague];
   }
-  
-  if (subjectLeague === "Bundesliga") {
-    baseXG *= 89.759/114.686;
-  }
-  
 
   
   // 11. FINAL CLAMP
@@ -258,9 +262,9 @@ function calculateLambda3(homeXG, awayXG) {
 }
 
 // Predict match
-function predictMatch(home, away, lg) {
-  const homeXG = calculateExpectedGoals(home, away, true, lg);
-  const awayXG = calculateExpectedGoals(away, home, false);
+function predictMatch(home, away, lg, isNeutral = false) {
+  const homeXG = calculateExpectedGoals(home, away, true, lg, isNeutral);
+  const awayXG = calculateExpectedGoals(away, home, false, lg, isNeutral);
   const lambda3 = calculateLambda3(homeXG, awayXG);
   
   let under25 = 0;
@@ -406,8 +410,8 @@ function samplePoisson(lambda) {
 const predictMultiMatch = (fixtures) => {
   const outArr = [];
   let output = "";
-  fixtures.forEach(([home, away, league]) => {
-    const prediction = predictMatch(home, away, league);
+  fixtures.forEach(([home, away, league, isNeutral]) => {
+    const prediction = predictMatch(home, away, league, isNeutral);
     outArr.push(prediction);
     output += "\n\n" + JSON.stringify(prediction, null, 2);
   });

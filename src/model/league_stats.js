@@ -986,7 +986,7 @@ const SERIEA = {
     "last6GA": [3, 2, 1, 2, 3, 3]
   },
   "leagueAverageXG": 2.78,
-  "leagueName": "SERIE A"
+  "leagueName": "Serie A"
 }
 
 

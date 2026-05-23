@@ -17,7 +17,36 @@ const Main = new Component("Main", {
       
       try {
         const predictions = predictMultiMatch([
-          ["Freiburg", "Aston Villa", "Europa League - Final"]
+          ["Celta", "Sevilla"],
+          ["Alaves", "Vallecano"],
+          ["Espanyol", "Sociedad"],
+          ["Getafe", "Osasuna"],
+          ["Girona", "Elche"],
+          ["Mallorca", "Oviedo"],
+          ["Betis", "Levante"],
+          ["Real Madrid", "Athletic Club"],
+          ["Valencia", "Barcelona"],
+          ["Bologna", "Inter"],
+          ["Lazio", "Pisa"],
+          ["Bayern", "Stuttgart", "DFB Pokal - Final", true],
+          ["Brighton", "Man Utd"],
+          ["Burnley", "Wolves"],
+          ["Crystal Palace", "Arsenal"],
+          ["Fulham", "Newcastle"],
+          ["Liverpool", "Brentford"],
+          ["Man City", "Aston Villa"],
+          ["Nottingham", "Bournemouth"],
+          ["Sunderland", "Chelsea"],
+          ["Tottenham", "Everton"],
+          ["West Ham", "Leeds"],
+          ["Villarreal", "Atletico"],
+          ["Parma", "Sassuolo"],
+          ["Napoli", "Udinese"],
+          ["AC Milan", "Cagliari"],
+          ["Cremonese", "Como"],
+          ["Verona", "Roma"],
+          ["Lecce", "Genoa"],
+          ["Torino", "Juventus"]
         ]);
         
         if (this.ran) {

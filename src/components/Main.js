@@ -26,7 +26,7 @@ const Main = new Component("Main", {
           ["Betis", "Levante"],
           ["Real Madrid", "Athletic Club"],
           ["Valencia", "Barcelona"],
-          ["Bologna", "Inter"],
+          ["Bologna", "Inter"]/*,
           ["Lazio", "Pisa"],
           ["Bayern", "Stuttgart", "DFB Pokal - Final", true],
           ["Brighton", "Man Utd"],
@@ -46,7 +46,7 @@ const Main = new Component("Main", {
           ["Cremonese", "Como"],
           ["Verona", "Roma"],
           ["Lecce", "Genoa"],
-          ["Torino", "Juventus"]
+          ["Torino", "Juventus"]*/
         ]);
         
         if (this.ran) {

@@ -11,6 +11,7 @@ const MatchCard = new Atom("MatchCard", {
           </div>
           <div class="badge">{{ league }}</div>
        </div>
+       
        <div class="xg-row">
          <div class="xg-item">
            <span class="xg-label">Home xG</span>
@@ -56,16 +57,22 @@ const MatchCard = new Atom("MatchCard", {
           </div>
 
           <div class="outcome-row">
-            <div class="outcome-item"><span>Home</span> <span color="#4ade80" font-weight="700">{{ probabilities.homeWin }}%</span>
+            <div class="outcome-item">
+              <span class="outcome-label">Home</span> 
+              <span class="outcome-val home">{{ probabilities.homeWin }}%</span>
             </div>
-            <div class="outcome-item"><span>Draw</span> <span color="#facc15">{{ probabilities.draw }}%</span>
+            <div class="outcome-item">
+              <span class="outcome-label">Draw</span> 
+              <span class="outcome-val draw">{{ probabilities.draw }}%</span>
             </div>
-            <div class="outcome-item"><span>Away</span> <span color="#f87171">{{ probabilities.awayWin }}%</span>
+            <div class="outcome-item">
+              <span class="outcome-label">Away</span> 
+              <span class="outcome-val away">{{ probabilities.awayWin }}%</span>
             </div>
           </div>
 
           <div>
-            <div class="section-title" margin-bottom="0.4rem">🎯 Top Scorelines</div>
+            <div class="section-title">🎯 Top Scorelines</div>
               <div class="scorelines">
                 <div class="score-badge">{{ topScorelines[0].score }}
                 <span class="prob">{{ topScorelines[0].probability }}%</span>
@@ -81,18 +88,21 @@ const MatchCard = new Atom("MatchCard", {
           </div>`,
   stylesheet: {
   ".match-card": `
-    background: #111;
-    border: 1px solid #2a2a2a;
+    box-sizing: border-box;
+    width: 100%;
+    background: #141417;
+    border: 1px solid #232326;
     border-radius: 20px;
     padding: 1.6rem 1.4rem;
     margin-top: 0;
-    transition: border-color 0.15s;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
   `,
   ".match-card:hover": `
-    border-color: #555;
+    border-color: #3f3f46;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
   `,
   
   // ----- header -----
@@ -100,34 +110,34 @@ const MatchCard = new Atom("MatchCard", {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #232326;
     padding-bottom: 0.75rem;
   `,
   ".teams": `
     font-size: 1.25rem;
     font-weight: 700;
-    color: #fff;
+    color: #f4f4f5;
     display: flex;
     align-items: center;
     gap: 0.4rem;
     flex-wrap: wrap;
   `,
   ".teams .vs": `
-    color: #777;
+    color: #71717a;
     font-weight: 500;
     font-size: 0.85rem;
     margin: 0 0.3rem;
   `,
   ".badge": `
-    background: #1a1a1a;
+    background: #1f1f23;
     padding: 0.3rem 0.8rem;
     border-radius: 30px;
     font-size: 0.65rem;
     font-weight: 600;
     letter-spacing: 0.6px;
     text-transform: uppercase;
-    color: #aaa;
-    border: 1px solid #2a2a2a;
+    color: #a1a1aa;
+    border: 1px solid #2d2d31;
   `,
   
   // ----- xG row -----
@@ -135,11 +145,11 @@ const MatchCard = new Atom("MatchCard", {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #0c0c0c;
+    background: #09090b;
     border-radius: 14px;
     padding: 0.75rem 1rem;
     gap: 0.5rem;
-    border: 1px solid #222;
+    border: 1px solid #1f1f23;
   `,
   ".xg-item": `
     display: flex;
@@ -148,36 +158,36 @@ const MatchCard = new Atom("MatchCard", {
     flex: 1;
   `,
   ".xg-label": `
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     font-weight: 600;
     letter-spacing: 0.5px;
-    color: #666;
+    color: #71717a;
     margin-bottom: 0.15rem;
   `,
   ".xg-value": `
     font-size: 1.5rem;
     font-weight: 700;
-    color: #fff;
+    color: #f4f4f5;
   `,
   ".xg-divider": `
-    color: #333;
+    color: #3f3f46;
     font-size: 1rem;
     font-weight: 300;
   `,
   ".xg-total": `
-    background: #1a1a1a;
+    background: #1f1f23;
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 600;
-    color: #ccc;
-    border: 1px solid #333;
+    color: #e4e4e7;
+    border: 1px solid #2d2d31;
   `,
   ".correlation": `
     font-size: 0.65rem;
-    color: #666;
+    color: #52525b;
     text-align: right;
-    margin-top: 0.2rem;
+    margin-top: -0.4rem;
   `,
   
   // ----- probabilities -----
@@ -191,7 +201,8 @@ const MatchCard = new Atom("MatchCard", {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: #888;
+    color: #a1a1aa;
+    margin-bottom: 0.4rem;
   `,
   ".probs-grid": `
     display: grid;
@@ -199,97 +210,119 @@ const MatchCard = new Atom("MatchCard", {
     gap: 0.5rem;
   `,
   ".prob-box": `
-    background: #0c0c0c;
+    background: #09090b;
     border-radius: 12px;
-    padding: 0.6rem;
+    padding: 0.65rem 0.8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #222;
+    border: 1px solid #1f1f23;
   `,
   ".prob-label": `
     font-size: 0.75rem;
     font-weight: 500;
-    color: #ccc;
+    color: #d4d4d8;
   `,
   ".prob-value": `
     font-size: 0.85rem;
     font-weight: 700;
   `,
   ".prob-value.high": `
-    color: #4ade80;
+    color: #10b981;
   `,
   ".prob-value.med": `
-    color: #facc15;
+    color: #f59e0b;
   `,
   ".prob-value.low": `
-    color: #f87171;
+    color: #f43f5e;
   `,
   ".prob-value.odd": `
-      color: #c084fc;   /* soft purple for odd goals */
-      text-shadow: 0 0 10px rgba(192, 132, 252, 0.4);
-    `,
+    color: #a855f7;
+    text-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+  `,
   ".prob-value.even": `
-      color: #67e8f9;   /* cyan for even goals */
-      text-shadow: 0 0 10px rgba(103, 232, 249, 0.4);
-    `,
+    color: #06b6d4;
+    text-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
+  `,
+  
   // ----- 1X2 -----
   ".outcome-row": `
     display: flex;
     justify-content: space-around;
-    background: #0c0c0c;
+    background: #09090b;
     border-radius: 12px;
-    padding: 0.6rem 0.2rem;
-    border: 1px solid #222;
+    padding: 0.75rem 0.2rem;
+    border: 1px solid #1f1f23;
   `,
   ".outcome-item": `
     text-align: center;
-    font-weight: 600;
-    font-size: 0.8rem;
-    color: #eee;
+    flex: 1;
   `,
-  ".outcome-item span": `
+  ".outcome-label": `
     display: block;
-    color: #777;
-    font-size: 0.6rem;
+    color: #71717a;
+    font-size: 0.65rem;
+    font-weight: 600;
     text-transform: uppercase;
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.25rem;
+  `,
+  ".outcome-val": `
+    font-size: 0.9rem;
+    font-weight: 700;
+  `,
+  ".outcome-val.home": `
+    color: #10b981;
+  `,
+  ".outcome-val.draw": `
+    color: #f59e0b;
+  `,
+  ".outcome-val.away": `
+    color: #f43f5e;
   `,
   
   // ----- scorelines -----
   ".scorelines": `
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 0.3rem;
   `,
   ".score-badge": `
-    background: #1a1a1a;
+    background: #1f1f23;
     border-radius: 20px;
     padding: 0.4rem 0.8rem;
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.3px;
-    color: #e0e0e0;
-    border: 1px solid #2a2a2a;
+    color: #e4e4e7;
+    border: 1px solid #2d2d31;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  `,
+  ".score-badge.highlight": `
+    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #10b981;
   `,
   ".score-badge span": `
-    color: #aaa;
-    font-weight: 400;
-    font-size: 0.6rem;
+    color: #a1a1aa;
+    font-weight: 500;
+    font-size: 0.65rem;
+  `,
+  ".score-badge.highlight span": `
+    color: #a7f3d0;
   `,
   
   ".note": `
     font-size: 0.65rem;
-    color: #555;
+    color: #52525b;
     margin-top: 0.3rem;
     font-style: italic;
   `,
   
   // responsive
   "@media (max-width: 500px)": {
-    ".predictions-grid": `
-      grid-template-columns: 1fr;
-    `,
     ".match-card": `
       padding: 1.2rem;
     `

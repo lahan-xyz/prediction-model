@@ -6,23 +6,32 @@
 'use-strict';
 
 // Counter for generating unique IDs for elements with reactive data.
-var counterQF = -1,
-  nuggetCounter = -1,
+let counterQF = 0,
+  nuggetCounter = 0,
   routerObj = {},
   currentComponent,
-  navigateFunc = (() => {}),
-  globalStateDataQF = [];
+  navigateFunc = (() => {});
 
-var stylesheet = {
+let stylesheet = {
   el: document.createElement("style"),
   isAppended: false
 };
+
+const GLOBAL_STATE = {
+  dataQF: [],
+  dependencyMap: new Map()
+}
 
 const updateQueue = [];
 let microtaskPending = false;
 
 const components = new Map(),
   nuggets = new Map();
+
+// Dependency Map
+let currentTemplate = "",
+  currentDepArr = [],
+  globCurrentDepArr = [];
 
 // Cached reactive elements
 const reactiveCache = new Map();
@@ -75,15 +84,8 @@ class LRUCache {
 
 // O(1) element lookup
 const selectElement = qfid => {
-  return reactiveCache.get(qfid) || document.querySelector(`[data-qfid="${qfid}"]`);
+  return reactiveCache.get(qfid);
 };
-
-// O(N) JavaScript-only filter, zero DOM calls
-function filterNullElements(input) {
-  if (!input || input.length === 0) return input;
-  return input.filter(d => reactiveCache.has(d.qfid));
-  
-}
 
 
 const strToEl = (component) => {
@@ -111,18 +113,28 @@ const globalState = (name, val, shouldStore) => {
     }
   };
   
+  // Cache for nested reactive wrappers – one proxy per underlying object
+  const cache = new WeakMap();
+  
   const reactiveObj = (object) => {
-    return new Proxy(object, {
+    if (typeof object !== "object" || object === null) return object;
+    
+    if (cache.has(object)) return cache.get(object);
+    
+    const proxy = new Proxy(object, {
       get(target, key) {
-        // Optional: if you want deep reactivity, return a reactive proxy for nested objects here.
-        // For now, keep the simple direct return.
-        return target[key];
+        if (currentTemplate) {
+          const temp = currentComponent;
+          globCurrentDepArr.push({ temp: currentTemplate, key });
+        }
+        
+        return reactiveObj(target[key]);
       },
       set(target, key, value) {
         if (target[key] !== value) {
           target[key] = value;
           // Trigger DOM update (already batched via batchedUpdate)
-          updateComponent(key, true, value);
+          updateComponent(key, null);
           
           // Mark localStorage as dirty; write will happen once per microtask
           if (shouldStore) {
@@ -133,6 +145,8 @@ const globalState = (name, val, shouldStore) => {
         return true;
       }
     });
+    cache.set(obj, proxy);
+    return proxy;
   };
   
   globalThis[name] = reactiveObj(obj);
@@ -153,6 +167,10 @@ function createSignal(data, object) {
     
     const proxy = new Proxy(obj, {
       get(target, key) {
+        if (currentTemplate) {
+          const temp = currentComponent;
+          currentDepArr.push({ temp: currentTemplate, key });
+        }
         // Recursively wrap nested objects, but now cached
         return createReactiveObject(target[key]);
       },
@@ -168,7 +186,7 @@ function createSignal(data, object) {
                 object.data
               ) :
               true;
-            if (goAhead) updateComponent(key, object, value);
+            if (goAhead) updateComponent(key, object);
           }
         }
         return true;
@@ -217,69 +235,99 @@ function sanitizeString(str) {
   });
 }
 
+function buildDependencyMap(instance, data) {
+  if (!instance.dependencyMap) instance.dependencyMap = new Map();
+  
+  const build = (isNotGlobal, depArr) => {
+    let i = 0,
+      len = depArr.length;
+    
+    const dataQF = isNotGlobal ? data : GLOBAL_STATE.dataQF;
+    const targetMap = isNotGlobal ? instance.dependencyMap : GLOBAL_STATE.dependencyMap;
+    
+    for (i = 0; i < len; i++) {
+      const { temp, key } = depArr[i];
+      
+      dataQF.forEach((entry, j) => {
+        if (entry.template.includes(temp)) {
+          let deps = targetMap.get(key);
+          if (!deps) {
+            deps = new Set();
+            targetMap.set(key, deps);
+          }
+          deps.add(entry);
+        }
+      });
+    }
+  }
+  
+  if (currentDepArr.length) build(true, currentDepArr);
+  if (globCurrentDepArr.length) build(false, globCurrentDepArr);
+  
+  currentDepArr = [];
+  globCurrentDepArr = [];
+  GLOBAL_STATE.dataQF = [];
+}
 
-const EVAL_REGEX = /\{\{[^\{\{]+\}\}/g;
+
+
+const EVAL_REGEX = /\{\{(.+?)\}\}/g;
 const ENTITY_REGEX = /&(gt|lt);/g;
-const FALSY = [undefined, NaN, null];
 
-// Global evaluator cache – keyed by the full expression string
 const evaluatorCache = new Map();
 
-function evaluateTemplate(reff, instance) {
-  let out = "",
-    currentMarkup = "";
-  
-  try {
-    out = reff.replace(EVAL_REGEX, (match) => {
-      currentMarkup = match;
-      
-      // Convert HTML entities back to real characters in one pass
-      const processedMatch = match.replace(ENTITY_REGEX, (_, entity) =>
-        entity === 'gt' ? '>' : '<'
-      );
-      
-      // Extract the raw expression between {{ and }}
-      let ext = b(processedMatch).trim();
-      if (!ext) return match; // edge case: empty expression, keep original
-      
-      const shouldNegate = ext.startsWith('!');
-      const isGlobal = ext.startsWith('$');
-      
-      // Build the cache key and the JavaScript source code
-      let source, cacheKey;
-      if (isGlobal) {
-        // Global expression – evaluated without instance context
-        source = `return ${ext}`;
-        cacheKey = `g:${ext}`;
-      } else {
-        // Local expression – prefix with 'this.data.' unless it starts with 'this'
-        const prefixed = ext.startsWith('this') ? ext : `this.data.${ext}`;
-        source = `return ${prefixed}`;
-        cacheKey = `l:${prefixed}`;
-      }
-      
-      // Retrieve or compile the accessor function (cached)
-      let evaluator = evaluatorCache.get(cacheKey);
-      if (!evaluator) {
+function evaluateTemplate(templateString, instance) {
+  const evaluated = templateString.replace(EVAL_REGEX, (match, innerContent) => {
+    currentTemplate = match;
+    const ext = innerContent.replace(ENTITY_REGEX, (_, entity) =>
+      entity === 'gt' ? '>' : '<'
+    ).trim();
+    
+    if (!ext) return match;
+    
+    const isGlobal = ext.charCodeAt(0) === 36;
+    const cacheKey = `eval:${ext}`;
+    
+    let evaluator = evaluatorCache.get(cacheKey);
+    
+    if (!evaluator) {
+      try {
+        let source;
+        if (isGlobal) {
+          source = `return ${ext}`;
+        } else {
+          source = `
+            with (this.data) {
+              return ${ext};
+            }
+          `;
+        }
+        
         evaluator = new Function(source);
         evaluatorCache.set(cacheKey, evaluator);
+      } catch (err) {
+        console.warn(`QueFlow Syntax Error compiling: \`${ext}\`\n`, err);
+        return match;
       }
+    }
+    
+    try {
+      const parsed = isGlobal ? evaluator() : evaluator.call(instance);
       
-      // Call the function with the correct context
-      let parsed = isGlobal ? evaluator() : evaluator.call(instance);
-      
-      // Original fallback logic: if the value is falsy (and not "0"), show the raw template
-      if (FALSY.includes(parsed) && parsed !== "0") {
+      // Falsy check
+      if ((parsed === undefined || parsed === null || Number.isNaN(parsed)) && parsed !== "0") {
         return match;
       }
       
       return parsed;
-    });
-  } catch (error) {
-    console.warn(`QueFlow:\nAn error occured from expression \`${currentMarkup}\`\n${error}`);
-  }
+    } catch (error) {
+      console.warn(`QueFlow Execution Error from expression \`${match}\`\n${error}`);
+      return match;
+    }
+  });
+  currentTemplate = "";
   
-  return out;
+  return evaluated;
 }
 
 
@@ -289,107 +337,79 @@ function getAttributes(el) {
 }
 
 
-// Helper: wraps any text node that contains a reactive expression in a <span>
+const BARE_WRAPPER = document.createElement('span');
+
+BARE_WRAPPER.style.cssText = 'display: contents; font: inherit; color: inherit;';
+
 function wrapBareExpressions(root) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const nodesToWrap = [];
   
   let node;
   while ((node = walker.nextNode())) {
-    const needsWrapping = node.textContent.includes('{{') && node.textContent.includes('}}') && node.parentNode.childElementCount > 0;
+    const text = node.nodeValue;
     
-    if (needsWrapping) {
+    if (text.indexOf('{{') !== -1 && text.indexOf('}}') !== -1 && node.parentNode.childElementCount > 0) {
       nodesToWrap.push(node);
     }
   }
   
-  for (const textNode of nodesToWrap) {
-    const span = document.createElement('span');
-    span.style.cssText = `
-      display: inline;
-      font: inherit;
-      color: inherit;
-      text-decoration: inherit;
-      text-transform: inherit;
-      letter-spacing: inherit;
-      word-spacing: inherit;
-      white-space: inherit;
-      vertical-align: baseline;
-      line-height: inherit;
-      direction: inherit;
-      unicode-bidi: inherit;
-    `;
+  for (let i = 0, len = nodesToWrap.length; i < len; i++) {
+    const textNode = nodesToWrap[i];
+    
+    // Clone the pre-styled span
+    const span = BARE_WRAPPER.cloneNode(false);
+    
     textNode.parentNode.insertBefore(span, textNode);
     span.appendChild(textNode);
   }
 }
 
 
-function jsxToHTML(jsx, instance, subId) {
-  const div = document.createElement("div");
-  // innerHTML is substantially faster than DocumentFragment parsing for strings
-  div.innerHTML = jsx;
+
+function processComponentMarkup(jsx, instance, subId) {
+  sharedTemplate.innerHTML = jsx;
+  const fragment = sharedTemplate.content;
   
-  wrapBareExpressions(div);
+  wrapBareExpressions(fragment);
   
   const data = [];
   
   try {
-    // Live NodeList bypassing CSS engine
-    const targetElements = div.getElementsByTagName("*");
+    const targetElements = fragment.querySelectorAll("*");
     
     for (let i = 0, len = targetElements.length; i < len; i++) {
       const element = targetElements[i];
       
       if (subId && !element.hasAttribute("data-sub_id")) {
-        // setAttribute is faster than element.dataset.sub_id
         element.setAttribute("data-sub_id", subId);
       }
       
-      const childData = generateComponentData(
+      const childData = generateDataQF(
         element,
         element.childElementCount > 0, // isParent
         instance
       );
       
-      // Traditional loop avoids call stack limits from spread operator (...)
-      for (let j = 0; j < childData.length; j++) {
-        data.push(childData[j]);
+      if (childData.length > 0) {
+        data.push.apply(data, childData);
       }
       
       element.removeAttribute("innertext");
     }
     
-    const html = div.innerHTML;
-    div.remove();
-    return [html.replaceAll("<br>", "\n"), data];
+    buildDependencyMap(instance, data);
+    
+    return sharedTemplate.innerHTML.replaceAll("<br>", "\n");
+    
   } catch (error) {
     console.warn(
       `QueFlow:\nAn error in Component \`${instance.name || ""}\`:\n ${error}\n\nError sourced from: \`${jsx}\``
     );
-    div.remove();
-    return ["", data];
+    return "";
   }
 }
 
-
-// Compares two objects and checks if their key-value pairs are strictly same
-function isSame(obj1, obj2) {
-  const keys1 = Object.keys(obj1);
-  const keys2 = Object.keys(obj2);
-  
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
-  
-  for (const key of keys1) {
-    if (obj1[key] !== obj2[key]) {
-      return false;
-    }
-  }
-  
-  return true;
-}
 
 const qOnceMap = {
   text: "textContent",
@@ -419,10 +439,13 @@ function convertDirective(attr, value, child) {
     }
     case 'q:text':
       child.textContent = value;
-      return ['textContent', value, false]; // Added 'false' to match expected destructuring
+      return ['textContent', value, false];
       
     case 'q:html':
-      return ['innerHTML', value, false]; // Added 'false'
+      return ['innerHTML', value, false];
+      
+    case 'q:value':
+      return ['value', value, false];
       
     default:
       if (attr === 'q:once') {
@@ -434,22 +457,31 @@ function convertDirective(attr, value, child) {
   }
 }
 
-// Generates and returns dataQF property
-const generateComponentData = (child, isParent, instance) => {
+
+// Attribute-to-property mapping for standard DOM elements
+const ATTR_TO_PROP = {
+  for: 'htmlFor',
+  tabindex: 'tabIndex',
+  readonly: 'readOnly',
+  maxlength: 'maxLength',
+  accesskey: 'accessKey',
+  colspan: 'colSpan',
+  rowspan: 'rowSpan'
+};
+
+const CONTENT_DIRECTIVES = new Set(['q:text', 'q:html', 'q:once:text', 'q:once:html']);
+
+const generateDataQF = (child, isParent, instance) => {
   const arr = [];
   const attributes = getAttributes(child);
-  // getAttribute is faster than dataset
-  let QFID = child.getAttribute("data-qfid"); 
+  let QFID = child.getAttribute("data-qfid");
   const useStrict = instance.useStrict;
   
-  // --- Content injection for leaf nodes ---
   if (!isParent) {
     let hasExplicitContentDirective = false;
     
-    // Check our JS array instead of querying the DOM multiple times
     for (let i = 0; i < attributes.length; i++) {
-      const name = attributes[i].attribute;
-      if (name === 'q:text' || name === 'q:html' || name === 'q:once:text' || name === 'q:once:html') {
+      if (CONTENT_DIRECTIVES.has(attributes[i].attribute)) {
         hasExplicitContentDirective = true;
         break;
       }
@@ -461,6 +493,8 @@ const generateComponentData = (child, isParent, instance) => {
     }
   }
   
+  const childStyle = child.style;
+  
   for (let i = 0; i < attributes.length; i++) {
     let { attribute, value } = attributes[i];
     value = value || '';
@@ -468,15 +502,18 @@ const generateComponentData = (child, isParent, instance) => {
     let once = false;
     [attribute, value, once] = convertDirective(attribute, value, child);
     
-    const hasTemplate = value.includes('{{') && value.includes('}}');
-    const isStyle = (attribute in child.style) && attribute.toLowerCase() !== 'src';
+    const hasTemplate = value.indexOf('{{') !== -1 && value.indexOf('}}') !== -1;
+    
+    // Short-circuit logic: Check 'src' first to avoid triggering 
+    // the heavy `in childStyle` prototype lookup if we don't have to.
+    const isStyle = attribute !== 'src' && (attribute in childStyle);
     
     if (!hasTemplate) {
       if (isStyle) {
-        child.style[attribute] = value;
+        childStyle[attribute] = value;
         child.removeAttribute(attribute);
       } else {
-        child[attribute] = value;
+        child[ATTR_TO_PROP[attribute] || attribute] = value;
       }
       continue;
     }
@@ -485,19 +522,19 @@ const generateComponentData = (child, isParent, instance) => {
     
     if (!QFID) {
       QFID = `qf${counterQF++}`;
-      child.setAttribute('data-qfid', QFID); // Faster than dataset
+      child.setAttribute('data-qfid', QFID);
     }
     
     if (isStyle) {
-      child.style[attribute] = evaluation;
+      childStyle[attribute] = evaluation;
       child.removeAttribute(attribute);
     } else {
-      child[attribute] = evaluation;
+      child[ATTR_TO_PROP[attribute] || attribute] = evaluation;
     }
     
     const expression = b(value).trim();
-    // charCodeAt(0) === 36 is the fastest way to check if a string starts with '$'
-    const isGlobal = expression.charCodeAt(0) === 36; 
+    // Char code lookup is the fastest way to check the first character
+    const isGlobal = expression.charCodeAt(0) === 36; // 36 is '$'
     
     const entryObj = {
       template: value,
@@ -508,9 +545,9 @@ const generateComponentData = (child, isParent, instance) => {
     };
     
     if (isGlobal) {
-      globalStateDataQF.push(entryObj);
+      GLOBAL_STATE.dataQF.push(entryObj);
     } else {
-      arr[arr.length] = entryObj; // arr[length] assignment is marginally faster than arr.push()
+      arr.push(entryObj);
     }
   }
   
@@ -566,6 +603,8 @@ function initiateStyleSheet(selector = "", instance = {}, shouldSwitch) {
     document.head.appendChild(stylesheet.el);
     stylesheet.isAppended = true;
   }
+  
+  instance.stylesheet = null;
 }
 
 
@@ -585,17 +624,17 @@ function handleEventListener(parent, instance) {
     for (const { attribute, value } of attributes) {
       if (!attribute.startsWith("on")) continue;
       
-      // Cache key: instance identity + attribute + expression
-      const cacheKey = `${targetInstance.constructor.name || ''}_${value}`;
+      // Cache key: expression
+      const cacheKey = `${value}`;
       let handler = eventHandlerCache.get(cacheKey);
       
       if (!handler) {
         try {
-          // Compile the function body once per unique expression/instance pair
+          // Compile the function body once per unique expression pair
           handler = Function("e", `const data = this.data; ${value}`).bind(targetInstance);
           eventHandlerCache.set(cacheKey, handler);
         } catch (e) {
-          console.warn(`QueFlow:\nFailed to add event listener on ${child.tagName} element:\n\nError from: \`${value}\``);
+          console.warn(`QueFlow:\nFailed to add event listener on ${child.tagName} element:\n\nError from: \`${value}\`\n${e}`);
           continue;
         }
       }
@@ -623,38 +662,43 @@ function handleEventListener(parent, instance) {
 function update(child, key, evaluated) {
   switch (key) {
     case 'q:exist':
-      if (evaluated === "false") {
-        // getElementsByTagName is highly optimized and faster than TreeWalker
+      // Ensure we catch both the string "false" and the boolean false
+      if (evaluated === "false" || evaluated === false) {
         const descendants = child.getElementsByTagName('*');
         
-        // Pass as an array using spread syntax
-        removeEvents([child, ...descendants]);
-        child.remove();
+        const nodesToClean = new Array(descendants.length + 1);
+        nodesToClean[0] = child;
+        
+        for (let i = 0, len = descendants.length; i < len; i++) {
+          const node = descendants[i];
+          nodesToClean[i + 1] = node;
+        }
+        // Remove events and remove child and its descendants from the DOM
+        removeEvents(nodesToClean, true);
       }
       break;
       
     case 'disabled':
-      // Direct property assignment is much faster than setAttribute/removeAttribute
-      const isDisabled = evaluated !== "false";
+      const isDisabled = evaluated !== "false" && evaluated !== false;
       if (child.disabled !== isDisabled) {
         child.disabled = isDisabled;
       }
       break;
       
     default:
-      if (key.startsWith("style.")) { // startsWith is safer than indexOf > -1
+      // Ultra-fast string check: 115 is the charCode for 's'
+      // This allows V8 engines to bypass string allocation for 90% of checks
+      if (key.charCodeAt(0) === 115 && key.startsWith("style.")) {
         const sliced = key.slice(6);
         if (child.style[sliced] !== evaluated) {
           child.style[sliced] = evaluated;
         }
       } else {
-        // 'in' operator checks the prototype chain and is faster than hasAttribute
         if (key in child) {
           if (child[key] != evaluated) {
             child[key] = evaluated;
           }
         } else {
-          // Fallback to attribute if no corresponding object property exists
           if (child.getAttribute(key) != evaluated) {
             child.setAttribute(key, evaluated);
           }
@@ -662,7 +706,6 @@ function update(child, key, evaluated) {
       }
   }
 }
-
 
 function scheduleFlush() {
   if (!microtaskPending) {
@@ -691,73 +734,35 @@ function flushUpdates() {
 }
 
 
-const NEEDSUPDATE_REGEX = /\{\{(.+?)\}\}/g;
 
-function needsUpdate(template, key) {
-  if (!template.includes('{{') || !template.includes('}}')) return false;
-  // Reset regex state
-  NEEDSUPDATE_REGEX.lastIndex = 0;
-  let match;
-  while ((match = NEEDSUPDATE_REGEX.exec(template)) !== null) {
-    if (match[1].includes(key)) return true;
-  }
-  return false;
-}
-
-
-// Attribute-to-property mapping for standard DOM elements
-const ATTR_TO_PROP = {
-  class: 'className',
-  for: 'htmlFor',
-  tabindex: 'tabIndex',
-  readonly: 'readOnly',
-  maxlength: 'maxLength',
-  accesskey: 'accessKey',
-  colspan: 'colSpan',
-  rowspan: 'rowSpan'
-};
-
-function updateComponent(ckey, instance) {
-  const isGlobal = typeof instance === "boolean";
-  let dataQF = filterNullElements(isGlobal ? globalStateDataQF : instance.dataQF);
+function updateComponent(changedKey, instance) {
+  const dependencyMap = instance === null ? GLOBAL_STATE.dependencyMap : instance.dependencyMap;
   
-  let writeIndex = 0; // Two-pointer technique for O(n) filtering
+  const subscribers = dependencyMap.get(changedKey);
   
-  for (let i = 0; i < dataQF.length; i++) {
-    const entry = dataQF[i];
-    const { template, key, qfid, once } = entry;
+  if (!subscribers) return;
+  
+  for (const subscriber of subscribers) {
+    const { template, key: targetProp, qfid: elementId, once } = subscriber;
     
-    // Default to keeping the entry
-    let keep = true;
+    const node = selectElement(elementId);
     
-    if (ckey === "_" || needsUpdate(template, ckey)) {
-      const node = selectElement(qfid);
+    // node.isConnected guarantees we aren't updating a "ghost" element that was removed by q:exist/instance.destroy()/manually but is still trapped in your Map cache.
+    if (node && node.isConnected) {
+      const evaluated = evaluateTemplate(template, instance);
       
-      if (node) {
-        let evaluated = evaluateTemplate(template, instance);
-        let domKey = key.startsWith('style.') ? key : (ATTR_TO_PROP[key.toLowerCase()] || key);
-        batchedUpdate(node, domKey, evaluated);
-        
-        if (once) keep = false; // Mark for removal if executed once
-      } else {
-        keep = false; // Node is missing; clean it up to prevent memory leaks
+      batchedUpdate(node, targetProp, evaluated);
+      
+      if (once) {
+        subscribers.delete(subscriber);
       }
+    } else {
+      // Element is dead or detached. Instantly sever ALL memory references.
+      subscribers.delete(subscriber);
+      
+      // We explicitly delete it from the cache here so the Garbage Collector can finally wipe the DOM element from the device's RAM.
+      reactiveCache.delete(elementId);
     }
-    
-    // If we are keeping it, write it to the current write index and increment
-    if (keep) {
-      dataQF[writeIndex++] = entry;
-    }
-  }
-  
-  // Truncate the array to remove the discarded elements
-  dataQF.length = writeIndex;
-  
-  // Sync back state
-  if (isGlobal) {
-    globalStateDataQF = dataQF;
-  } else {
-    instance.dataQF = dataQF;
   }
 }
 
@@ -968,20 +973,6 @@ function initiateComponents(markup, isNugget, fromAtom) {
 }
 
 
-function g(str, className) {
-  const div = document.createElement("div");
-  div.innerHTML = str;
-  
-  const children = div.getElementsByTagName("*");
-  
-  // Standard for-loop avoids callback overhead
-  for (let i = 0, len = children.length; i < len; i++) {
-    children[i].classList.add(className);
-  }
-  
-  return div.innerHTML;
-}
-
 const lintPlaceholders = (html, isNugget) => {
   const attributeRegex = /\w+\s*=\s*\{\{[^}]+\}\}/g;
   const eventRegex = /on\w+\s*=\s*\{\{(.*?)\}\}/gs;
@@ -1001,51 +992,74 @@ const lintPlaceholders = (html, isNugget) => {
 };
 
 const removeEvents = (nodeList, shouldRemove) => {
-  for (const child of nodeList) {
-    const attributes = getAttributes(child);
+  // 1. Standard for-loop avoids iterator allocation overhead on HTMLCollections
+  for (let i = 0, len = nodeList.length; i < len; i++) {
+    const child = nodeList[i];
     
-    for (var { attribute, value } of attributes) {
-      if (attribute.slice(0, 2) === "on") {
-        const fn = child[attribute];
-        child.removeEventListener(attribute, fn);
-      }
-    }
-    
+    // 2. Clean up QueFlow's tracked handlers (Fastest path)
     if (child._qfHandlerKeys) {
-      for (const key of child._qfHandlerKeys) {
-        eventHandlerCache.delete(key);
+      const keys = child._qfHandlerKeys;
+      for (let j = 0, kLen = keys.length; j < kLen; j++) {
+        eventHandlerCache.delete(keys[j]);
       }
-      delete child._qfHandlerKeys; // clean up
+      child._qfHandlerKeys = null;
     }
     
+    // 3. Clean up native inline attributes (e.g. onclick="")
+    const attributes = child.attributes;
+    if (attributes) {
+      for (let j = 0; j < attributes.length; j++) {
+        const attrName = attributes[j].name;
+        
+        // 111 is 'o', 110 is 'n'. Char code checks bypass string allocation.
+        if (attrName.charCodeAt(0) === 111 && attrName.charCodeAt(1) === 110) {
+          // This removes the DOM property mapping safely
+          child[attrName] = null;
+        }
+      }
+    }
+    
+    // 4. Bypass dataset completely, rely solely on getAttribute
     const qfid = child.getAttribute('data-qfid');
-    // Remove from reactive cache
     if (qfid) reactiveCache.delete(qfid);
+    
+    // 5. Teardown
     if (shouldRemove) child.remove();
-  };
+  }
   
   clearAllNuggetCaches();
-}
+};
 
 const renderComponent = (instance, name, flag) => {
-  if (!instance.isMounted) {
-    const id = typeof instance.element === 'string' ? instance.element : instance.element.id;
-    
-    let template = !flag ? `<div id="${id}"> ${(instance.template instanceof Function ? instance.template(instance.data) : instance.template)} </div>` : (instance.template instanceof Function ? instance.template(instance.data) : instance.template);
-    
-    template = handleRouter(template);
-    template = initiateComponents(template);
-    
-    initiateStyleSheet(`#${id}`, instance);
-    const rendered = jsxToHTML(template, instance, name);
-    
-    instance.dataQF = rendered[1];
-    instance.isMounted = true;
-    return rendered[0];
-  } else {
-    return ""
-  }
-}
+  // 1. Early Return (Flattens the execution path)
+  if (instance.isMounted) return "";
+  
+  const id = typeof instance.element === 'string' ?
+    instance.element :
+    instance.element.id;
+  
+  // 2. Evaluate template ONCE
+  const innerTemplate = typeof instance.template === 'function' ?
+    instance.template(instance.data) :
+    instance.template;
+  
+  // 3. Clean string assignment
+  let template = flag ?
+    innerTemplate :
+    `<div id="${id}">${innerTemplate}</div>`;
+  
+  // 4. Pipeline
+  template = handleRouter(template);
+  template = initiateComponents(template);
+  initiateStyleSheet(`#${id}`, instance);
+  
+  const rendered = processComponentMarkup(template, instance, name);
+  
+  // 5. State sync
+  instance.isMounted = true;
+  
+  return rendered;
+};
 
 class App {
   constructor(selector = "", options = {}) {
@@ -1059,12 +1073,9 @@ class App {
     
     // Reactive state
     this.data = createSignal(options.data, this);
-    let _data = this.data;
     
-    this.options = options;
     this.isFrozen = false;
     this.stylesheet = options.stylesheet;
-    this.dataQF = [];
     this.onUpdate = options.onUpdate;
     this.created = options.created;
     this.run = options.run || (() => {});
@@ -1076,16 +1087,23 @@ class App {
     
     initiateStyleSheet("", this);
     
+    let _data = this.data;
     Object.defineProperties(this, {
-      template: { value: this.options.template },
+      template: { value: options.template },
       data: {
         get: () => _data,
         set: (data) => {
-          if (!isSame(data, this.data) && !this.isFrozen) {
-            _data = createSignal(data, this);
-            this.dataQF = filterNullElements(this.dataQF);
-            // ✅ Schedule a batched render
-            this._scheduleRender();
+          if (!this.isFrozen) {
+            if (typeof data !== "object") {
+              console.warn(`Value of 'App.data' must be an object`);
+              return;
+            }
+            
+            const keys = Object.keys(data);
+            
+            for (let key of keys) {
+              this.data[key] = data[key];
+            }
           }
           return true;
         },
@@ -1095,6 +1113,7 @@ class App {
     
     if (this.created) {
       this.created(this.data);
+      this.created = null;
     }
   }
   
@@ -1117,11 +1136,10 @@ class App {
       this.template;
     
     template = handleRouter(template);
-    template = initiateComponents(template);
+    template = initiateComponents(template, false, false);
     
     // Convert template to HTML (still returns a string)
-    const rendered = jsxToHTML(template, this);
-    const htmlString = rendered[0];
+    const htmlString = processComponentMarkup(template, this);
     
     const fragment = document.createRange().createContextualFragment(htmlString);
     
@@ -1134,7 +1152,6 @@ class App {
     
     currentComponent?.navigateFunc(currentComponent.data);
     
-    this.dataQF = rendered[1];
     handleEventListener(this.element, this);
     
     for (const component of components) {
@@ -1199,29 +1216,32 @@ class Component {
     
     // Reactive state
     this.data = createSignal(options.data, this);
-    let _data = this.data;
     
-    this.options = options;
     this.isFrozen = false;
     this.created = options.created;
     this.stylesheet = options.stylesheet;
-    this.dataQF = [];
     this.onUpdate = options.onUpdate;
     this.useStrict = Object.keys(options).includes('useStrict') ? options.useStrict : true;
     
     // Batched rendering queue (microtask‑based)
     this._renderPending = false;
-    
-    // Define data property with batched setter
+    let _data = this.data;
     Object.defineProperties(this, {
+      template: { value: options.template },
       data: {
         get: () => _data,
         set: (data) => {
-          if (!isSame(data, this.data) && !this.isFrozen) {
-            _data = createSignal(data, this);
-            this.dataQF = filterNullElements(this.dataQF);
-            // ✅ Schedule a batched render (microtask)
-            this._scheduleRender();
+          if (!this.isFrozen) {
+            if (typeof data !== "object") {
+              console.warn(`Value of '${this.name}.data' must be an object`);
+              return;
+            }
+            
+            const keys = Object.keys(data);
+            
+            for (let key of keys) {
+              this.data[key] = data[key];
+            }
           }
           return true;
         },
@@ -1230,6 +1250,7 @@ class Component {
     });
     
     if (this.created) this.created(this.data);
+    this.created = null;
     components.set(name, this);
   }
   
@@ -1324,20 +1345,25 @@ function addIndexToTemplate(str, index) {
   return lintPlaceholders(output);
 }
 
-function stringToDocumentFragment(htmlString = "") {
-  /**
-   * Converts an HTML string into a DocumentFragment.
-   *
-   * @param {string} htmlString - The HTML string to convert.
-   * @returns {DocumentFragment} - The DocumentFragment containing the parsed HTML.
-   */
-  if (typeof htmlString !== 'string') {
-    throw new TypeError('Input must be a string.');
+
+const sharedTemplate = document.createElement('template');
+
+function g(str, className) {
+  sharedTemplate.innerHTML = str;
+  
+  const children = sharedTemplate.content.querySelectorAll("*");
+  
+  for (let i = 0, len = children.length; i < len; i++) {
+    children[i].classList.add(className);
   }
   
-  const template = document.createElement('template');
-  template.innerHTML = htmlString;
-  return template.content.cloneNode(true); // Clone to avoid template content issues
+  return sharedTemplate.innerHTML;
+}
+
+function stringToDocumentFragment(htmlString = "") {
+  sharedTemplate.innerHTML = htmlString;
+  
+  return sharedTemplate.content.cloneNode(true);
 }
 
 class Atom {
@@ -1350,10 +1376,8 @@ class Atom {
     initiateStyleSheet(`#${id}`, this);
     this.data = [];
     this.index = 0;
-    this.dataQF = [];
     this.useStrict = true;
     this.isReactive = options.isReactive;
-    this.created = typeof options.created == "function" ? options.created(this) : 0;
   }
   
   // Resolve string ID to DOM element once and cache it
@@ -1372,18 +1396,17 @@ class Atom {
     el.firstChild.remove();
     
     this.data = [];
-    this.dataQF = [];
   }
   
   renderWith(data, position = "append") {
     if (typeof data !== "object")
-      throw new Error(`First argument passed to '${this.name}.renderWith()' must be an object or an array.`);
+      throw new Error(`First argument passed to '${this.name}.renderWith()' must either be an object or an array.`);
     
     const el = this._getElement();
     const dataArray = Array.isArray(data) ? data : [data];
     if (dataArray.length === 0) return;
     
-    this.data = dataArray.slice(); // shallow copy
+    this.data = createSignal(dataArray.slice(), this); // shallow copy
     
     // Build one combined HTML string from all items
     let combinedHTML = '';
@@ -1410,7 +1433,7 @@ class Atom {
     }
     
     // Single parse & reactive processing
-    const [htmlContent, compData] = jsxToHTML(combinedHTML, this, null);
+    const htmlContent = processComponentMarkup(combinedHTML, this, null);
     const fragment = stringToDocumentFragment(htmlContent);
     
     // Insert once
@@ -1421,38 +1444,25 @@ class Atom {
     }
     
     handleEventListener(el, this);
-    
-    if (this.isReactive) {
-      this.dataQF.push(...compData);
-    }
   }
   
-  set(index, value, allowShallow) {
+  set(index, value) {
     if (!this.isReactive) throw new Error(`Cannot call 'set()' on Atom ${this.name}.\n\n${this.name} is not a reactive Atom`);
     
-    // ---- Apply data changes synchronously ----
     if (typeof index === "number") {
-      if (allowShallow) {
-        // Shallow merge: update only the given keys in the existing data object
-        const target = this.data[index];
-        if (target && typeof target === "object") {
-          Object.keys(value).forEach(key => {
-            if (target[key] !== value[key]) target[key] = value[key];
-          });
-        } else {
-          this.data[index] = value;
-        }
-      } else {
-        this.data[index] = value;
+      if (typeof value === "object") {
+        Object.keys(value).forEach(key => {
+          this.data[index][key] = value[key];
+        });
       }
     } else if (Array.isArray(index)) {
-      this.data = index;
+      index.forEach((obj, i) => {
+        if (index[i]) this.data[i] = index[i];
+      });
     } else {
       console.warn(`First Argument passed to '${this.name}.set()' must either be a number or an array.`);
       return;
     }
-    
-    updateComponent("_", this);
   }
 }
 
@@ -1640,6 +1650,5 @@ export {
   Component,
   Nugget,
   Atom,
-  onNavigate,
   globalState
 };

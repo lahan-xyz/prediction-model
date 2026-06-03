@@ -3,20 +3,9 @@ import { EPL, LALIGA, LIGUE1, BUNDESLIGA, SERIEA } from './league_stats.js';
 // Football Prediction Model
 // ============================================
 
-const SIMULATIONS = 150000;
+const SIMULATIONS = 100000;
 
 let LEAGUE = "";
-
-/** 
- // Would uncomment once i feel like 
- const LEAGUE_DECAY = {
-  "EPL": 0.80,
-  "BUNDESLIGA": 0.75,
-  "LALIGA": 0.85,
-  "LIGUE1": 0.82,
-  "SERIEA": 0.88
-};
- */
 
 // ============================================
 // CONFIG — everything is now tunable in one place
@@ -65,6 +54,23 @@ const MODEL_CONFIG = {
   xGMax: 3.2
 };
 
+
+const CALIB_CONFIG = {
+  highXGThreshold: 3.2,
+  highXGDecay: 0.92,
+  
+  tightXGDiff: 0.4,
+  tightXGDrawBoost: 0.25,
+  
+  openGameThreshold: 3.6,
+  openGameDrawPenalty: 0.2,
+  
+  strongDominationDiff: 0.5,
+  homeDominationBoost: 0.3,
+  awayDominationBoost: 0.2 // I should monitor this!
+};
+
+
 const leagueStrength = {
   "EPL": 1.000,
   "La Liga": 0.929,
@@ -74,17 +80,40 @@ const leagueStrength = {
 };
 
 
+/**
+ * Computes the log-odds of a probability.
+ * Clamps input to prevent -Infinity, Infinity, or NaN.
+ * @param {number} p - Probability between 0 and 1
+ * @returns {number} Log-odds
+ */
 function logit(p) {
-  return Math.log(p / (1 - p));
+  const EPS = 1e-15; // Standard precision guard
+  const clamped = Math.max(EPS, Math.min(1 - EPS, p));
+  return Math.log(clamped / (1 - clamped));
 }
 
+/**
+ * Maps any real-valued number to a probability between 0 and 1.
+ * @param {number} x 
+ * @returns {number} Probability
+ */
 function sigmoid(x) {
+  // Guard against extreme values that cause floating point overflow
+  if (x > 20) return 1;
+  if (x < -20) return 0;
   return 1 / (1 + Math.exp(-x));
 }
 
 // ---------- Utilities ----------
+
+/**
+ * Calculates Poisson probability.
+ * Optimized with integer clamping for 'k'.
+ */
 function poisson(lambda, k) {
   if (lambda <= 0 || k < 0) return 0;
+  
+  k = Math.floor(k); // Guard: Ensure goals are discrete whole numbers
   if (k === 0) return Math.exp(-lambda);
   
   let prob = Math.exp(-lambda);
@@ -103,32 +132,57 @@ const copyToClipboard = async (string) => {
   }
 };
 
-// Exponential weighted average 
+/**
+ * Exponentially weighted moving average (EWMA).
+ * Optimized to remove Math.pow() by calculating the decay running backwards.
+ * Assumes the end of the array is the most recent match.
+ */
 function weightedAverage(arr) {
   if (!arr || arr.length === 0) return 0;
+  
   let sum = 0;
   let totalWeight = 0;
-  const n = arr.length;
-  for (let i = 0; i < n; i++) {
-    const weight = Math.pow(MODEL_CONFIG.formDecay, n - 1 - i);
-    sum += arr[i] * weight;
-    totalWeight += weight;
+  let currentWeight = 1; // Most recent match gets weight of 1
+  
+  // Loop backwards: arr[arr.length - 1] is the newest match
+  for (let i = arr.length - 1; i >= 0; i--) {
+    sum += arr[i] * currentWeight;
+    totalWeight += currentWeight;
+    
+    // Decay the weight for the next older match
+    currentWeight *= MODEL_CONFIG.formDecay;
   }
+  
   return totalWeight > 0 ? sum / totalWeight : 0;
 }
 
+/**
+ * Fetches team data and context.
+ * Optimized to remove hardcoded limits and return a structured object.
+ */
 const getTeamData = (team) => {
+  // Ensure these global variables exist, or pass them in as parameters
   const leagues = [EPL, LALIGA, LIGUE1, BUNDESLIGA, SERIEA];
-  for (let i = 0; i < 5; i++) {
-    const teamData = leagues[i][team];
-    if (teamData) {
-      return [teamData, leagues[i].leagueAverageXG, leagues[i].leagueName];
+  
+  for (const league of leagues) {
+    if (league && league[team]) {
+      LEAGUE = league.leagueName;
+      return {
+        data: league[team],
+        leagueAvgXG: league.leagueAverageXG,
+        leagueName: league.leagueName
+      };
     }
   }
+  
   console.warn(`Team '${team}' not found in any league data`);
-  return [];
+  return null;
 };
 
+/**
+ * Calibrates baseline 1X2 probabilities based on game state dynamics.
+ * Operates safely in logit space.
+ */
 function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
   const totalXG = homeXG + awayXG;
   const diffXG = homeXG - awayXG;
@@ -138,27 +192,30 @@ function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
   let d = logit(draw);
   let a = logit(awayWin);
   
-  // --- Adjustments ---
+  // --- Adjustments (Referencing Config for easy tuning) ---
   
   // 1. Reduce overconfidence in high xG games
-  if (totalXG > 3.2) {
-    h *= 0.92;
-    a *= 0.92;
+  if (totalXG > CALIB_CONFIG.highXGThreshold) {
+    h *= CALIB_CONFIG.highXGDecay;
+    a *= CALIB_CONFIG.highXGDecay;
   }
   
   // 2. Boost draws in balanced games
-  if (Math.abs(diffXG) < 0.4) {
-    d += 0.25;
+  if (Math.abs(diffXG) < CALIB_CONFIG.tightXGDiff) {
+    d += CALIB_CONFIG.tightXGDrawBoost;
   }
   
   // 3. Reduce draws in very open games
-  if (totalXG > 3.6) {
-    d -= 0.2;
+  if (totalXG > CALIB_CONFIG.openGameThreshold) {
+    d -= CALIB_CONFIG.openGameDrawPenalty;
   }
   
-  // 4. Slight bias toward stronger side (stability)
-  if (diffXG > 0.5) h += 0.3;
-  if (diffXG < -0.5) a += 0.2;
+  // 4. Bias toward stronger side (stability)
+  if (diffXG > CALIB_CONFIG.strongDominationDiff) {
+    h += CALIB_CONFIG.homeDominationBoost;
+  } else if (diffXG < -CALIB_CONFIG.strongDominationDiff) { // Use else if for mutually exclusive states
+    a += CALIB_CONFIG.awayDominationBoost; 
+  }
   
   // --- Back to probabilities ---
   const ph = sigmoid(h);
@@ -175,33 +232,42 @@ function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
   };
 }
 
+
+
 /**
  * Calculates the Expected Goals (xG) for a specific team in a matchup.
- * * @param {string} subjectName - The team we are predicting goals for.
+ * @param {string} subjectName - The team we are predicting goals for.
  * @param {string} opponentName - The team they are playing against.
  * @param {boolean} isSubjectHome - Whether the subject team is playing at home.
+ * @param {boolean} isNeutral - Whether the match is at a neutral venue.
  */
-function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, league, isNeutral) {
-  // 1. DATA ACQUISITION
-  const [subject, subjectLeagueAvg, subjectLeague] = getTeamData(subjectName);
-  const [opponent, oppLeagueAvg, oppLeague] = getTeamData(opponentName);
+function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, isNeutral = false) {
+  // 1. DATA ACQUISITION & NULL SAFETY
+  // Updated to match the Object return structure of the optimized getTeamData()
+  const subjectInfo = getTeamData(subjectName);
+  const opponentInfo = getTeamData(opponentName);
   
-  if (league) {
-    LEAGUE = league;
-  } else {
-    if (isSubjectHome)
-      LEAGUE = subjectLeague;
+  if (!subjectInfo || !opponentInfo) {
+    console.error(`🚨 Missing data for ${subjectName} or ${opponentName}. Returning base xG.`);
+    return 1.0; // Safe fallback to prevent the entire model from crashing
   }
+
+  const { data: subject, leagueAvgXG: subjectLeagueAvg, leagueName: subjectLeague } = subjectInfo;
+  const { data: opponent, leagueAvgXG: oppLeagueAvg, leagueName: oppLeague } = opponentInfo;
+  
   // 2. SAFEGUARD LEAGUE AVERAGE
-  // Ensures we use the single-team average (~1.3 - 1.6) rather than total match goals (~2.6 - 3.2).
   let rawAvg = (subjectLeagueAvg + oppLeagueAvg) / 2;
   let teamLeagueAvg = rawAvg > 2.0 ? rawAvg / 2 : rawAvg;
   teamLeagueAvg = Math.max(0.1, teamLeagueAvg);
   
   // 3. CONTEXTUAL BASE STATS
-  // Selects stats based on Home/Away status to capture inherent home advantage.
-  const seasonAttack = isNeutral ? (subject.homeXG + subject.awayXG) / 2 : isSubjectHome ? subject.homeXG : subject.awayXG;
-  const seasonDefense = isNeutral ? (opponent.homeXGA + opponent.awayXGA) / 2 : isSubjectHome ? opponent.awayXGA : opponent.homeXGA;
+  const seasonAttack = isNeutral 
+    ? (subject.homeXG + subject.awayXG) / 2 
+    : isSubjectHome ? subject.homeXG : subject.awayXG;
+    
+  const seasonDefense = isNeutral 
+    ? (opponent.homeXGA + opponent.awayXGA) / 2 
+    : isSubjectHome ? opponent.awayXGA : opponent.homeXGA;
   
   // 4. RECENT FORM (Weighted)
   const recentAttack = weightedAverage(subject.last6XG);
@@ -212,19 +278,14 @@ function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, league
   const blendedDefense = Math.max(0.1, (seasonDefense * MODEL_CONFIG.seasonWeight) + (recentDefense * MODEL_CONFIG.formWeight));
   
   // 6. CORE INTERACTION: RELATIVE STRENGTH
-  // (Team Attack / League Avg) * (Opponent Defense / League Avg) * League Avg
-  // Simplified to: (Attack * Defense) / LeagueAvg
   let baseXG = (blendedAttack * blendedDefense) / teamLeagueAvg;
   
   // 7. STRENGTH DIFFERENCE MODIFIER
-  // Provides a slight boost to the superior side to account for "game control."
   const strengthDiff = blendedAttack - blendedDefense;
   const cappedDiff = Math.max(-1, Math.min(1, strengthDiff));
   baseXG *= (1 + MODEL_CONFIG.strengthDiffMultiplier * cappedDiff);
   
   // 8. TEMPO ADJUSTMENT
-  // Measures "Event Volume" (Total XG + XGA for both sides). 
-  // High event teams create chaotic, high-scoring environments.
   const subjectTotalEvents = (subject.homeXG + subject.homeXGA + subject.awayXG + subject.awayXGA) / 2;
   const opponentTotalEvents = (opponent.homeXG + opponent.homeXGA + opponent.awayXG + opponent.awayXGA) / 2;
   const matchTempo = (subjectTotalEvents + opponentTotalEvents) / 2;
@@ -236,33 +297,41 @@ function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, league
   baseXG = (baseXG * (1 - MODEL_CONFIG.leagueNormWeight)) + (teamLeagueAvg * MODEL_CONFIG.leagueNormWeight);
   
   // 10. ASYMMETRY (Travel Sickness)
-  // Specific penalty for teams that statistically collapse when playing away.
-  if (isSubjectHome) {
+  if (isSubjectHome && !isNeutral) {
     const travelSickness = opponent.awayXGA - opponent.homeXGA;
     if (travelSickness > 0.3) {
       baseXG *= MODEL_CONFIG.asymmetryBoost;
     }
   }
   
+  // 11. CROSS-LEAGUE ADJUSTMENT (Safeguarded against NaN)
   if (subjectLeague !== oppLeague) {
-    baseXG *= leagueStrength[subjectLeague]/leagueStrength[oppLeague];
+    const subjStrength = leagueStrength[subjectLeague] || 1.0;
+    const oppStrength = leagueStrength[oppLeague] || 1.0;
+    baseXG *= (subjStrength / oppStrength);
   }
-
   
-  // 11. FINAL CLAMP
+  // 12. FINAL CLAMP
   return Math.max(MODEL_CONFIG.xGMin, Math.min(MODEL_CONFIG.xGMax, baseXG));
 }
 
 
 
+const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+
 function calculateLambda3(homeXG, awayXG) {
   const total = homeXG + awayXG;
-  let lambda = MODEL_CONFIG.lambda3Base + MODEL_CONFIG.lambda3Slope * (total - 2);
-  return Math.max(MODEL_CONFIG.lambda3Min, Math.min(MODEL_CONFIG.lambda3Max, lambda));
+  const lambda = MODEL_CONFIG.lambda3Base + MODEL_CONFIG.lambda3Slope * (total - 2);
+  
+  return clamp(lambda, MODEL_CONFIG.lambda3Min, MODEL_CONFIG.lambda3Max);
 }
 
-// Predict match
+/**
+ * Predicts a football match using a highly optimized deterministic grid.
+ * Completely eliminates Monte Carlo redundancy.
+ */
 function predictMatch(home, away, lg, isNeutral = false) {
+  // Assuming calculateExpectedGoals is your 'big boss' function
   const homeXG = calculateExpectedGoals(home, away, true, lg, isNeutral);
   const awayXG = calculateExpectedGoals(away, home, false, lg, isNeutral);
   const lambda3 = calculateLambda3(homeXG, awayXG);
@@ -274,127 +343,119 @@ function predictMatch(home, away, lg, isNeutral = false) {
   let _awayWin = 0;
   let totalMass = 0;
   
-  const MAX_GOALS = MODEL_CONFIG.maxGoalsDeterministic;
+  let oddMass = 0;
+  let evenMass = 0;
   
+  const MAX_GOALS = MODEL_CONFIG.maxGoalsDeterministic;
+  const scorelinesList = [];
+  
+  // OPTIMIZATION 1: Pre-calculate Poisson distributions (massive speedup)
+  const homePoissonCache = new Float64Array(MAX_GOALS + 1);
+  const awayPoissonCache = new Float64Array(MAX_GOALS + 1);
+  const l3PoissonCache = new Float64Array(MAX_GOALS + 1);
+  
+  for (let i = 0; i <= MAX_GOALS; i++) {
+    homePoissonCache[i] = poisson(homeXG, i);
+    awayPoissonCache[i] = poisson(awayXG, i);
+    l3PoissonCache[i] = poisson(lambda3, i);
+  }
+  
+  // Deterministic Grid Execution
   for (let h = 0; h <= MAX_GOALS; h++) {
     for (let a = 0; a <= MAX_GOALS; a++) {
       let prob = 0;
       const maxK = Math.min(h, a);
+      
+      // Fast inner loop using the pre-calculated cache
       for (let k = 0; k <= maxK; k++) {
-        prob += poisson(homeXG, h - k) *
-          poisson(awayXG, a - k) *
-          poisson(lambda3, k);
+        prob += homePoissonCache[h - k] *
+          awayPoissonCache[a - k] *
+          l3PoissonCache[k];
       }
       
       totalMass += prob;
       
+      // Market Accumulations
       if (h + a <= 2) under25 += prob;
       if (h >= 1 && a >= 1) btts += prob;
       
-      // 1X2
       if (h > a) _homeWin += prob;
       else if (h === a) _draw += prob;
       else _awayWin += prob;
+      
+      // OPTIMIZATION 2: Extract Odd/Even directly from the exact grid math
+      if ((h + a) % 2 === 0) evenMass += prob;
+      else oddMass += prob;
+      
+      // OPTIMIZATION 3: Store scorelines directly from exact grid math
+      scorelinesList.push({ score: `${h}-${a}`, prob });
     }
   }
   
-  let { homeWin, draw, awayWin } = calibrate1X2(_homeWin, _draw, _awayWin, homeXG, awayXG);
-  
-  // Optional normalization (tiny truncation error)
-  if (totalMass > 0 && totalMass < 0.999) {
+  // OPTIMIZATION 4: Normalize truncation error BEFORE running calibration
+  if (totalMass > 0) {
+    _homeWin /= totalMass;
+    _draw /= totalMass;
+    _awayWin /= totalMass;
     under25 /= totalMass;
     btts /= totalMass;
-    homeWin /= totalMass;
-    draw /= totalMass;
-    awayWin /= totalMass;
+    oddMass /= totalMass;
+    evenMass /= totalMass;
+    
+    // Normalize individual scorelines
+    for (let i = 0; i < scorelinesList.length; i++) {
+      scorelinesList[i].prob /= totalMass;
+    }
   }
   
+  // Calibrate safely with pre-normalized baseline numbers
+  let { homeWin, draw, awayWin } = calibrate1X2(_homeWin, _draw, _awayWin, homeXG, awayXG);
+  
+  // Context-specific heuristic adjustments for BTTS
   const totalXG = homeXG + awayXG;
   const imbalance = Math.abs(homeXG - awayXG);
   
-  // Low tempo → fewer goals
   if (totalXG < MODEL_CONFIG.bttsLowTempoThreshold) btts *= MODEL_CONFIG.bttsLowTempoPenalty;
-  
-  // One-sided games → less BTTS
   if (imbalance > MODEL_CONFIG.bttsImbalanceThreshold) btts *= MODEL_CONFIG.bttsImbalancePenalty;
   
-  const others = getTopScorelines(homeXG, awayXG, lambda3);
+  // Extract top 3 correct scorelines cleanly from the exact array
+  const topScorelines = scorelinesList
+    .sort((a, b) => b.prob - a.prob)
+    .slice(0, 3)
+    .map(item => ({
+      score: item.score,
+      probability: (item.prob * 100).toFixed(2)
+    }));
+  
+  if (!lg) {
+    lg = LEAGUE;
+  }
   
   return {
-    match: {
-      homeTeam: home,
-      awayTeam: away
-    },
-    league: LEAGUE,
+    match: { homeTeam: home, awayTeam: away },
+    league: lg,
     xG: {
       home: homeXG.toFixed(2),
       away: awayXG.toFixed(2),
-      total: (homeXG + awayXG).toFixed(2)
+      total: totalXG.toFixed(2)
     },
     correlation: lambda3.toFixed(3),
     probabilities: {
       over25: ((1 - under25) * 100).toFixed(2),
-      under25: ((under25) * 100).toFixed(2),
+      under25: (under25 * 100).toFixed(2),
       gg: (btts * 100).toFixed(2),
       ng: ((1 - btts) * 100).toFixed(2),
-      // 1X2
       homeWin: (homeWin * 100).toFixed(2),
       draw: (draw * 100).toFixed(2),
       awayWin: (awayWin * 100).toFixed(2)
     },
-    topScorelines: others.topScorelines,
-    oddProb: others.oddTotalProb,
-    evenProb: others.evenTotalProb
+    topScorelines,
+    oddProb: (oddMass * 100).toFixed(2),
+    evenProb: (evenMass * 100).toFixed(2)
   };
 }
 
-// Monte Carlo Simulation
-function getTopScorelines(homeLambda, awayLambda, lambda3) {
-  const scoreCounts = new Map();
-  const MAX_GOALS_PER_TEAM = MODEL_CONFIG.maxGoalsPerTeamMC;
-  const sharedImpact = MODEL_CONFIG.sharedImpact;
-  
-  let oddCount = 0,
-    evenCount = 0,
-    total = 0;
-  
-  for (let i = 0; i < SIMULATIONS; i++) {
-    const shared = samplePoisson(lambda3);
-    const homeExtra = samplePoisson(Math.max(0, homeLambda - lambda3));
-    const awayExtra = samplePoisson(Math.max(0, awayLambda - lambda3));
-    
-    const h = Math.min(
-      homeExtra + Math.round(shared * sharedImpact),
-      MAX_GOALS_PER_TEAM
-    );
-    const a = Math.min(
-      awayExtra + Math.round(shared * sharedImpact),
-      MAX_GOALS_PER_TEAM
-    );
-    
-    total = h + a;
-    if (total % 2 === 0) evenCount++;
-    else oddCount++;
-    
-    const key = `${h}-${a}`;
-    scoreCounts.set(key, (scoreCounts.get(key) || 0) + 1);
-  }
-  
-  const outArr = Array.from(scoreCounts.entries())
-    .map(([score, count]) => ({
-      score,
-      probability: ((count / SIMULATIONS) * 100).toFixed(2)
-    }))
-    .sort((a, b) => b.probability - a.probability)
-    .slice(0, 3);
-  
-  return {
-    topScorelines: outArr,
-    oddTotalProb: (oddCount / SIMULATIONS * 100).toFixed(2),
-    evenTotalProb: (evenCount / SIMULATIONS * 100).toFixed(2)
-  }
-}
-
+// Knuth's algorithm
 function samplePoisson(lambda) {
   if (lambda <= 0) return 0;
   const L = Math.exp(-lambda);
@@ -405,6 +466,74 @@ function samplePoisson(lambda) {
     p *= Math.random();
   } while (p > L);
   return k - 1;
+}
+
+function getTopScorelines(homeLambda, awayLambda, lambda3) {
+  // Use a global or passed constant; assuming 10000 for this example
+  const SIMS = typeof SIMULATIONS !== 'undefined' ? SIMULATIONS : 10000;
+  
+  const MAX_GOALS = MODEL_CONFIG.maxGoalsPerTeamMC; // e.g., 8
+  const GRID_SIZE = MAX_GOALS + 1; // 0 through 8 is 9 possible goals
+  const sharedImpact = MODEL_CONFIG.sharedImpact;
+  
+  // High-performance typed array for counting scorelines
+  const scoreGrid = new Int32Array(GRID_SIZE * GRID_SIZE);
+  
+  let oddCount = 0;
+  let evenCount = 0;
+  
+  // Pre-calculate the independent base lambdas
+  const homeBaseLambda = Math.max(0, homeLambda - lambda3);
+  const awayBaseLambda = Math.max(0, awayLambda - lambda3);
+  
+  // Hot Loop: Keep this as lean as mathematically possible
+  for (let i = 0; i < SIMS; i++) {
+    const shared = samplePoisson(lambda3);
+    const sharedAdj = Math.round(shared * sharedImpact);
+    
+    const homeExtra = samplePoisson(homeBaseLambda);
+    const awayExtra = samplePoisson(awayBaseLambda);
+    
+    // Clamp to MAX_GOALS
+    const h = homeExtra + sharedAdj > MAX_GOALS ? MAX_GOALS : homeExtra + sharedAdj;
+    const a = awayExtra + sharedAdj > MAX_GOALS ? MAX_GOALS : awayExtra + sharedAdj;
+    
+    // Odd/Even tracking
+    if ((h + a) % 2 === 0) {
+      evenCount++;
+    } else {
+      oddCount++;
+    }
+    
+    // Update flat array count (e.g., 2-1 becomes index (2 * 9) + 1 = 19)
+    scoreGrid[h * GRID_SIZE + a]++;
+  }
+  
+  // Extract and format the results
+  const results = [];
+  for (let h = 0; h <= MAX_GOALS; h++) {
+    for (let a = 0; a <= MAX_GOALS; a++) {
+      const count = scoreGrid[h * GRID_SIZE + a];
+      if (count > 0) {
+        results.push({ score: `${h}-${a}`, count });
+      }
+    }
+  }
+  
+  // Sort by raw integer count FIRST, slice top 3, THEN format to string
+  const topScorelines = results
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 3)
+    .map(item => ({
+      score: item.score,
+      probability: ((item.count / SIMS) * 100).toFixed(2)
+    }));
+  
+  return {
+    topScorelines,
+    oddTotalProb: ((oddCount / SIMS) * 100).toFixed(2),
+    evenTotalProb: ((evenCount / SIMS) * 100).toFixed(2)
+  };
 }
 
 const predictMultiMatch = (fixtures) => {

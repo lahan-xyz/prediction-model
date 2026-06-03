@@ -17,36 +17,7 @@ const Main = new Component("Main", {
       
       try {
         const predictions = predictMultiMatch([
-          ["Celta", "Sevilla"],
-          ["Alaves", "Vallecano"],
-          ["Espanyol", "Sociedad"],
-          ["Getafe", "Osasuna"],
-          ["Girona", "Elche"],
-          ["Mallorca", "Oviedo"],
-          ["Betis", "Levante"],
-          ["Real Madrid", "Athletic Club"],
-          ["Valencia", "Barcelona"],
-          ["Bologna", "Inter"]/*,
-          ["Lazio", "Pisa"],
-          ["Bayern", "Stuttgart", "DFB Pokal - Final", true],
-          ["Brighton", "Man Utd"],
-          ["Burnley", "Wolves"],
-          ["Crystal Palace", "Arsenal"],
-          ["Fulham", "Newcastle"],
-          ["Liverpool", "Brentford"],
-          ["Man City", "Aston Villa"],
-          ["Nottingham", "Bournemouth"],
-          ["Sunderland", "Chelsea"],
-          ["Tottenham", "Everton"],
-          ["West Ham", "Leeds"],
-          ["Villarreal", "Atletico"],
-          ["Parma", "Sassuolo"],
-          ["Napoli", "Udinese"],
-          ["AC Milan", "Cagliari"],
-          ["Cremonese", "Como"],
-          ["Verona", "Roma"],
-          ["Lecce", "Genoa"],
-          ["Torino", "Juventus"]*/
+          ["PSG", "Aston Villa", "UEFA Super Cup - Final", true]
         ]);
         
         if (this.ran) {
@@ -56,7 +27,7 @@ const Main = new Component("Main", {
           this.ran = true;
         }
       } catch (err) {
-        console.error('Prediction failed:', err);
+        console.error('Prediction failed:' + err);
       } finally {
         data.isLoading = false;
       }
@@ -65,33 +36,57 @@ const Main = new Component("Main", {
   
   template: () => {
     return `
-      <h1>⚽ Football Prediction Model</h1>
-      <p class="subtitle">Enhanced with finishing factors · Monte Carlo 150k sims · BTTS & Over/Under 2.5 focused</p>
+      <div class="main-container">
+        <h1 class="title">⚽ Football Prediction Model</h1>
+        <p class="subtitle">Enhanced with finishing factors · Monte Carlo 150k sims · BTTS & Over/Under 2.5 focused</p>
 
-      <div id="predictions-grid"></div>
+        <div id="predictions-grid"></div>
 
-      <Button {
-        label: "{{ isLoading ? 'Running…' : 'Run Predictions' }}",
-        disabled: "{{ isLoading }}",
-        click: "this.runPredictions(data)"
-      } />
+        <Button {
+          label: "{{ isLoading ? 'Running…' : 'Run Predictions' }}",
+          disabled: "{{ isLoading }}",
+          click: "this.runPredictions(data)"
+        } />
+      </div>
     `;
   },
   
   stylesheet: {
+    /* Wraps everything to easily center the text block above the grid */
+    ".main-container": `
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+    `,
+    ".title": `
+      color: #f4f4f5; /* Zinc-100: Bright but softer than pure white */
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0 0 0.5rem 0;
+      letter-spacing: -0.5px;
+    `,
     ".subtitle": `
-      color: #888;
+      color: #a1a1aa; /* Zinc-400: Matches the subtext in the MatchCard */
       margin-bottom: 2.5rem;
-      font-size: 1rem;
-      font-weight: 400;
+      font-size: 0.9rem;
+      font-weight: 500;
+      max-width: 600px;
+      line-height: 1.5;
     `,
     "#predictions-grid": `
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      /* Caps the card width at 450px so it doesn't stretch comically wide on desktop */
+      grid-template-columns: repeat(auto-fit, minmax(320px, 450px));
+      /* Forces the grid tracks to center within the 1200px container */
+      justify-content: center; 
       gap: 1.5rem;
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto 100px;   /* space for fixed button */
+      margin: 0 auto 100px auto; /* 100px bottom margin maintains space for your fixed button */
     `
   }
 });

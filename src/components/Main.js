@@ -43,8 +43,8 @@ const Main = new Component("Main", {
         <div id="predictions-grid"></div>
 
         <Button {
-          label: "{{ isLoading ? 'Running…' : 'Run Predictions' }}",
-          disabled: "{{ isLoading }}",
+          label: "[ isLoading ? 'Running…' : 'Run Predictions' ]",
+          disabled: "[ isLoading ]",
           click: "this.runPredictions(data)"
         } />
       </div>

@@ -2,9 +2,9 @@ import { Nugget } from 'queflow';
 
 const Button = new Nugget("Button", {
   template: `
-    <button onclick={{ click }} disabled={{ disabled }}>
-      <span>{{ label }}</span>
-      <span class="loader" q:show={{ disabled }}></span>
+    <button onclick=[ click ] disabled=[ disabled ]>
+      <span>[ label ]</span>
+      <span class="loader" q:show=[ disabled ]></span>
     </button>
   `,
   

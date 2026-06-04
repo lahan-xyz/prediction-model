@@ -5,53 +5,53 @@ const MatchCard = new Atom("MatchCard", {
     <div class="match-card">
       <div class="match-header">
           <div class="teams">
-            <span>{{ match.homeTeam }} </span>
+            <span>[ match.homeTeam ] </span>
             <span class="vs">vs</span>
-            <span> {{ match.awayTeam }}</span>
+            <span> [ match.awayTeam ]</span>
           </div>
-          <div class="badge">{{ league }}</div>
+          <div class="badge">[ league ]</div>
        </div>
        
        <div class="xg-row">
          <div class="xg-item">
            <span class="xg-label">Home xG</span>
-           <span class="xg-value">{{ xG.home }}</span>
+           <span class="xg-value">[ xG.home ]</span>
          </div>
          <div class="xg-divider">—</div>
          <div class="xg-item">
            <span class="xg-label">Away xG</span>
-           <span class="xg-value">{{ xG.away }}</span>
+           <span class="xg-value">[ xG.away ]</span>
          </div>
-         <div class="xg-total">Total {{ xG.total }}</div>
+         <div class="xg-total">Total [ xG.total ]</div>
        </div>
-       <div class="correlation">Correlation λ₃: {{ correlation }}</div>
+       <div class="correlation">Correlation λ₃: [ correlation ]</div>
 
         <div class="probs-section">
           <div class="section-title">📊 Probabilities</div>
             <div class="probs-grid">
               <div class="prob-box">
                 <span class="prob-label">Over 2.5</span>
-                <span class="prob-value high">{{ probabilities.over25 }}%</span>
+                <span class="prob-value high">[ probabilities.over25 ]%</span>
               </div>
               <div class="prob-box">
                 <span class="prob-label">Under 2.5</span>
-                <span class="prob-value low">{{ probabilities.under25 }}%</span>
+                <span class="prob-value low">[ probabilities.under25 ]%</span>
               </div>
               <div class="prob-box">
                 <span class="prob-label">BTTS (GG)</span>
-                <span class="prob-value med">{{ probabilities.gg }}%</span>
+                <span class="prob-value med">[ probabilities.gg ]%</span>
               </div>
               <div class="prob-box">
                 <span class="prob-label">BTTS (NO)</span>
-                <span class="prob-value low">{{ probabilities.ng }}%</span>
+                <span class="prob-value low">[ probabilities.ng ]%</span>
               </div>
                <div class="prob-box">
                 <span class="prob-label">Odd Goals</span>
-                <span class="prob-value odd">{{ oddProb }}%</span>
+                <span class="prob-value odd">[ oddProb ]%</span>
               </div>
               <div class="prob-box">
                 <span class="prob-label">Even Goals</span>
-                <span class="prob-value even">{{ evenProb }}%</span>
+                <span class="prob-value even">[ evenProb ]%</span>
               </div>
             </div>
           </div>
@@ -59,27 +59,27 @@ const MatchCard = new Atom("MatchCard", {
           <div class="outcome-row">
             <div class="outcome-item">
               <span class="outcome-label">Home</span> 
-              <span class="outcome-val home">{{ probabilities.homeWin }}%</span>
+              <span class="outcome-val home">[ probabilities.homeWin ]%</span>
             </div>
             <div class="outcome-item">
               <span class="outcome-label">Draw</span> 
-              <span class="outcome-val draw">{{ probabilities.draw }}%</span>
+              <span class="outcome-val draw">[ probabilities.draw ]%</span>
             </div>
             <div class="outcome-item">
               <span class="outcome-label">Away</span> 
-              <span class="outcome-val away">{{ probabilities.awayWin }}%</span>
+              <span class="outcome-val away">[ probabilities.awayWin ]%</span>
             </div>
           </div>
 
           <div>
             <div class="section-title">🎯 Top Scorelines</div>
               <div class="scorelines">
-                <div class="score-badge">{{ topScorelines[0].score }}
-                <span class="prob">{{ topScorelines[0].probability }}%</span>
+                <div class="score-badge">[ topScorelines[0].score ]
+                <span class="prob">[ topScorelines[0].probability ]%</span>
                 </div>
-                <div class="score-badge">{{ topScorelines[1].score }} <span>{{ topScorelines[1]. probability }}%</span>
+                <div class="score-badge">[ topScorelines[1].score ] <span>[ topScorelines[1]. probability ]%</span>
                 </div>
-                <div class="score-badge">{{ topScorelines[2].score }} <span>{{ topScorelines[2]. probability }}%</span>
+                <div class="score-badge">[ topScorelines[2].score ] <span>[ topScorelines[2]. probability ]%</span>
                 </div>
               </div>
             </div>
@@ -328,7 +328,7 @@ const MatchCard = new Atom("MatchCard", {
     `
   }
 },
-  isReactive: true
+  isReactive: false
 }, "predictions-grid");
 
 export default MatchCard;

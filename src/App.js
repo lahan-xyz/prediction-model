@@ -1,4 +1,4 @@
-import { App } from 'queflow';
+import { App } from 'valen';
 import Main from './components/Main.js';
 
 const View = new App("#app", {

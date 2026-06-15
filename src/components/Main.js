@@ -1,5 +1,5 @@
-import { Component } from "queflow";
-import Button from '../nuggets/Button.js';
+import { Component } from "valen";
+import Button from '../widgets/Button.js';
 import MatchCard from '../MatchCard.js';
 import predictMultiMatch from '../model/utils.js';
 

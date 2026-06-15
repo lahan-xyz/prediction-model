@@ -1,4 +1,4 @@
-import { Atom } from 'queflow';
+import { Atom } from 'valen';
 
 const MatchCard = new Atom("MatchCard", {
   template: () => `
@@ -328,7 +328,7 @@ const MatchCard = new Atom("MatchCard", {
     `
   }
 },
-  isReactive: false
+  isReactive: true
 }, "predictions-grid");
 
 export default MatchCard;

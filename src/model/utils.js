@@ -470,7 +470,7 @@ function samplePoisson(lambda) {
 
 function getTopScorelines(homeLambda, awayLambda, lambda3) {
   // Use a global or passed constant; assuming 10000 for this example
-  const SIMS = typeof SIMULATIONS !== 'undefined' ? SIMULATIONS : 10000;
+  const SIMS = SIMULATIONS;
   
   const MAX_GOALS = MODEL_CONFIG.maxGoalsPerTeamMC; // e.g., 8
   const GRID_SIZE = MAX_GOALS + 1; // 0 through 8 is 9 possible goals

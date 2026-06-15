@@ -1,8 +1,8 @@
-import { Nugget } from 'queflow';
+import { Widget } from 'valen';
 
-const Button = new Nugget("Button", {
+const Button = new Widget("Button", {
   template: `
-    <button onclick=[ click ] disabled=[ disabled ]>
+    <button @click=[ click ] disabled=[ disabled ]>
       <span>[ label ]</span>
       <span class="loader" q:show=[ disabled ]></span>
     </button>

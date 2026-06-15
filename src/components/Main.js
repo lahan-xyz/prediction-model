@@ -7,9 +7,9 @@ const Main = new Component("Main", {
   data: {
     isLoading: false
   },
-  created: function() {
+  created: function(data) {
     this.ran = false;
-    this.runPredictions = async function(data) {
+    this.runPredictions = async function() {
       if (data.isLoading) return;
       
       data.isLoading = true;
@@ -33,7 +33,6 @@ const Main = new Component("Main", {
       }
     };
   },
-  
   template: () => {
     return `
       <div class="main-container">
@@ -45,7 +44,7 @@ const Main = new Component("Main", {
         <Button {
           label: "[ isLoading ? 'Running…' : 'Run Predictions' ]",
           disabled: "[ isLoading ]",
-          click: "this.runPredictions(data)"
+          click: "this.runPredictions()"
         } />
       </div>
     `;

@@ -6,17 +6,17 @@ import { renderComponent, initiateStyleSheet } from '../dom/utils.js';
 const lintPlaceholders = (html, isWidget) => {
   const eventRegex = /(@[\w]+)\s*=\s*\[((?:[^\[\]]|\[[^\[\]]*\])*)\]/g;
   const attributeRegex = /([\w-:]+)\s*=\s*\[((?:[^\[\]]|\[[^\[\]]*\])*)\]/g;
-
+  
   // 1. Process Events
   if (!isWidget) {
     html = html.replace(eventRegex, (_, attrName, innerContent) => {
-      return `${attrName}="${innerContent.replaceAll("'", "`")}"`;
+        return `${attrName}="${innerContent.replaceAll("'", "`")}"`;
     });
   }
 
   // 2. Process Directives & Standard Attributes
   return html.replace(attributeRegex, (_, attrName, innerContent) => {
-    return `${attrName}="[${innerContent}]"`;
+    return `${ attrName } = "[${innerContent}]"`;
   });
 };
 
@@ -169,36 +169,32 @@ function evaluateTemplate(templateString, instance) {
     
     if (!evaluator) {
       try {
-        // PERFORMANCE KEY: We pass `data` as a direct parameter to the Function.
-        // This is significantly faster and safer than `with(this.data)`.
-        const source = isGlobal ?
-          `return ${ext};` :
-          `with (data) { return ${ext}; }`;
+        const source = isGlobal ? ` return ${ ext };` : `with(data) { return ${ ext }; }`;
         
         // Pass 'data' as the argument name
         evaluator = new Function("data", source);
         evaluatorCache.set(ext, evaluator);
       } catch (err) {
-        console.warn(`Valen Syntax Error in \`${innerContent}\`\n`, err);
-        combinedHTML += `[${innerContent}]`; // Output raw bracket if it fails
-        continue;
-      }
-    }
-    
-    try {
-      // Pass instance.data directly into the function execution
-      const parsed = isGlobal ? evaluator() : evaluator.call(instance, instance.data);
-      
-      if (parsed != null && !Number.isNaN(parsed)) {
-        combinedHTML += parsed;
-      }
-    } catch (error) {
-      console.warn(`Valen Execution Error in \`${innerContent}\`\n`, error);
+        console.warn(`
+        Valen Syntax Error in \`${innerContent}\`\n`, err); combinedHTML += `[${innerContent}]`; // Output raw bracket if it fails
+      continue;
     }
   }
   
-  ctx.currentTemplate = "";
-  return combinedHTML;
+  try {
+    // Pass instance.data directly into the function execution
+    const parsed = isGlobal ? evaluator() : evaluator.call(instance, instance.data);
+    
+    if (parsed != null && !Number.isNaN(parsed)) {
+      combinedHTML += parsed;
+    }
+  } catch (error) {
+    console.warn(`Valen Execution Error in \`${innerContent}\`\n`, error);
+  }
+}
+
+ctx.currentTemplate = "";
+return combinedHTML;
 }
 
 
@@ -227,7 +223,7 @@ function initiateWidgets(markup, isWidget) {
       const instance = widgets.get(name);
       
       if (instance) {
-        evaluated = renderWidget(instance, d);
+        evaluated = instance(d);
       } else {
         console.warn(`Valen:\nWidget '${name}' is not defined`);
         evaluated = match; // leave original markup as fallback
@@ -268,33 +264,38 @@ function initiateComponents(markup, isWidget, fromAtom) {
   // After components, process widgets
   markup = initiateWidgets(markup);
   markup = initiateExtendedWidgets(markup);
-
+ 
   return lintPlaceholders(markup, isWidget);
 }
 
 
 function g(str, className) {
-  sharedTemplate.innerHTML = str;
-  
-  const children = sharedTemplate.content.querySelectorAll("*");
-  
-  for (let i = 0, len = children.length; i < len; i++) {
-    children[i].classList.add(className);
-  }
-  
-  return sharedTemplate.innerHTML;
+  return str.replace(/<([a-zA-Z][a-zA-Z0-9\-]*)((?:\s+[^>]*?)?)(\/?>)/g, (match, tagName, attrs, ending) => {
+    // Already has class attribute?
+    const classRe = /\bclass\s*=\s*(["'])(.*?)\1/i;
+    const existing = attrs.match(classRe);
+    if (existing) {
+      // Append to existing class
+      const newClass = `${existing[2]} ${className}`;
+      attrs = attrs.replace(classRe, `class=${existing[1]}${newClass}${existing[1]}`);
+    } else {
+      // Add class attribute before the ending
+      attrs += ` class="${className}"`;
+    }
+    return `<${tagName}${attrs}${ending}`;
+  });
 }
 
 
 
-const renderWidget = (instance, data, isExtended, children) => {
+const renderWidget = (instance, data, children) => {
   if (instance) {
+    // Create a variable that holds the template
     const className = instance.className;
-    // Create a variable that holds the template 
     let template = instance.template instanceof Function ? instance.template(data) : instance.template;
     
-    if (isExtended) {
-      template = template.replaceAll("</>", children);
+    if (children) {
+      template = template.replaceAll("</>", children || "");
     }
     
     // Parse and initiate Nested Widgets
@@ -304,69 +305,90 @@ const renderWidget = (instance, data, isExtended, children) => {
     let rendered = renderTemplate(initiated, data);
     
     const html = g(rendered, className);
-    if (!instance.stylesheetInitiated) {
-      // Initiate stylesheet for instance 
-      initiateStyleSheet("." + className, instance, true);
-      instance.stylesheetInitiated = true;
-    }
-    
+  
     // Return processed html
     return html;
   }
 }
 
 
-// Sanitizes a string to prevent potential XSS attacks.
+// Pre‑computed lookup for HTML entities
+const htmlEscapeMap = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+};
+
+// Static replacer function (created once, reused)
+function htmlEscapeReplacer(match) {
+  return htmlEscapeMap[match];
+}
+
 function sanitizeString(str) {
   str = String(str);
   
-  // Single‑pass regex: escape HTML special chars & remove "javascript:"
-  return str.replace(/[&<>"']|javascript:/gi, match => {
-    switch (match) {
-      case '&':
-        return '&amp;';
-      case '<':
-        return '&lt;';
-      case '>':
-        return '&gt;';
-      case '"':
-        return '&quot;';
-      case "'":
-        return '&#39;';
-      default: // matched "javascript:" (case‑insensitive)
-        return '';
-    }
-  });
+  // 1. Escape only the five dangerous HTML characters (fast regex, no case‑insensitive)
+  str = str.replace(/[&<>"']/g, htmlEscapeReplacer);
+  
+  // 2. Strip any "javascript:" substrings (case‑insensitive)
+  //    This is a simple string‑removal pass, far cheaper than mixing it into the first regex.
+  str = str.replace(/javascript:/gi, '');
+  
+  return str;
+}
+
+
+
+// Caches for compiled property accessors
+const getterCache = new LRUCache();
+
+// Helper that returns a cached function to access nested properties
+function getValueFromPath(obj, path) {
+  let getter = getterCache.get(path);
+  if (!getter) {
+    // Create a compiled function once per unique path
+    getter = new Function("data", `return data.${path}`);
+    getterCache.set(path, getter);
+  }
+  return getter(obj);
 }
 
 
 
 function renderTemplate(input, props, shouldSanitize) {
   const chunks = lexTemplate(input);
-  if (!chunks.length || chunks.length === 1 && !chunks[0].isExpr) return input;
   
-  let combined = "";
+  // Early return if there's nothing to interpolate
+  if (!chunks.length || (chunks.length === 1 && !chunks[0].isExpr)) {
+    return input;
+  }
   
-  for (var i = 0, len = chunks.length; i < len; i++) {
-    const chunk = chunks[i],
-      val = chunk.val;
+  // 2. Use array + join instead of repeated string concatenation
+  const parts = [];
+  
+  for (let i = 0; i < chunks.length; i++) {
+    const chunk = chunks[i];
+    const val = chunk.val;
     
     if (!chunk.isExpr) {
-      combined += val;
+      parts.push(val);
       continue;
     }
     
     const trimmed = val.trim();
-    const value = props[trimmed];
+    const value = getValueFromPath(props, trimmed);
     
+    // 3. Fix bug: only add placeholder when value is missing, not both
     if (value === undefined || value === null) {
-      combined += `[${val}]`; // keep placeholder for debugging
+      parts.push(`[${val}]`);
+    } else {
+      parts.push(shouldSanitize ? sanitizeString(value) : value);
     }
-    
-    combined += shouldSanitize ? sanitizeString(value) : value;
   }
   
-  return combined;
+  return parts.join('');
 }
 
 
@@ -385,105 +407,110 @@ function clearAllWidgetCaches() {
   initiateExtendedWidgets._propsCache?.clear();
 }
 
+const componentRegex = /<(\/?[A-Z]\w*)(\s*\(\{[\s\S]*?}\))?\s*>/g;
+
 const initiateExtendedWidgets = (markup) => {
-  // Step 1: Convert component tags to custom elements with va-attrs
-  const componentRegex = /<(\/?[A-Z]\w*)(\s*\(\{[\s\S]*?}\))?\s*>/g;
-  const convertedMarkup = markup.replace(componentRegex, (match, p1, p2) => {
-    const isClosing = match.startsWith('</');
-    const tagName = p1
-      .replace(/([A-Z])/g, '-$1')
-      .toLowerCase()
-      .replace(/^-/, '');
-    
-    if (isClosing) {
-      return `</${tagName.slice(2)}>`; // keep original closing logic
-    }
-    
-    const attrs = (p2 || '')
-      .replace(/\(\{/g, '{')
-      .replace(/\}\)/g, '}')
-      .replace(/"/g, '`');
-    
-    return `<${tagName} va-attrs="${attrs}">`;
-  });
-  
-  // Step 2: Parse into a DocumentFragment
-  const range = document.createRange();
-  const fragment = range.createContextualFragment(convertedMarkup);
-  
-  // Props cache (static, shared across calls)
-  if (!initiateExtendedWidgets._propsCache) {
-    initiateExtendedWidgets._propsCache = new LRUCache();
-  }
-  
-  // Step 3: Iteratively replace all va-attrs elements (including new ones)
-  let hasComponents = true;
-  while (hasComponents) {
-    hasComponents = false;
-    
-    // Collect all elements with va-attrs, deepest first
-    const elements = fragment.querySelectorAll('[va-attrs]');
-    if (elements.length === 0) break;
-    
-    // Convert NodeList to array, sort by depth (descending)
-    const sorted = Array.from(elements).sort((a, b) => {
-      const depthA = getDepth(a);
-      const depthB = getDepth(b);
-      return depthB - depthA; // deepest first
-    });
-    
-    for (const element of sorted) {
-      // Only process if still in the DOM (could have been replaced by a parent)
-      if (!element.parentNode) continue;
+  if (componentRegex.test(markup)) {
+    // Step 1: Convert component tags to custom elements with va-attrs
+    const convertedMarkup = markup.replace(componentRegex, (match, p1, p2) => {
+      const isClosing = match.startsWith('</');
+      const tagName = p1
+        .replace(/([A-Z])/g, '-$1')
+        .toLowerCase()
+        .replace(/^-/, '');
       
-      const originalTag = element.tagName.toLowerCase()
-        .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
-        .replace(/^./, m => m.toUpperCase());
-      const attrs = element.getAttribute('va-attrs');
-      const content = element.innerHTML;
-      const instance = widgets.get(originalTag);
-      
-      if (!instance) {
-        console.warn(`Valen:\nWidget '${originalTag}' is not defined`);
-        element.removeAttribute('va-attrs');
-        continue;
+      if (isClosing) {
+        return `</${tagName.slice(2)}>`; // keep original closing logic
       }
       
-      // Compile props (cached)
-      let data;
-      if (initiateExtendedWidgets._propsCache.has(attrs)) {
-        data = initiateExtendedWidgets._propsCache.get(attrs);
-      } else {
-        try {
-          data = new Function(`return ${attrs}`)();
-          initiateExtendedWidgets._propsCache.set(attrs, data);
-        } catch (e) {
-          console.warn(`Valen:\nFailed to parse props for ${originalTag}: ${e}`);
+      const attrs = (p2 || '')
+        .replace(/\(\{/g, '{')
+        .replace(/\}\)/g, '}')
+        .replace(/"/g, '`');
+      
+      return `<${tagName} va-attrs="${attrs}">`;
+    });
+    
+    // Step 2: Parse into a DocumentFragment
+    const range = document.createRange();
+    const fragment = range.createContextualFragment(convertedMarkup);
+    
+    // Props cache (static, shared across calls)
+    if (!initiateExtendedWidgets._propsCache) {
+      initiateExtendedWidgets._propsCache = new LRUCache();
+    }
+    
+    // Step 3: Iteratively replace all va-attrs elements (including new ones)
+    let hasComponents = true;
+    while (hasComponents) {
+      hasComponents = false;
+      
+      // Collect all elements with va-attrs, deepest first
+      const elements = fragment.querySelectorAll('[va-attrs]');
+      if (elements.length === 0) break;
+      
+      // Convert NodeList to array, sort by depth (descending)
+      const sorted = Array.from(elements).sort((a, b) => {
+        const depthA = getDepth(a);
+        const depthB = getDepth(b);
+        return depthB - depthA; // deepest first
+      });
+      
+      for (const element of sorted) {
+        // Only process if still in the DOM (could have been replaced by a parent)
+        if (!element.parentNode) continue;
+        
+        const originalTag = element.tagName.toLowerCase()
+          .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
+          .replace(/^./, m => m.toUpperCase());
+        const attrs = element.getAttribute('va-attrs');
+        const content = element.innerHTML;
+        const instance = widgets.get(originalTag);
+        
+        if (!instance) {
+          console.warn(`Valen:\nWidget '${originalTag}' is not defined`);
           element.removeAttribute('va-attrs');
           continue;
         }
+        
+        // Compile props (cached)
+        let data;
+        if (initiateExtendedWidgets._propsCache.has(attrs)) {
+          data = initiateExtendedWidgets._propsCache.get(attrs);
+        } else {
+          try {
+            data = new Function(`return ${attrs}`)();
+            initiateExtendedWidgets._propsCache.set(attrs, data);
+          } catch (e) {
+            console.warn(`Valen:\nFailed to parse props for ${originalTag}: ${e}`);
+            element.removeAttribute('va-attrs');
+            continue;
+          }
+        }
+        
+        // Render the widget
+        const replacementHTML = instance(data, content);
+        const replacementFragment = range.createContextualFragment(replacementHTML);
+        
+        // Replace the element in‑place
+        element.parentNode.replaceChild(replacementFragment, element);
+        
+        // Since we've inserted new DOM, we need to re‑scan in the next while iteration
+        hasComponents = true;
       }
-      
-      // Render the widget
-      const replacementHTML = renderWidget(instance, data, true, content);
-      const replacementFragment = range.createContextualFragment(replacementHTML);
-      
-      // Replace the element in‑place
-      element.parentNode.replaceChild(replacementFragment, element);
-      
-      // Since we've inserted new DOM, we need to re‑scan in the next while iteration
-      hasComponents = true;
     }
+    
+    // Step 4: Serialize the final fragment
+    const div = document.createElement('div');
+    div.appendChild(fragment);
+    const finalMarkup = div.innerHTML;
+    div.remove();
+    
+    // Step 5: Let normal widgets be processed
+    return initiateWidgets(finalMarkup);
+  } else {
+    return markup;
   }
-  
-  // Step 4: Serialize the final fragment
-  const div = document.createElement('div');
-  div.appendChild(fragment);
-  const finalMarkup = div.innerHTML;
-  div.remove();
-  
-  // Step 5: Let normal widgets be processed
-  return initiateWidgets(finalMarkup);
 };
 
 function addIndexToTemplate(str, index, instance) {

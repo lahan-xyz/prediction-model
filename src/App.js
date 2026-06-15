@@ -34,12 +34,12 @@ const View = new App("#app", {
       -webkit-tap-highlight-color: transparent;
     `,
     "@font-face": `
-    font-family: 'Bricolage Grotesque';
-    font-style: normal;
-    font-weight: 200 800;
-    font-stretch: 100%;
-    font-display: swap;
-    src: url('./src/assets/brico.woff2');
+      font-family: 'Bricolage Grotesque';
+      font-style: normal;
+      font-weight: 200 800;
+      font-stretch: 100%;
+      font-display: swap;
+      src: url('./src/assets/brico.woff2');
    `
   }
 });

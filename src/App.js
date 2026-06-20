@@ -39,7 +39,7 @@ const View = new App("#app", {
       font-weight: 200 800;
       font-stretch: 100%;
       font-display: swap;
-      src: url('./src/assets/brico.woff2');
+      src: url('/src/assets/rubik.woff2');
    `
   }
 });

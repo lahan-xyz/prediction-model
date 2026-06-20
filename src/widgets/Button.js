@@ -7,7 +7,7 @@ function Button() {
       return `
       <button @click=[ click ] disabled=[ disabled ]>
         <Text { txt: "[ label ]", color: "inherit" } />
-        <span class="loader" q:show=[ disabled ]></span>
+        <span class="loader" v:show=[ disabled ]></span>
       </button>
      `
     },

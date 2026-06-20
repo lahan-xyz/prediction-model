@@ -1,7 +1,8 @@
 import { Atom } from 'valen';
 
-const MatchCard = new Atom("MatchCard", {
-  template: () => `
+function MatchCard() {
+  return {
+    template: () => `
     <div class="match-card">
       <div class="match-header">
           <div class="teams">
@@ -86,8 +87,8 @@ const MatchCard = new Atom("MatchCard", {
             <div class="note">Enhanced: NegBin + league blowout boost + zero-inflation
             </div>
           </div>`,
-  stylesheet: {
-  ".match-card": `
+    stylesheet: {
+      ".match-card": `
     box-sizing: border-box;
     width: 100%;
     background: #141417;
@@ -100,20 +101,20 @@ const MatchCard = new Atom("MatchCard", {
     flex-direction: column;
     gap: 1.2rem;
   `,
-  ".match-card:hover": `
+      ".match-card:hover": `
     border-color: #3f3f46;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
   `,
-  
-  // ----- header -----
-  ".match-header": `
+      
+      // ----- header -----
+      ".match-header": `
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #232326;
     padding-bottom: 0.75rem;
   `,
-  ".teams": `
+      ".teams": `
     font-size: 1.25rem;
     font-weight: 700;
     color: #f4f4f5;
@@ -122,13 +123,13 @@ const MatchCard = new Atom("MatchCard", {
     gap: 0.4rem;
     flex-wrap: wrap;
   `,
-  ".teams .vs": `
+      ".teams .vs": `
     color: #71717a;
     font-weight: 500;
     font-size: 0.85rem;
     margin: 0 0.3rem;
   `,
-  ".badge": `
+      ".badge": `
     background: #1f1f23;
     padding: 0.3rem 0.8rem;
     border-radius: 30px;
@@ -139,9 +140,9 @@ const MatchCard = new Atom("MatchCard", {
     color: #a1a1aa;
     border: 1px solid #2d2d31;
   `,
-  
-  // ----- xG row -----
-  ".xg-row": `
+      
+      // ----- xG row -----
+      ".xg-row": `
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -151,30 +152,30 @@ const MatchCard = new Atom("MatchCard", {
     gap: 0.5rem;
     border: 1px solid #1f1f23;
   `,
-  ".xg-item": `
+      ".xg-item": `
     display: flex;
     flex-direction: column;
     align-items: center;
     flex: 1;
   `,
-  ".xg-label": `
+      ".xg-label": `
     font-size: 0.65rem;
     font-weight: 600;
     letter-spacing: 0.5px;
     color: #71717a;
     margin-bottom: 0.15rem;
   `,
-  ".xg-value": `
+      ".xg-value": `
     font-size: 1.5rem;
     font-weight: 700;
     color: #f4f4f5;
   `,
-  ".xg-divider": `
+      ".xg-divider": `
     color: #3f3f46;
     font-size: 1rem;
     font-weight: 300;
   `,
-  ".xg-total": `
+      ".xg-total": `
     background: #1f1f23;
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
@@ -183,20 +184,20 @@ const MatchCard = new Atom("MatchCard", {
     color: #e4e4e7;
     border: 1px solid #2d2d31;
   `,
-  ".correlation": `
+      ".correlation": `
     font-size: 0.65rem;
     color: #52525b;
     text-align: right;
     margin-top: -0.4rem;
   `,
-  
-  // ----- probabilities -----
-  ".probs-section": `
+      
+      // ----- probabilities -----
+      ".probs-section": `
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
   `,
-  ".section-title": `
+      ".section-title": `
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -204,12 +205,12 @@ const MatchCard = new Atom("MatchCard", {
     color: #a1a1aa;
     margin-bottom: 0.4rem;
   `,
-  ".probs-grid": `
+      ".probs-grid": `
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
   `,
-  ".prob-box": `
+      ".prob-box": `
     background: #09090b;
     border-radius: 12px;
     padding: 0.65rem 0.8rem;
@@ -218,35 +219,35 @@ const MatchCard = new Atom("MatchCard", {
     align-items: center;
     border: 1px solid #1f1f23;
   `,
-  ".prob-label": `
+      ".prob-label": `
     font-size: 0.75rem;
     font-weight: 500;
     color: #d4d4d8;
   `,
-  ".prob-value": `
+      ".prob-value": `
     font-size: 0.85rem;
     font-weight: 700;
   `,
-  ".prob-value.high": `
+      ".prob-value.high": `
     color: #10b981;
   `,
-  ".prob-value.med": `
+      ".prob-value.med": `
     color: #f59e0b;
   `,
-  ".prob-value.low": `
+      ".prob-value.low": `
     color: #f43f5e;
   `,
-  ".prob-value.odd": `
+      ".prob-value.odd": `
     color: #a855f7;
     text-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
   `,
-  ".prob-value.even": `
+      ".prob-value.even": `
     color: #06b6d4;
     text-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
   `,
-  
-  // ----- 1X2 -----
-  ".outcome-row": `
+      
+      // ----- 1X2 -----
+      ".outcome-row": `
     display: flex;
     justify-content: space-around;
     background: #09090b;
@@ -254,11 +255,11 @@ const MatchCard = new Atom("MatchCard", {
     padding: 0.75rem 0.2rem;
     border: 1px solid #1f1f23;
   `,
-  ".outcome-item": `
+      ".outcome-item": `
     text-align: center;
     flex: 1;
   `,
-  ".outcome-label": `
+      ".outcome-label": `
     display: block;
     color: #71717a;
     font-size: 0.65rem;
@@ -266,28 +267,28 @@ const MatchCard = new Atom("MatchCard", {
     text-transform: uppercase;
     margin-bottom: 0.25rem;
   `,
-  ".outcome-val": `
+      ".outcome-val": `
     font-size: 0.9rem;
     font-weight: 700;
   `,
-  ".outcome-val.home": `
+      ".outcome-val.home": `
     color: #10b981;
   `,
-  ".outcome-val.draw": `
+      ".outcome-val.draw": `
     color: #f59e0b;
   `,
-  ".outcome-val.away": `
+      ".outcome-val.away": `
     color: #f43f5e;
   `,
-  
-  // ----- scorelines -----
-  ".scorelines": `
+      
+      // ----- scorelines -----
+      ".scorelines": `
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 0.3rem;
   `,
-  ".score-badge": `
+      ".score-badge": `
     background: #1f1f23;
     border-radius: 20px;
     padding: 0.4rem 0.8rem;
@@ -300,35 +301,37 @@ const MatchCard = new Atom("MatchCard", {
     align-items: center;
     gap: 0.4rem;
   `,
-  ".score-badge.highlight": `
+      ".score-badge.highlight": `
     background: rgba(16, 185, 129, 0.08);
     border-color: rgba(16, 185, 129, 0.3);
     color: #10b981;
   `,
-  ".score-badge span": `
+      ".score-badge span": `
     color: #a1a1aa;
     font-weight: 500;
     font-size: 0.65rem;
   `,
-  ".score-badge.highlight span": `
+      ".score-badge.highlight span": `
     color: #a7f3d0;
   `,
-  
-  ".note": `
+      
+      ".note": `
     font-size: 0.65rem;
     color: #52525b;
     margin-top: 0.3rem;
     font-style: italic;
   `,
-  
-  // responsive
-  "@media (max-width: 500px)": {
-    ".match-card": `
+      
+      // responsive
+      "@media (max-width: 500px)": {
+        ".match-card": `
       padding: 1.2rem;
     `
+      }
+    },
+    isReactive: true,
+    id: "predictions-grid"
   }
-},
-  isReactive: true
-}, "predictions-grid");
+}
 
-export default MatchCard;
+export default Atom(MatchCard);

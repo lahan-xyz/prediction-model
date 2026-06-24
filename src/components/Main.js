@@ -23,7 +23,7 @@ function Main() {
           ]);
           
           if (this.ran) {
-            MatchCard.set(predictions);
+            MatchCard.renderWith(predictions);
           } else {
             MatchCard.renderWith(predictions);
             this.ran = true;

@@ -5,9 +5,12 @@ function Button() {
   return {
     template() {
       return `
-      <button @click=[ click ] disabled=[ disabled ]>
-        <Text { txt: "[ label ]", color: "inherit" } />
-        <span class="loader" v:show=[ disabled ]></span>
+        <button @click=[ click ] disabled=[ disabled ]>
+          <Text {
+            txt: "[ label ]",
+            color: "inherit"
+          } />
+          <span class="loader" v:show=[ disabled ]></span>
       </button>
      `
     },

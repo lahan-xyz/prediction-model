@@ -224,7 +224,7 @@ function initiateWidgets(markup, isWidget) {
       if (instance) {
         evaluated = instance(d);
       } else {
-        console.warn(`Valen:\nWidget '${name}' is not defined`);
+        console.warn(`Valen:\nWidget '${name}' could not be rendered. Make sure '${name}' is defined or wrapped in the Widget function.`);
         evaluated = match; // leave original markup as fallback
       }
     } catch (e) {

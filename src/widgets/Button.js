@@ -48,7 +48,7 @@ function Button() {
     `,
       "button:disabled": `
       cursor: not-allowed;
-      background: #27272a; /* Blends back into the dark theme components */
+      background: #E6E6E6; /* Blends back into the dark theme components */
       color: #71717a;
       border: 1px solid #3f3f46;
       box-shadow: none;

@@ -14,16 +14,16 @@ function Main() {
         if (state.isLoading) return;
         
         state.isLoading = true;
+        
         await new Promise(resolve => setTimeout(resolve, 50));
         
         try {
           const predictions = predictMultiMatch([
-            ["PSG", "Aston Villa", "UEFA Super Cup - Final", true],
             ["PSG", "Aston Villa", "UEFA Super Cup - Final", true]
           ]);
           
           if (this.ran) {
-            MatchCard.renderWith(predictions);
+            MatchCard.set(predictions);
           } else {
             MatchCard.renderWith(predictions);
             this.ran = true;
@@ -65,19 +65,17 @@ function Main() {
     
     `,
       ".title": `
-      color: #f4f4f5; /* Zinc-100: Bright but softer than pure white */
+      color: #E6E6E6; /* Zinc-100: Bright but softer than pure white */
       font-size: 1.8rem;
-      font-weight: 800;
       margin: 0 0 0.5rem 0;
-      letter-spacing: -0.5px;
     `,
       ".subtitle": `
-      color: #a1a1aa; /* Zinc-400: Matches the subtext in the MatchCard */
-      margin-bottom: 2.5rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      max-width: 600px;
-      line-height: 1.5;
+        color: #C0C0C6;
+        margin-bottom: 2.5rem;
+        font-size: 0.9rem;
+        max-width: 600px;
+        line-height: 1.2;
+        font-weight: 200;
     `,
       "#predictions-grid": `
       display: grid;

@@ -3,6 +3,7 @@ import Button from '../widgets/Button.js';
 import MatchCard from '../MatchCard.js';
 import predictMultiMatch from '../model/utils.js';
 
+
 function Main() {
   return {
     state: {
@@ -37,18 +38,18 @@ function Main() {
     },
     template: () => {
       return `
-      <div class="main-container">
-        <h1 class="title">⚽ Football Prediction Model</h1>
-        <p class="subtitle">Enhanced with finishing factors · Monte Carlo 150k sims · BTTS & Over/Under 2.5 focused</p>
+        <div class="main-container">
+          <h1 class="title">⚽ Football Prediction Model</h1>
+          <p class="subtitle">Enhanced with finishing factors · Monte Carlo 150k sims · BTTS & Over/Under 2.5 focused</p>
 
-        <div id="predictions-grid"></div>
+          <div id="predictions-grid"></div>
 
-        <Button {
-          label: "[ isLoading ? 'Running…' : 'Run Predictions' ]",
-          disabled: "[ isLoading ]",
-          click: "this.runPredictions()"
-        } />
-      </div>
+          <Button {
+            label: "[ isLoading ? 'Running…' : 'Run Predictions' ]",
+            disabled: "[ isLoading ]",
+            click: "this.runPredictions()"
+          } />
+        </div>
     `;
     },
     

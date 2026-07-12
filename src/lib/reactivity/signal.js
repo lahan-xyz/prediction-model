@@ -25,10 +25,11 @@ function createSignal(state, object) {
         return createReactiveObject(target[key]);
       },
       set(target, key, value) {
+       // console.log(object)
         const prev = target[key];
         if (prev !== value) {
           target[key] = value;
-          if (!object.isFrozen) {
+          if (!object?.isFrozen) {
             const goAhead = object.onUpdate ?
               object.onUpdate({ oldVal: prev, key, newVal: value },
                 object.state

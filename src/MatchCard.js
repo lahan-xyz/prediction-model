@@ -39,20 +39,12 @@ function MatchCard() {
                 <span class="prob-value low">[ probabilities.under25 ]%</span>
               </div>
               <div class="prob-box">
-                <span class="prob-label">BTTS (GG)</span>
+                <span class="prob-label">BTTS (YES)</span>
                 <span class="prob-value med">[ probabilities.gg ]%</span>
               </div>
               <div class="prob-box">
                 <span class="prob-label">BTTS (NO)</span>
                 <span class="prob-value low">[ probabilities.ng ]%</span>
-              </div>
-               <div class="prob-box">
-                <span class="prob-label">Odd Goals</span>
-                <span class="prob-value odd">[ oddProb ]%</span>
-              </div>
-              <div class="prob-box">
-                <span class="prob-label">Even Goals</span>
-                <span class="prob-value even">[ evenProb ]%</span>
               </div>
             </div>
           </div>

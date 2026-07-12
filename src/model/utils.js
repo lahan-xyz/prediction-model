@@ -214,7 +214,7 @@ function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
   if (diffXG > CALIB_CONFIG.strongDominationDiff) {
     h += CALIB_CONFIG.homeDominationBoost;
   } else if (diffXG < -CALIB_CONFIG.strongDominationDiff) { // Use else if for mutually exclusive states
-    a += CALIB_CONFIG.awayDominationBoost; 
+    a += CALIB_CONFIG.awayDominationBoost;
   }
   
   // --- Back to probabilities ---
@@ -251,7 +251,7 @@ function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, isNeut
     console.error(`🚨 Missing data for ${subjectName} or ${opponentName}. Returning base xG.`);
     return 1.0; // Safe fallback to prevent the entire model from crashing
   }
-
+  
   const { data: subject, leagueAvgXG: subjectLeagueAvg, leagueName: subjectLeague } = subjectInfo;
   const { data: opponent, leagueAvgXG: oppLeagueAvg, leagueName: oppLeague } = opponentInfo;
   
@@ -261,13 +261,13 @@ function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, isNeut
   teamLeagueAvg = Math.max(0.1, teamLeagueAvg);
   
   // 3. CONTEXTUAL BASE STATS
-  const seasonAttack = isNeutral 
-    ? (subject.homeXG + subject.awayXG) / 2 
-    : isSubjectHome ? subject.homeXG : subject.awayXG;
-    
-  const seasonDefense = isNeutral 
-    ? (opponent.homeXGA + opponent.awayXGA) / 2 
-    : isSubjectHome ? opponent.awayXGA : opponent.homeXGA;
+  const seasonAttack = isNeutral ?
+    (subject.homeXG + subject.awayXG) / 2 :
+    isSubjectHome ? subject.homeXG : subject.awayXG;
+  
+  const seasonDefense = isNeutral ?
+    (opponent.homeXGA + opponent.awayXGA) / 2 :
+    isSubjectHome ? opponent.awayXGA : opponent.homeXGA;
   
   // 4. RECENT FORM (Weighted)
   const recentAttack = weightedAverage(subject.last6XG);
@@ -343,9 +343,6 @@ function predictMatch(home, away, lg, isNeutral = false) {
   let _awayWin = 0;
   let totalMass = 0;
   
-  let oddMass = 0;
-  let evenMass = 0;
-  
   const MAX_GOALS = MODEL_CONFIG.maxGoalsDeterministic;
   const scorelinesList = [];
   
@@ -383,10 +380,6 @@ function predictMatch(home, away, lg, isNeutral = false) {
       else if (h === a) _draw += prob;
       else _awayWin += prob;
       
-      // OPTIMIZATION 2: Extract Odd/Even directly from the exact grid math
-      if ((h + a) % 2 === 0) evenMass += prob;
-      else oddMass += prob;
-      
       // OPTIMIZATION 3: Store scorelines directly from exact grid math
       scorelinesList.push({ score: `${h}-${a}`, prob });
     }
@@ -399,8 +392,6 @@ function predictMatch(home, away, lg, isNeutral = false) {
     _awayWin /= totalMass;
     under25 /= totalMass;
     btts /= totalMass;
-    oddMass /= totalMass;
-    evenMass /= totalMass;
     
     // Normalize individual scorelines
     for (let i = 0; i < scorelinesList.length; i++) {
@@ -449,9 +440,7 @@ function predictMatch(home, away, lg, isNeutral = false) {
       draw: (draw * 100).toFixed(2),
       awayWin: (awayWin * 100).toFixed(2)
     },
-    topScorelines,
-    oddProb: (oddMass * 100).toFixed(2),
-    evenProb: (evenMass * 100).toFixed(2)
+    topScorelines
   };
 }
 
@@ -479,9 +468,6 @@ function getTopScorelines(homeLambda, awayLambda, lambda3) {
   // High-performance typed array for counting scorelines
   const scoreGrid = new Int32Array(GRID_SIZE * GRID_SIZE);
   
-  let oddCount = 0;
-  let evenCount = 0;
-  
   // Pre-calculate the independent base lambdas
   const homeBaseLambda = Math.max(0, homeLambda - lambda3);
   const awayBaseLambda = Math.max(0, awayLambda - lambda3);
@@ -497,13 +483,6 @@ function getTopScorelines(homeLambda, awayLambda, lambda3) {
     // Clamp to MAX_GOALS
     const h = homeExtra + sharedAdj > MAX_GOALS ? MAX_GOALS : homeExtra + sharedAdj;
     const a = awayExtra + sharedAdj > MAX_GOALS ? MAX_GOALS : awayExtra + sharedAdj;
-    
-    // Odd/Even tracking
-    if ((h + a) % 2 === 0) {
-      evenCount++;
-    } else {
-      oddCount++;
-    }
     
     // Update flat array count (e.g., 2-1 becomes index (2 * 9) + 1 = 19)
     scoreGrid[h * GRID_SIZE + a]++;
@@ -530,9 +509,7 @@ function getTopScorelines(homeLambda, awayLambda, lambda3) {
     }));
   
   return {
-    topScorelines,
-    oddTotalProb: ((oddCount / SIMS) * 100).toFixed(2),
-    evenTotalProb: ((evenCount / SIMS) * 100).toFixed(2)
+    topScorelines
   };
 }
 
@@ -550,5 +527,52 @@ const predictMultiMatch = (fixtures) => {
   return outArr;
 };
 
+const fetchFixtures = async () => {
+  const res = await fetch("https://www.fotmob.com/api/data/matches?date=20260705&timezone=Africa%2FLagos&ccode3=NGA&includeNextDayLateNight=true")
+  const json = await res.json()
+  const leagues = json.leagues;
+  /* 
+  	For each
+  	.name
+  	.ccode
+  	
+  	.matches (each):
+  	.time
+  	.status.started
+  	.status.finished
+  	
+  	.home: (.name, .score, .longName)
+  	
+  	*/
+  console.log(leagues[0])
+}
+
+
+
+async function getOdds(country) {
+  try {
+    const res = await fetch('http://localhost:3000/api/odds', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        country
+      })
+    });
+    
+    const data = await res.json();
+    /* 
+     console.log('Tournament:', data.D.GN);          // "Premier League"
+     console.log('Country:', data.D.SG);             // "England"
+     console.log('Number of matches:', data.D.E.length);*/
+    
+    return data;
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// Call the function
+const data = await getOdds("ITA");
+console.log(data)
 
 export default predictMultiMatch;

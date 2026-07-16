@@ -142,3 +142,9 @@ app.post("/processed", (req, res) => {
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");
 });
+
+
+/*(async () => {
+    const data = await getLeagueData("EPL")
+    
+})()*/

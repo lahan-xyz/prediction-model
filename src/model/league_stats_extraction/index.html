@@ -17,7 +17,10 @@
   <input type="text" id="input" value="EPL" />
   <button onclick="processData()">Process Data</button>
   
-  <script src="main.js"></script>
+  <script type="module">
+    import { processData } from './main.js'
+    window.processData = processData;
+  </script>
 </body>
 
 </html>

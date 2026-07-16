@@ -10,13 +10,13 @@ const View = new App("#app", {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter';
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
     `,
     "body": `
-      background: #0a0a0a;
-      font-family: 'Inter';
+      background: rgb(33 22 3); /* 950 - Darkest background in the palette */
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       padding: 2rem 1rem;
-      color: #E6E6E6;
+      color: rgb(253 245 232); /* 50 - Matching the exact home team name color */
       line-height: 1.6;
       min-height: 100vh;
       letter-spacing: -0.01em;
@@ -26,8 +26,7 @@ const View = new App("#app", {
       font-weight: 700;
       margin-bottom: 0.25rem;
       letter-spacing: -0.02em;
-      color: #E6E6E6;
-      /* simple white heading, no gradient needed */
+      color: rgb(253 245 232); /* 50 */
     `,
     /* Optional: remove all link/button tap highlights on mobile */
     "a, button": `
@@ -39,7 +38,7 @@ const View = new App("#app", {
       font-weight: normal;
       font-display: swap;
       src: url('./src/assets/Inter-Bold.otf');
-   `
+    `
   }
 });
 

@@ -180,7 +180,7 @@ const getTeamData = (team) => {
 };
 
 /**
- * Calibrates baseline 1X2 probabilities based on game state dynamics.
+ * Calibrates baseline 1X2 odds based on game state dynamics.
  * Operates safely in logit space.
  */
 function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
@@ -217,7 +217,7 @@ function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
     a += CALIB_CONFIG.awayDominationBoost;
   }
   
-  // --- Back to probabilities ---
+  // --- Back to odds ---
   const ph = sigmoid(h);
   const pd = sigmoid(d);
   const pa = sigmoid(a);
@@ -247,10 +247,7 @@ function calculateExpectedGoals(subjectName, opponentName, isSubjectHome, isNeut
   const subjectInfo = getTeamData(subjectName);
   const opponentInfo = getTeamData(opponentName);
   
-  if (!subjectInfo || !opponentInfo) {
-    console.error(`🚨 Missing data for ${subjectName} or ${opponentName}. Returning base xG.`);
-    return 1.0; // Safe fallback to prevent the entire model from crashing
-  }
+  if (!subjectInfo || !opponentInfo) return null;
   
   const { data: subject, leagueAvgXG: subjectLeagueAvg, leagueName: subjectLeague } = subjectInfo;
   const { data: opponent, leagueAvgXG: oppLeagueAvg, leagueName: oppLeague } = opponentInfo;
@@ -326,6 +323,12 @@ function calculateLambda3(homeXG, awayXG) {
   return clamp(lambda, MODEL_CONFIG.lambda3Min, MODEL_CONFIG.lambda3Max);
 }
 
+
+
+function toOdds(int) {
+  return (1 / int).toFixed(2);
+}
+
 /**
  * Predicts a football match using a highly optimized deterministic grid.
  * Completely eliminates Monte Carlo redundancy.
@@ -334,9 +337,14 @@ function predictMatch(home, away, lg, isNeutral = false) {
   // Assuming calculateExpectedGoals is your 'big boss' function
   const homeXG = calculateExpectedGoals(home, away, true, lg, isNeutral);
   const awayXG = calculateExpectedGoals(away, home, false, lg, isNeutral);
+  
+  if (!homeXG || !awayXG) return null;
+  
   const lambda3 = calculateLambda3(homeXG, awayXG);
   
+  let under15 = 0;
   let under25 = 0;
+  let under35 = 0;
   let btts = 0;
   let _homeWin = 0;
   let _draw = 0;
@@ -373,7 +381,10 @@ function predictMatch(home, away, lg, isNeutral = false) {
       totalMass += prob;
       
       // Market Accumulations
+      if (h + a <= 1) under15 += prob;
       if (h + a <= 2) under25 += prob;
+      if (h + a <= 3) under35 += prob;
+      
       if (h >= 1 && a >= 1) btts += prob;
       
       if (h > a) _homeWin += prob;
@@ -390,7 +401,10 @@ function predictMatch(home, away, lg, isNeutral = false) {
     _homeWin /= totalMass;
     _draw /= totalMass;
     _awayWin /= totalMass;
+    under15 /= totalMass;
     under25 /= totalMass;
+    under35 /= totalMass;
+    
     btts /= totalMass;
     
     // Normalize individual scorelines
@@ -415,7 +429,7 @@ function predictMatch(home, away, lg, isNeutral = false) {
     .slice(0, 3)
     .map(item => ({
       score: item.score,
-      probability: (item.prob * 100).toFixed(2)
+      probability: toOdds(item.prob)
     }));
   
   if (!lg) {
@@ -431,14 +445,18 @@ function predictMatch(home, away, lg, isNeutral = false) {
       total: totalXG.toFixed(2)
     },
     correlation: lambda3.toFixed(3),
-    probabilities: {
-      over25: ((1 - under25) * 100).toFixed(2),
-      under25: (under25 * 100).toFixed(2),
-      gg: (btts * 100).toFixed(2),
-      ng: ((1 - btts) * 100).toFixed(2),
-      homeWin: (homeWin * 100).toFixed(2),
-      draw: (draw * 100).toFixed(2),
-      awayWin: (awayWin * 100).toFixed(2)
+    odds: {
+      over15: toOdds(1 - under15),
+      under15: toOdds(under15),
+      over25: toOdds(1 - under25),
+      under25: toOdds(under25),
+      over35: toOdds(1 - under35),
+      under35: toOdds(under35),
+      gg: toOdds(btts),
+      ng: toOdds(1 - btts),
+      homeWin: toOdds(homeWin),
+      draw: toOdds(draw),
+      awayWin: toOdds(awayWin)
     },
     topScorelines
   };
@@ -513,19 +531,176 @@ function getTopScorelines(homeLambda, awayLambda, lambda3) {
   };
 }
 
-const predictMultiMatch = (fixtures) => {
+
+async function predictMultiMatch(fixtures) {
   const outArr = [];
   let output = "";
-  fixtures.forEach(([home, away, league, isNeutral]) => {
-    const prediction = predictMatch(home, away, league, isNeutral);
-    outArr.push(prediction);
-    output += "\n\n" + JSON.stringify(prediction, null, 2);
+  
+  fixtures.forEach(({ homeTeam, awayTeam, league, isNeutral }, i) => {
+    const { country, startDate, markets } = fixtures[i];
+    
+    const splittedDate = startDate.split(" ");
+    
+    const { OverUnder, BTTS } = markets;
+    
+    const oneX2 = markets["1X2"];
+    
+    const OU15 = OverUnder["OU1.5"];
+    const OU25 = OverUnder["OU2.5"];
+    const OU35 = OverUnder["OU3.5"];
+    
+    const fullDate = new Date(splittedDate[0]).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }) + "  (" + splittedDate[1].slice(0, 5)+")";
+    
+    let prediction = predictMatch(homeTeam, awayTeam, league, isNeutral);
+    
+    
+    if (prediction) {
+      const withOdds = {
+        ...prediction,
+        fullDate,
+        oneX2,
+        OU15,
+        OU25,
+        OU35,
+        BTTS
+      }
+      
+      const edge = computeROI(withOdds);
+      
+      prediction = {
+        ...withOdds,
+        ...edge
+      }
+      
+      outArr.push(prediction);
+      
+      output += "\n\n" + JSON.stringify(prediction, null, 2);
+    }
   });
   
-  console.log(output);
-  // copyToClipboard(output);
+  //console.log(output);
   return outArr;
 };
+
+
+function computeROI(data) {
+  const { odds, oneX2, OU15, OU25, OU35, BTTS } = data;
+  
+  // Define each market group and their output key mappings
+  const groups = [
+  {
+    source: oneX2,
+    mappings: [
+      { outKey: 'homeWin', marketKey: 'Home', predKey: 'homeWin' },
+      { outKey: 'draw', marketKey: 'Draw', predKey: 'draw' },
+      { outKey: 'awayWin', marketKey: 'Away', predKey: 'awayWin' }
+    ]
+  },
+  {
+    source: OU15,
+    mappings: [
+      { outKey: 'over15', marketKey: 'Over', predKey: 'over15' },
+      { outKey: 'under15', marketKey: 'Under', predKey: 'under15' }
+    ]
+  },
+  {
+    source: OU25,
+    mappings: [
+      { outKey: 'over25', marketKey: 'Over', predKey: 'over25' },
+      { outKey: 'under25', marketKey: 'Under', predKey: 'under25' }
+    ]
+  },
+  {
+    source: OU35,
+    mappings: [
+      { outKey: 'over35', marketKey: 'Over', predKey: 'over35' },
+      { outKey: 'under35', marketKey: 'Under', predKey: 'under35' }
+    ]
+  },
+  {
+    source: BTTS,
+    mappings: [
+      { outKey: 'bttsYes', marketKey: 'BTTS', predKey: 'gg' },
+      { outKey: 'bttsNo', marketKey: 'BTTSN', predKey: 'ng' }
+    ]
+  }];
+  
+  const result = {};
+  
+  for (const group of groups) {
+    if (!group.source) continue; // skip if market missing
+    
+    // Calculate sum of implied probabilities from market odds (the vig)
+    let sumImplied = 0;
+    for (const m of group.mappings) {
+      const marketVal = parseFloat(group.source[m.marketKey]);
+      if (marketVal > 0) sumImplied += 1 / marketVal;
+    }
+    if (sumImplied === 0) continue; // safety check
+    
+    // Compute vig-removed edge for each outcome
+    for (const m of group.mappings) {
+      const predVal = parseFloat(odds[m.predKey]);
+      const marketVal = parseFloat(group.source[m.marketKey]);
+      
+      if (predVal > 0 && marketVal > 0) {
+        // Edge = (Market Odds / Predicted Odds) * Sum_Implied - 1
+        const edge = (marketVal / predVal) * sumImplied - 1;
+        result[m.outKey] = {
+          edge: parseFloat(edge.toFixed(2))
+        };
+      } else {
+        result[m.outKey] = null;
+      }
+    }
+  }
+  
+  const marketKeyMappings = {
+    'over15': 'under15',
+    'over25': 'under25',
+    'over35': 'under35',
+    'bttsYes': 'bttsNo'
+  }
+  
+  const keys = Object.keys(marketKeyMappings);
+  
+  for (let key of keys) {
+    const pred = marketKeyMappings[key];
+    
+    const a = result[key].edge,
+      b = result[pred].edge;
+    
+    if (a > b) {
+      result[key].hClass = "high"
+      result[pred].hClass = "low"
+    } else if (b > a) {
+      result[key].hClass = "low"
+      result[pred].hClass = "high"
+    } else {
+      result[key].hClass = "high"
+      result[pred].hClass = "high"
+    }
+  }
+  
+  const homeEdge = result.homeWin.edge;
+  const awayEdge = result.awayWin.edge;
+  
+  if(homeEdge > awayEdge) {
+    result.homeWin.hClass = "high";
+    result.awayWin.hClass = "low";
+  } else {
+    result.awayWin.hClass = "high";
+    result.homeWin.hClass = "low";
+  }
+  
+ return result;
+}
+
 
 const fetchFixtures = async () => {
   const res = await fetch("https://www.fotmob.com/api/data/matches?date=20260705&timezone=Africa%2FLagos&ccode3=NGA&includeNextDayLateNight=true")
@@ -548,31 +723,5 @@ const fetchFixtures = async () => {
 }
 
 
-
-async function getOdds(country) {
-  try {
-    const res = await fetch('http://localhost:3000/api/odds', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        country
-      })
-    });
-    
-    const data = await res.json();
-    /* 
-     console.log('Tournament:', data.D.GN);          // "Premier League"
-     console.log('Country:', data.D.SG);             // "England"
-     console.log('Number of matches:', data.D.E.length);*/
-    
-    return data;
-  } catch (err) {
-    console.error(err)
-  }
-}
-
-// Call the function
-const data = await getOdds("ITA");
-console.log(data)
 
 export default predictMultiMatch;

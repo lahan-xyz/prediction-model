@@ -1,7 +1,8 @@
+const before = ["Newcastle United", "Manchester City", "Manchester United", "Wolverhampton Wanderers", "Nottingham Forest", "Real Sociedad", "Atletico Madrid", "Rayo Vallecano", "Celta Vigo", "Real Betis", "Real Oviedo", "Paris Saint Germain", "Bayern Munich", "Hamburger SV", "Bayer Leverkusen", "Mainz 05", "Borussia Dortmund", "Borussia M.Gladbach", "Eintracht Frankfurt", "VfB Stuttgart", "FC Cologne", "RasenBallsport Leipzig", "FC Heidenheim", "Parma Calcio 1913"];
+
+const after = ["Newcastle", "Man City", "Man Utd", "Wolves", "Nottingham", "Sociedad", "Atletico", "Vallecano", "Celta", "Betis", "Oviedo", "PSG", "Bayern", "HSV", "Leverkusen", "Mainz", "Dortmund", "M'gladbach", "Frankfurt", "Stuttgart", "Cologne", "Leipzig", "Heidenheim", "Parma"];
+
 const simplifyTeamNames = (JSON) => {
-  const before = ["Newcastle United", "Manchester City", "Manchester United", "Wolverhampton Wanderers", "Nottingham Forest", "Real Sociedad", "Atletico Madrid", "Rayo Vallecano", "Celta Vigo", "Real Betis", "Real Oviedo", "Paris Saint Germain", "Bayern Munich", "Hamburger SV", "Bayer Leverkusen", "Mainz 05", "Borussia Dortmund", "Borussia M.Gladbach", "Eintracht Frankfurt", "VfB Stuttgart", "FC Cologne", "RasenBallsport Leipzig", "FC Heidenheim", "Parma Calcio 1913"],
-    after = ["Newcastle", "Man City", "Man Utd", "Wolves", "Nottingham", "Sociedad", "Atletico", "Vallecano", "Celta", "Betis", "Oviedo", "PSG", "Bayern", "HSV", "Leverkusen", "Mainz", "Dortmund", "M'gladbach", "Frankfurt", "Stuttgart", "Cologne", "Leipzig", "Heidenheim", "Parma"];
-  
   before.forEach((name, i) => JSON = JSON.replace(name, after[i]));
   
   return JSON;
@@ -35,3 +36,5 @@ async function processData() {
   const finalResult = await res.json();
   //console.log("Final backend result:", finalResult);
 }
+
+module.exports = { before, after, processData }

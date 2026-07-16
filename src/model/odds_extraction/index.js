@@ -1,9 +1,12 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const app = express();
+const { before, after } = require('../league_stats_extraction/main.js');
 
 
 app.use(express.json())
+
+const teamNames = new Map(before.map((name, i) => [name, after[i]]));
 
 const ID = {
   ENG: [
@@ -55,14 +58,19 @@ app.use((req, res, next) => {
 async function FETCH(endpoint) {
   const response = await fetch(endpoint, {
     headers: {
-      'User-Agent': 'Mozilla/5.0',
-      'X-Source': 'web',
-      'Referer': 'https://sports.bet9ja.com/'
-    }
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+      'Accept': 'application/json, text/plain, */*',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Referer': 'https://sports.bet9ja.com/',
+      'Origin': 'https://sports.bet9ja.com',
+      'Sec-Fetch-Dest': 'empty',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Site': 'same-origin',
+      'Cache-Control': 'no-cache'
+    },
+    credentials: 'include' // if in browser, sends cookies
   });
-  
-  const data = await response.json();
-  return data;
+  return response.json();
 }
 
 app.post('/api/odds', async (req, res) => {
@@ -104,15 +112,22 @@ app.post('/api/odds', async (req, res) => {
 }
 */
 function extractMatchOdds(jsonData) {
-  const events = jsonData.D.E;
+  const events = jsonData.D?.E;
+  const league = jsonData.D?.GN;
+  const country = jsonData.D?.SG;
   
   if (!events || !Array.isArray(events)) {
+  	  console.log(jsonData);
     return [];
   }
   
   return events.map(event => {
     // Parse teams from display string "Home - Away"
-    const [homeTeam, awayTeam] = event.DS.split(' - ').map(s => s.trim());
+    let [homeTeam, awayTeam] = event.DS.split(' - ').map(s => s.trim());
+    
+    homeTeam = teamNames.get(homeTeam) || homeTeam;
+    
+    awayTeam = teamNames.get(awayTeam) || awayTeam;
     
     // Get odds object (safely)
     const O = event.O || {};
@@ -146,7 +161,8 @@ function extractMatchOdds(jsonData) {
       awayTeam,
       matchId: event.ID,
       startDate: event.STARTDATE,
-      isBoosted: event.IS_BOOSTED || false,
+      league,
+      country,
       
       // Requested markets
       markets: {
@@ -162,7 +178,7 @@ function extractMatchOdds(jsonData) {
   });
 }
 
-(async (arg) => console.log(FETCH("https://www.fotmob.com/api/data/leagueseasondeepstats?lng=en-GB&id=48&season=23744&type=teams&stat=expected_goals_team")))()
+/*(async (arg) => console.log(FETCH("https://www.fotmob.com/api/data/leagueseasondeepstats?lng=en-GB&id=48&season=23744&type=teams&stat=expected_goals_team")))()*/
 
 app.listen(3000, () => console.log('Proxy running on http://localhost:3000'));
 

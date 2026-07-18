@@ -156,6 +156,8 @@ function weightedAverage(arr) {
   return totalWeight > 0 ? sum / totalWeight : 0;
 }
 
+
+const teams = new Set()
 /**
  * Fetches team data and context.
  * Optimized to remove hardcoded limits and return a structured object.
@@ -175,7 +177,8 @@ const getTeamData = (team) => {
     }
   }
   
-  console.warn(`Team '${team}' not found in any league data`);
+//  console.warn(`Team '${team}' not found in any league data`);
+  teams.add(team);
   return null;
 };
 
@@ -583,6 +586,7 @@ async function predictMultiMatch(fixtures) {
     }
   });
   
+  console.log(JSON.stringify([...teams]), "\n")
   //console.log(output);
   return outArr;
 };
@@ -593,64 +597,57 @@ function computeROI(data) {
   
   // Define each market group and their output key mappings
   const groups = [
-  {
-    source: oneX2,
-    mappings: [
-      { outKey: 'homeWin', marketKey: 'Home', predKey: 'homeWin' },
-      { outKey: 'draw', marketKey: 'Draw', predKey: 'draw' },
-      { outKey: 'awayWin', marketKey: 'Away', predKey: 'awayWin' }
-    ]
-  },
-  {
-    source: OU15,
-    mappings: [
-      { outKey: 'over15', marketKey: 'Over', predKey: 'over15' },
-      { outKey: 'under15', marketKey: 'Under', predKey: 'under15' }
-    ]
-  },
-  {
-    source: OU25,
-    mappings: [
-      { outKey: 'over25', marketKey: 'Over', predKey: 'over25' },
-      { outKey: 'under25', marketKey: 'Under', predKey: 'under25' }
-    ]
-  },
-  {
-    source: OU35,
-    mappings: [
-      { outKey: 'over35', marketKey: 'Over', predKey: 'over35' },
-      { outKey: 'under35', marketKey: 'Under', predKey: 'under35' }
-    ]
-  },
-  {
-    source: BTTS,
-    mappings: [
-      { outKey: 'bttsYes', marketKey: 'BTTS', predKey: 'gg' },
-      { outKey: 'bttsNo', marketKey: 'BTTSN', predKey: 'ng' }
-    ]
-  }];
+    {
+      source: oneX2,
+      mappings: [
+        { outKey: 'homeWin', marketKey: 'Home', predKey: 'homeWin' },
+        { outKey: 'draw', marketKey: 'Draw', predKey: 'draw' },
+        { outKey: 'awayWin', marketKey: 'Away', predKey: 'awayWin' }
+      ]
+    },
+    {
+      source: OU15,
+      mappings: [
+        { outKey: 'over15', marketKey: 'Over', predKey: 'over15' },
+        { outKey: 'under15', marketKey: 'Under', predKey: 'under15' }
+      ]
+    },
+    {
+      source: OU25,
+      mappings: [
+        { outKey: 'over25', marketKey: 'Over', predKey: 'over25' },
+        { outKey: 'under25', marketKey: 'Under', predKey: 'under25' }
+      ]
+    },
+    {
+      source: OU35,
+      mappings: [
+        { outKey: 'over35', marketKey: 'Over', predKey: 'over35' },
+        { outKey: 'under35', marketKey: 'Under', predKey: 'under35' }
+      ]
+    },
+    {
+      source: BTTS,
+      mappings: [
+        { outKey: 'bttsYes', marketKey: 'BTTS', predKey: 'gg' },
+        { outKey: 'bttsNo', marketKey: 'BTTSN', predKey: 'ng' }
+      ]
+    }
+  ];
   
   const result = {};
   
   for (const group of groups) {
-    if (!group.source) continue; // skip if market missing
+    if (!group.source) continue;
     
-    // Calculate sum of implied probabilities from market odds (the vig)
-    let sumImplied = 0;
-    for (const m of group.mappings) {
-      const marketVal = parseFloat(group.source[m.marketKey]);
-      if (marketVal > 0) sumImplied += 1 / marketVal;
-    }
-    if (sumImplied === 0) continue; // safety check
-    
-    // Compute vig-removed edge for each outcome
+    // Compute ROI edge for each outcome: (market odds / predicted odds) - 1
     for (const m of group.mappings) {
       const predVal = parseFloat(odds[m.predKey]);
       const marketVal = parseFloat(group.source[m.marketKey]);
       
       if (predVal > 0 && marketVal > 0) {
-        // Edge = (Market Odds / Predicted Odds) * Sum_Implied - 1
-        const edge = (marketVal / predVal) * sumImplied - 1;
+        // ROI edge = (market decimal odds / predicted decimal odds) - 1
+        const edge = (marketVal / predVal) - 1;
         result[m.outKey] = {
           edge: parseFloat(edge.toFixed(2))
         };
@@ -660,45 +657,47 @@ function computeROI(data) {
     }
   }
   
+  // Assign high/low classes based on pairwise comparisons (unchanged)
   const marketKeyMappings = {
     'over15': 'under15',
     'over25': 'under25',
     'over35': 'under35',
     'bttsYes': 'bttsNo'
-  }
+  };
   
   const keys = Object.keys(marketKeyMappings);
-  
   for (let key of keys) {
     const pred = marketKeyMappings[key];
-    
-    const a = result[key].edge,
-      b = result[pred].edge;
-    
-    if (a > b) {
-      result[key].hClass = "high"
-      result[pred].hClass = "low"
-    } else if (b > a) {
-      result[key].hClass = "low"
-      result[pred].hClass = "high"
-    } else {
-      result[key].hClass = "high"
-      result[pred].hClass = "high"
+    const a = result[key]?.edge;
+    const b = result[pred]?.edge;
+    if (a !== undefined && b !== undefined) {
+      if (a > b) {
+        result[key].hClass = "high";
+        result[pred].hClass = "low";
+      } else if (b > a) {
+        result[key].hClass = "low";
+        result[pred].hClass = "high";
+      } else {
+        result[key].hClass = "high";
+        result[pred].hClass = "high";
+      }
     }
   }
   
-  const homeEdge = result.homeWin.edge;
-  const awayEdge = result.awayWin.edge;
-  
-  if(homeEdge > awayEdge) {
-    result.homeWin.hClass = "high";
-    result.awayWin.hClass = "low";
-  } else {
-    result.awayWin.hClass = "high";
-    result.homeWin.hClass = "low";
+  // Home/away comparison
+  if (result.homeWin && result.awayWin) {
+    const homeEdge = result.homeWin.edge;
+    const awayEdge = result.awayWin.edge;
+    if (homeEdge > awayEdge) {
+      result.homeWin.hClass = "high";
+      result.awayWin.hClass = "low";
+    } else {
+      result.awayWin.hClass = "high";
+      result.homeWin.hClass = "low";
+    }
   }
   
- return result;
+  return result;
 }
 
 

@@ -42,14 +42,14 @@ function MatchCard() {
               <span class="odd-label">Over 1.5</span>
               <span class="odd-odd">@ [ odds.over15 ] / [ OU15.Over ]</span>
             </div>
-            <span class="odd-value [over15.hClass]">[ over15.edge > 0 ? '+' : '' ][ over15.edge ]</span>
+            <span class="odd-value [over15.hClass]">[ over15.edge > 0 ? '+'+over15.edge : over15.edge ]</span>
           </div>
           <div class="odd-box">
             <div class="odd-meta">
               <span class="odd-label">Under 1.5</span>
               <span class="odd-odd">@ [ odds.under15 ] / [ OU15.Under ]</span>
             </div>
-            <span class="odd-value [under15.hClass]">[ under15.edge > 0 ? '+' : '' ][ under15.edge ]</span>
+            <span class="odd-value [under15.hClass]">[ under15.edge > 0 ? '+'+under15.edge : under15.edge ]</span>
           </div>
 
           <!-- Over/Under 2.5 -->
@@ -58,14 +58,14 @@ function MatchCard() {
               <span class="odd-label">Over 2.5</span>
               <span class="odd-odd">@ [ odds.over25 ] / [ OU25.Over ]</span>
             </div>
-            <span class="odd-value [over25.hClass]">[ over25.edge > 0 ? '+' : '' ][ over25.edge ]</span>
+            <span class="odd-value [over25.hClass]">[ over25.edge > 0 ? '+'+over25.edge : over25.edge ]</span>
           </div>
           <div class="odd-box">
             <div class="odd-meta">
               <span class="odd-label">Under 2.5</span>
               <span class="odd-odd">@ [ odds.under25 ] / [ OU25.Under ]</span>
             </div>
-            <span class="odd-value [under25.hClass]">[ under25.edge > 0 ? '+' : '' ][ under25.edge ]</span>
+            <span class="odd-value [under25.hClass]">[ under25.edge > 0 ? '+'+under25.edge : under25.edge ]</span>
           </div>
 
           <!-- Over/Under 3.5 -->
@@ -74,14 +74,14 @@ function MatchCard() {
               <span class="odd-label">Over 3.5</span>
               <span class="odd-odd">@ [ odds.over35 ] / [ OU35.Over ]</span>
             </div>
-            <span class="odd-value [over35.hClass]">[ over35.edge > 0 ? '+' : '' ][ over35.edge ]</span>
+            <span class="odd-value [over35.hClass]">[ over35.edge > 0 ? '+'+over35.edge : over35.edge ]</span>
           </div>
           <div class="odd-box">
             <div class="odd-meta">
               <span class="odd-label">Under 3.5</span>
               <span class="odd-odd">@ [ odds.under35 ] / [ OU35.Under ]</span>
             </div>
-            <span class="odd-value [under35.hClass]">[ under35.edge > 0 ? '+' : '' ][ under35.edge ]</span>
+            <span class="odd-value [under35.hClass]">[ under35.edge > 0 ? '+'+under35.edge : under35.edge ]</span>
           </div>
 
           <!-- BTTS -->
@@ -90,14 +90,14 @@ function MatchCard() {
               <span class="odd-label">BTTS (YES)</span>
               <span class="odd-odd">@ [ odds.gg ] / [ BTTS.BTTS ]</span>
             </div>
-            <span class="odd-value [bttsYes.hClass]">[ bttsYes.edge > 0 ? '+' : '' ][ bttsYes.edge ]</span>
+            <span class="odd-value [bttsYes.hClass]">[ bttsYes.edge > 0 ? '+'+bttsYes.edge : bttsYes.edge ]</span>
           </div>
           <div class="odd-box">
             <div class="odd-meta">
               <span class="odd-label">BTTS (NO)</span>
               <span class="odd-odd">@ [ odds.ng ] / [ BTTS.BTTSN ]</span>
             </div>
-            <span class="odd-value [bttsNo.hClass]">[ bttsNo.edge > 0 ? '+' : '' ][ bttsNo.edge ]</span>
+            <span class="odd-value [bttsNo.hClass]">[ bttsNo.edge > 0 ? '+'+bttsNo.edge : bttsNo.edge ]</span>
           </div>
 
         </div>
@@ -107,17 +107,17 @@ function MatchCard() {
         <div class="outcome-item">
           <span class="outcome-label">Home</span>
           <span class="outcome-val home">@ [ odds.homeWin ] / [ oneX2.Home ]</span>
-          <span class="outcome-odd [homeWin.hClass]">[ homeWin.edge > 0 ? '+' : '' ][ homeWin.edge ]</span>
+          <span class="outcome-odd [homeWin.hClass]">[ homeWin.edge > 0 ? '+'+homeWin.edge : homeWin.edge ]</span>
         </div>
         <div class="outcome-item">
           <span class="outcome-label">Draw</span>
           <span class="outcome-val draw">@ [ odds.draw ] / [ oneX2.Draw ]</span>
-          <span class="outcome-odd mid">[ draw.edge > 0 ? '+' : '' ][ draw.edge ]</span>
+          <span class="outcome-odd mid">[ draw.edge > 0 ? '+'+draw.edge : draw.edge ]</span>
         </div>
         <div class="outcome-item">
           <span class="outcome-label">Away</span>
           <span class="outcome-val away">@ [ odds.awayWin ] / [ oneX2.Away ]</span>
-          <span class="outcome-odd [awayWin.hClass]">[ awayWin.edge > 0 ? '+' : '' ][ awayWin.edge ]</span>
+          <span class="outcome-odd [awayWin.hClass]">[ awayWin.edge > 0 ? '+'+awayWin.edge : awayWin.edge ]</span>
         </div>
       </div>
                     

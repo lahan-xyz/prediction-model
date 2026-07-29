@@ -29,7 +29,7 @@ function Main() {
       }
       
       this.runPredictions = async function() {
-        /*  BettingCard.renderWith({
+        /* BettingCard.renderWith({
              date: "26th May, 2015",
              market: "First Half over 1.5",
              homeTeam: "Chelsea",
@@ -71,7 +71,7 @@ function Main() {
     
     template: () => {
       return `        
-        <div class="main-container">          
+        <div class="main-container">
           <h1 class="title">⚽ Football Prediction Model</h1>          
           <p class="subtitle">Enhanced with finishing factors · Monte Carlo 150k sims · BTTS & Over/Under 2.5 focused</p>                    
           

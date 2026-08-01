@@ -1,7 +1,7 @@
 const fs = require("fs/promises");
 const path = require("path");
 const fetch = require("node-fetch");
-
+const { before, after } = require("./main.js");
 // ============================================
 // Config
 // ============================================
@@ -37,7 +37,7 @@ const LEAGUES = [
 // Example:
 // node server.js
 // SEASON=2025 node server.js
-const SEASON = process.env.SEASON || defaultSeason();
+const SEASON = 2025 || defaultSeason();
 
 // Saves to ../league_stats.js relative to this file
 const OUTPUT_PATH = path.resolve(
@@ -313,7 +313,13 @@ function serializeLeagueStatsModule(stats) {
   );
 
 
-  return lines.join("\n");
+  let final = lines.join("\n");
+  
+  for (let i = 0, len = before.length; i < len; i++) {
+    final = final.replace(before[i], after[i]);
+  }
+ 
+ return final;
 }
 
 // ============================================

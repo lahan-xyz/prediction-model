@@ -47,7 +47,7 @@ function Main() {
         try {
           state.statusMsg = "Fetching Fixtures & odds...";
           const fixtures = await getFixturesNOdds("FRA");
-          
+ 
           state.statusMsg = "Running Predictions...";
           
           // YIELD TO BROWSER: Allow the DOM to paint the new message before blocking the thread

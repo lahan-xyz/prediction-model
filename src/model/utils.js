@@ -15,8 +15,6 @@ const MODEL_CONFIG = {
   seasonWeight: 0.7,
   formWeight: 0.3,
   strengthDiffMultiplier: 0.08,
-  defenseSuppressionFactor: 0.12,
-  defenseSuppressionCap: 0.5,
   lowTempoThreshold: 2.6,
   lowTempoMultiplier: 0.92,
   highTempoThreshold: 3.4,
@@ -34,6 +32,8 @@ const MODEL_CONFIG = {
   maxGoalsDeterministic: 10,
   xGMin: 0.3,
   xGMax: 3.2,
+  recentFormLimit: 6,
+  maxFairOdds: 999.99,
 };
 
 const CALIB_CONFIG = {
@@ -72,12 +72,6 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, n));
 }
 
-function logit(p) {
-  const EPS = 1e-15;
-  const clamped = clamp(p, EPS, 1 - EPS);
-  return Math.log(clamped / (1 - clamped));
-}
-
 function poisson(lambda, k) {
   const l = safeNumber(lambda, 0);
   const goals = Math.floor(safeNumber(k, 0));
@@ -101,15 +95,19 @@ function poisson(lambda, k) {
   return prob;
 }
 
-function weightedAverage(arr) {
+function weightedAverage(arr, limit = MODEL_CONFIG.recentFormLimit) {
   if (!Array.isArray(arr) || arr.length === 0) return 0;
+
+  const recent =
+    Number.isFinite(limit) && limit > 0 ? arr.slice(-limit) : arr.slice();
 
   let sum = 0;
   let totalWeight = 0;
   let currentWeight = 1;
 
-  for (let i = arr.length - 1; i >= 0; i--) {
-    const value = safeNumber(arr[i], 0);
+  // Assumes the newest match is at the end of the array.
+  for (let i = recent.length - 1; i >= 0; i--) {
+    const value = safeNumber(recent[i], 0);
     sum += value * currentWeight;
     totalWeight += currentWeight;
     currentWeight *= MODEL_CONFIG.formDecay;
@@ -118,11 +116,29 @@ function weightedAverage(arr) {
   return totalWeight > 0 ? sum / totalWeight : 0;
 }
 
+function isTeamStats(entry) {
+  return (
+    entry &&
+    typeof entry === "object" &&
+    !Array.isArray(entry) &&
+    ("homeXG" in entry ||
+      "awayXG" in entry ||
+      "homeXGA" in entry ||
+      "awayXGA" in entry ||
+      "last6XG" in entry)
+  );
+}
+
 function getTeamData(team) {
   if (!team) return null;
 
   for (const league of LEAGUES) {
-    if (league && league[team]) {
+    if (!league || typeof league !== "object") continue;
+
+    if (
+      Object.prototype.hasOwnProperty.call(league, team) &&
+      isTeamStats(league[team])
+    ) {
       return {
         data: league[team],
         leagueAvgXG: safeNumber(league.leagueAverageXG, 1.2),
@@ -140,9 +156,9 @@ function getTeamData(team) {
 
 function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
   const fallback = {
-    homeWin: 0.33,
-    draw: 0.34,
-    awayWin: 0.33,
+    homeWin: 0.3333,
+    draw: 0.3334,
+    awayWin: 0.3333,
   };
 
   if (![homeWin, draw, awayWin].every(Number.isFinite)) {
@@ -155,46 +171,50 @@ function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
     return fallback;
   }
 
+  let h = Math.max(1e-6, homeWin / total);
+  let d = Math.max(1e-6, draw / total);
+  let a = Math.max(1e-6, awayWin / total);
+
   const totalXG = safeNumber(homeXG, 0) + safeNumber(awayXG, 0);
   const diffXG = safeNumber(homeXG, 0) - safeNumber(awayXG, 0);
 
-  let h = logit(homeWin / total);
-  let d = logit(draw / total);
-  let a = logit(awayWin / total);
-
+  // High-total games tend to compress decisive outcomes slightly.
   if (totalXG > CALIB_CONFIG.highXGThreshold) {
     h *= CALIB_CONFIG.highXGDecay;
     a *= CALIB_CONFIG.highXGDecay;
   }
 
+  // Tight xG races deserve a draw boost.
   if (Math.abs(diffXG) < CALIB_CONFIG.tightXGDiff) {
-    d += CALIB_CONFIG.tightXGDrawBoost;
+    d *= 1 + CALIB_CONFIG.tightXGDrawBoost;
   }
 
+  // Very open games reduce draw likelihood.
   if (totalXG > CALIB_CONFIG.openGameThreshold) {
-    d -= CALIB_CONFIG.openGameDrawPenalty;
+    d *= Math.max(0, 1 - CALIB_CONFIG.openGameDrawPenalty);
   }
 
+  // Strong domination boosts the favored side.
   if (diffXG > CALIB_CONFIG.strongDominationDiff) {
-    h += CALIB_CONFIG.homeDominationBoost;
+    h *= 1 + CALIB_CONFIG.homeDominationBoost;
   } else if (diffXG < -CALIB_CONFIG.strongDominationDiff) {
-    a += CALIB_CONFIG.awayDominationBoost;
+    a *= 1 + CALIB_CONFIG.awayDominationBoost;
   }
 
-  const expH = Math.exp(h);
-  const expD = Math.exp(d);
-  const expA = Math.exp(a);
+  h = clamp(h, 1e-6, 1);
+  d = clamp(d, 1e-6, 1);
+  a = clamp(a, 1e-6, 1);
 
-  const sum = expH + expD + expA;
+  const sum = h + d + a;
 
   if (!Number.isFinite(sum) || sum <= 0) {
     return fallback;
   }
 
   return {
-    homeWin: expH / sum,
-    draw: expD / sum,
-    awayWin: expA / sum,
+    homeWin: h / sum,
+    draw: d / sum,
+    awayWin: a / sum,
   };
 }
 
@@ -243,14 +263,14 @@ function calculateExpectedGoals(
   const seasonAttack = isNeutral
     ? (stat(subject.homeXG) + stat(subject.awayXG)) / 2
     : isSubjectHome
-    ? stat(subject.homeXG)
-    : stat(subject.awayXG);
+      ? stat(subject.homeXG)
+      : stat(subject.awayXG);
 
   const seasonDefense = isNeutral
     ? (stat(opponent.homeXGA) + stat(opponent.awayXGA)) / 2
     : isSubjectHome
-    ? stat(opponent.awayXGA)
-    : stat(opponent.homeXGA);
+      ? stat(opponent.awayXGA)
+      : stat(opponent.homeXGA);
 
   let recentAttack = weightedAverage(subject.last6XG);
   if (recentAttack <= 0) recentAttack = seasonAttack;
@@ -323,20 +343,45 @@ function calculateExpectedGoals(
 }
 
 function calculateLambda3(homeXG, awayXG) {
-  const total = safeNumber(homeXG, 0) + safeNumber(awayXG, 0);
-  const lambda =
+  const h = safeNumber(homeXG, 0);
+  const a = safeNumber(awayXG, 0);
+  const total = h + a;
+
+  let lambda =
     MODEL_CONFIG.lambda3Base + MODEL_CONFIG.lambda3Slope * (total - 2);
 
-  return clamp(lambda, MODEL_CONFIG.lambda3Min, MODEL_CONFIG.lambda3Max);
+  lambda = clamp(lambda, MODEL_CONFIG.lambda3Min, MODEL_CONFIG.lambda3Max);
+
+  // Coherent BTTS/tempo/imbalance adjustment:
+  // Instead of mutating final BTTS probability, adjust the shared Poisson component.
+  if (total < MODEL_CONFIG.bttsLowTempoThreshold) {
+    lambda *= MODEL_CONFIG.bttsLowTempoPenalty;
+  }
+
+  const imbalance = Math.abs(h - a);
+
+  if (imbalance > MODEL_CONFIG.bttsImbalanceThreshold) {
+    lambda *= MODEL_CONFIG.bttsImbalancePenalty;
+  }
+
+  // The shared component cannot exceed either marginal mean.
+  lambda = clamp(lambda, 0, Math.max(0, Math.min(h, a)));
+
+  return lambda;
 }
 
 function toOdds(probability) {
   const p = safeNumber(probability, 0);
 
-  if (p <= 0) return "0.00";
-  if (p >= 1) return "1.00";
+  if (p <= 0) {
+    return MODEL_CONFIG.maxFairOdds.toFixed(2);
+  }
 
-  return (1 / p).toFixed(2);
+  if (p >= 1) {
+    return "1.00";
+  }
+
+  return clamp(1 / p, 1.0, MODEL_CONFIG.maxFairOdds).toFixed(2);
 }
 
 // ============================================
@@ -369,6 +414,7 @@ function predictMatch(home, away, lg, isNeutral = false) {
   let _homeWin = 0;
   let _draw = 0;
   let _awayWin = 0;
+
   let totalMass = 0;
 
   const MAX_GOALS = MODEL_CONFIG.maxGoalsDeterministic;
@@ -437,15 +483,6 @@ function predictMatch(home, away, lg, isNeutral = false) {
   const calibrated = calibrate1X2(_homeWin, _draw, _awayWin, homeXG, awayXG);
 
   const totalXG = homeXG + awayXG;
-  const imbalance = Math.abs(homeXG - awayXG);
-
-  if (totalXG < MODEL_CONFIG.bttsLowTempoThreshold) {
-    btts *= MODEL_CONFIG.bttsLowTempoPenalty;
-  }
-
-  if (imbalance > MODEL_CONFIG.bttsImbalanceThreshold) {
-    btts *= MODEL_CONFIG.bttsImbalancePenalty;
-  }
 
   btts = clamp(btts, 0.001, 0.999);
 
@@ -493,6 +530,54 @@ function predictMatch(home, away, lg, isNeutral = false) {
 // ROI / Edge Computation
 // ============================================
 
+function makeEmptyRoi() {
+  return {
+    edge: 0,
+    edgeDisplay: "—",
+    marketOdds: null,
+    fairOdds: null,
+    hClass: "low",
+  };
+}
+
+function formatEdge(edge) {
+  const e = safeNumber(edge, NaN);
+
+  if (!Number.isFinite(e)) return "—";
+
+  const pct = Math.abs(e * 100).toFixed(2);
+
+  if (e > 0) return `+${pct}%`;
+  if (e < 0) return `-${pct}%`;
+
+  return "0.00%";
+}
+
+function setPairClasses(result, leftKey, rightKey) {
+  const left = result[leftKey];
+  const right = result[rightKey];
+
+  if (!left || !right) return;
+
+  const leftPositive = Number.isFinite(left.edge) && left.edge > 0;
+  const rightPositive = Number.isFinite(right.edge) && right.edge > 0;
+
+  if (left.edge === right.edge) {
+    const cls = leftPositive ? "high" : "low";
+    left.hClass = cls;
+    right.hClass = cls;
+    return;
+  }
+
+  if (left.edge > right.edge) {
+    left.hClass = leftPositive ? "high" : "low";
+    right.hClass = "low";
+  } else {
+    right.hClass = rightPositive ? "high" : "low";
+    left.hClass = "low";
+  }
+}
+
 function computeROI(data) {
   const { odds, oneX2, OU15, OU25, OU35, BTTS } = data || {};
 
@@ -538,22 +623,25 @@ function computeROI(data) {
   const result = {};
 
   for (const group of groups) {
-    if (!group.source) continue;
-
     for (const m of group.mappings) {
+      result[m.outKey] = makeEmptyRoi();
+
+      if (!group.source) continue;
+
       const predVal = safeNumber(odds?.[m.predKey], 0);
       const marketVal = safeNumber(group.source?.[m.marketKey], 0);
 
-      if (predVal > 0.001 && marketVal > 1.0) {
+      if (predVal >= 1.0 && marketVal > 1.0) {
         const edge = marketVal / predVal - 1;
+        const roundedEdge = parseFloat(edge.toFixed(4));
 
         result[m.outKey] = {
-          edge: parseFloat(edge.toFixed(2)),
+          edge: roundedEdge,
+          edgeDisplay: formatEdge(roundedEdge),
           marketOdds: marketVal,
           fairOdds: predVal,
+          hClass: roundedEdge > 0 ? "high" : "low",
         };
-      } else {
-        result[m.outKey] = null;
       }
     }
   }
@@ -566,32 +654,24 @@ function computeROI(data) {
   ];
 
   for (const [key, otherKey] of pairMappings) {
-    const a = result[key]?.edge;
-    const b = result[otherKey]?.edge;
-
-    if (Number.isFinite(a) && Number.isFinite(b)) {
-      if (a > b) {
-        result[key].hClass = "high";
-        result[otherKey].hClass = "low";
-      } else if (b > a) {
-        result[key].hClass = "low";
-        result[otherKey].hClass = "high";
-      } else {
-        result[key].hClass = "high";
-        result[otherKey].hClass = "high";
-      }
-    }
+    setPairClasses(result, key, otherKey);
   }
 
   const oneX2Keys = ["homeWin", "draw", "awayWin"].filter(
     (k) => result[k] && Number.isFinite(result[k].edge)
   );
 
-  if (oneX2Keys.length > 0) {
-    const maxEdge = Math.max(...oneX2Keys.map((k) => result[k].edge));
+  const positiveOneX2 = oneX2Keys.filter((k) => result[k].edge > 0);
+
+  if (positiveOneX2.length > 0) {
+    const maxEdge = Math.max(...positiveOneX2.map((k) => result[k].edge));
 
     for (const k of oneX2Keys) {
       result[k].hClass = result[k].edge >= maxEdge ? "high" : "low";
+    }
+  } else {
+    for (const k of oneX2Keys) {
+      result[k].hClass = "low";
     }
   }
 
@@ -601,6 +681,33 @@ function computeROI(data) {
 // ============================================
 // Multi-Match Processor
 // ============================================
+
+function displayOdd(value) {
+  const n = safeNumber(value, NaN);
+  return Number.isFinite(n) && n > 1 ? n.toFixed(2) : "—";
+}
+
+function normalizeOverUnder(source) {
+  return {
+    Over: displayOdd(source?.Over),
+    Under: displayOdd(source?.Under),
+  };
+}
+
+function normalizeBTTS(source) {
+  return {
+    BTTS: displayOdd(source?.BTTS),
+    BTTSN: displayOdd(source?.BTTSN),
+  };
+}
+
+function normalize1X2(source) {
+  return {
+    Home: displayOdd(source?.Home),
+    Draw: displayOdd(source?.Draw),
+    Away: displayOdd(source?.Away),
+  };
+}
 
 async function predictMultiMatch(fixtures) {
   const outArr = [];
@@ -627,7 +734,6 @@ async function predictMultiMatch(fixtures) {
 
     if (!homeExists) missingTeams.add(homeTeam);
     if (!awayExists) missingTeams.add(awayTeam);
-
     if (!homeExists || !awayExists) continue;
 
     const dateObj = startDate ? new Date(startDate) : new Date();
@@ -651,9 +757,9 @@ async function predictMultiMatch(fixtures) {
 
     const { OverUnder, BTTS, "1X2": oneX2 } = safeMarkets;
 
-    const OU15 = OverUnder?.["OU1.5"] ?? null;
-    const OU25 = OverUnder?.["OU2.5"] ?? null;
-    const OU35 = OverUnder?.["OU3.5"] ?? null;
+    const rawOU15 = OverUnder?.["OU1.5"] ?? null;
+    const rawOU25 = OverUnder?.["OU2.5"] ?? null;
+    const rawOU35 = OverUnder?.["OU3.5"] ?? null;
 
     const prediction = predictMatch(homeTeam, awayTeam, league, isNeutral);
 
@@ -662,11 +768,11 @@ async function predictMultiMatch(fixtures) {
     const withOdds = {
       ...prediction,
       fullDate,
-      oneX2: oneX2 ?? null,
-      OU15,
-      OU25,
-      OU35,
-      BTTS: BTTS ?? null,
+      oneX2: oneX2 ?? {},
+      OU15: rawOU15 ?? {},
+      OU25: rawOU25 ?? {},
+      OU35: rawOU35 ?? {},
+      BTTS: BTTS ?? {},
     };
 
     const edge = computeROI(withOdds);
@@ -674,6 +780,11 @@ async function predictMultiMatch(fixtures) {
     outArr.push({
       ...withOdds,
       ...edge,
+      oneX2: normalize1X2(oneX2),
+      OU15: normalizeOverUnder(rawOU15),
+      OU25: normalizeOverUnder(rawOU25),
+      OU35: normalizeOverUnder(rawOU35),
+      BTTS: normalizeBTTS(BTTS),
     });
   }
 

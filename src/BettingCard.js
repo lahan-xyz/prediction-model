@@ -1,192 +1,415 @@
-import { Atom } from 'valen'
+import { Atom } from 'valen';
 
-function BettingCard() {
+function MatchCard() {
   return {
-    template: () => {
-      return (`
-        <div class="mc-card">
-          <div class="mc-teams">
-            <div class="mc-team">
-              <img class="mc-avatar" src="[ homeAvatar ]" loading="lazy" alt="[ homeTeam ] logo" />
-              <span class="mc-team-name">[ homeTeam ]</span>
-            </div>
-            
-            <div class="mc-vs-badge">VS</div>
-            
-            <div class="mc-team">
-              <img class="mc-avatar" src="[ awayAvatar ]" loading="lazy" alt="[ awayTeam ] logo" />
-              <span class="mc-team-name">[ awayTeam ]</span>
-            </div>
-          </div>
-          
-          <div class="mc-details">
-            <span class="mc-date">[ date ]</span>
-            <div class="mc-market-badge">
-              <span>[ market ]</span>
-            </div>
-          </div>
-          
+    template: () => `
+<div class="match-card">
+  <div class="match-meta">
+    <span class="match-date">[fullDate]</span>
+    <span class="badge">[league]</span>
+  </div>
 
-          
-          <div class="mc-footer">
-            <div class="mc-probss-btn">
-              <span class="mc-probss-label">Probs</span>
-              <span class="mc-probss-value">[ probs ]</span>
-            </div>
-          </div>
+  <div class="match-header">
+    <div class="teams">
+      <span>[match.homeTeam]</span>
+      <span class="vs">vs</span>
+      <span>[match.awayTeam]</span>
+    </div>
+  </div>
+
+  <div class="xg-row">
+    <div class="xg-item">
+      <span class="xg-label">Home xG</span>
+      <span class="xg-value">[xG.home]</span>
+    </div>
+
+    <div class="xg-divider">—</div>
+
+    <div class="xg-item">
+      <span class="xg-label">Away xG</span>
+      <span class="xg-value">[xG.away]</span>
+    </div>
+
+    <div class="xg-total">Total [xG.total]</div>
+  </div>
+
+  <div class="correlation">Correlation λ₃: [correlation]</div>
+
+  <div class="odds-section">
+    <div class="section-title">📊 Predicted & Bookie Odds</div>
+
+    <div class="odds-grid">
+      <!-- Over/Under 1.5 -->
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Over 1.5</span>
+          <span class="odd-odd">@ [odds.over15] / [OU15.Over]</span>
         </div>
-      `)
-    },
-    
+        <span class="odd-value [over15.hClass]">[over15.edgeDisplay]</span>
+      </div>
+
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Under 1.5</span>
+          <span class="odd-odd">@ [odds.under15] / [OU15.Under]</span>
+        </div>
+        <span class="odd-value [under15.hClass]">[under15.edgeDisplay]</span>
+      </div>
+
+      <!-- Over/Under 2.5 -->
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Over 2.5</span>
+          <span class="odd-odd">@ [odds.over25] / [OU25.Over]</span>
+        </div>
+        <span class="odd-value [over25.hClass]">[over25.edgeDisplay]</span>
+      </div>
+
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Under 2.5</span>
+          <span class="odd-odd">@ [odds.under25] / [OU25.Under]</span>
+        </div>
+        <span class="odd-value [under25.hClass]">[under25.edgeDisplay]</span>
+      </div>
+
+      <!-- Over/Under 3.5 -->
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Over 3.5</span>
+          <span class="odd-odd">@ [odds.over35] / [OU35.Over]</span>
+        </div>
+        <span class="odd-value [over35.hClass]">[over35.edgeDisplay]</span>
+      </div>
+
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Under 3.5</span>
+          <span class="odd-odd">@ [odds.under35] / [OU35.Under]</span>
+        </div>
+        <span class="odd-value [under35.hClass]">[under35.edgeDisplay]</span>
+      </div>
+
+      <!-- BTTS -->
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">BTTS (YES)</span>
+          <span class="odd-odd">@ [odds.gg] / [BTTS.BTTS]</span>
+        </div>
+        <span class="odd-value [bttsYes.hClass]">[bttsYes.edgeDisplay]</span>
+      </div>
+
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">BTTS (NO)</span>
+          <span class="odd-odd">@ [odds.ng] / [BTTS.BTTSN]</span>
+        </div>
+        <span class="odd-value [bttsNo.hClass]">[bttsNo.edgeDisplay]</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="outcome-row">
+    <div class="outcome-item">
+      <span class="outcome-label">Home</span>
+      <span class="outcome-val home">@ [odds.homeWin] / [oneX2.Home]</span>
+      <span class="outcome-odd [homeWin.hClass]">[homeWin.edgeDisplay]</span>
+    </div>
+
+    <div class="outcome-item">
+      <span class="outcome-label">Draw</span>
+      <span class="outcome-val draw">@ [odds.draw] / [oneX2.Draw]</span>
+      <span class="outcome-odd [draw.hClass]">[draw.edgeDisplay]</span>
+    </div>
+
+    <div class="outcome-item">
+      <span class="outcome-label">Away</span>
+      <span class="outcome-val away">@ [odds.awayWin] / [oneX2.Away]</span>
+      <span class="outcome-odd [awayWin.hClass]">[awayWin.edgeDisplay]</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="section-title">🎯 Top Scorelines</div>
+
+    <div class="scorelines">
+      <div class="score-badge mid">
+        [topScorelines[0].score]
+        <span class="odd">@ [topScorelines[0].probability]</span>
+      </div>
+
+      <div class="score-badge mid">
+        [topScorelines[1].score]
+        <span>@ [topScorelines[1].probability]</span>
+      </div>
+
+      <div class="score-badge mid">
+        [topScorelines[2].score]
+        <span>@ [topScorelines[2].probability]</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    Bivariate Poisson correlation model with calibrated 1X2 and market edge.
+  </div>
+</div>`,
+
     stylesheet: {
-      ".mc-card": `
-        background: linear-gradient(135deg, rgb(47 32 4), rgb(33 22 3));
+      ".match-card": `
+        box-sizing: border-box;
+        width: 100%;
+        background: rgb(33 22 3);
         border: 1px solid rgb(93 64 9 / 0.4);
-        border-radius: 24px;
-        padding: 1.75rem 1.5rem;
-        margin-block: 2.5em;
+        border-radius: 20px;
+        padding: clamp(1.2rem, 4vw, 1.6rem) clamp(1rem, 4vw, 1.4rem);
+        margin-top: 0;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        max-width: 420px;
-        width: 100%;
-        box-sizing: border-box;
+        gap: 1.2rem;
         font-family: system-ui, -apple-system, sans-serif;
       `,
-      ".mc-card:hover": `
-        transform: translateY(-2px);
-        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 0 1px rgb(238 178 68 / 0.3);
+      ".match-card:hover": `
+        border-color: rgb(140 96 13 / 0.7);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgb(238 178 68 / 0.15);
       `,
-      
-      // ----- details Zone -----
-      ".mc-details": `
+
+      // ----- match meta -----
+      ".match-meta": `
         display: flex;
-        flex-direction: column;
         justify-content: space-between;
-        align-items: left;
-        border-top: 1px solid rgb(93 64 9 / 0.3);
-        padding-top: 0.85rem;
-      `,
-      ".mc-date": `
-        font-size: 0.85rem;
-        color: rgb(246 217 162); /* 200 */
-        font-weight: 500;
-        letter-spacing: 0.02em;
-        margin-block: .3em;
-      `,
-      ".mc-market-badge": `
-        width: auto;
-        font-size: 1.05rem;
-        text-transform: uppercase;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        background: rgb(93 64 9 / 0.5);
-        color: rgb(242 198 115);
-        padding: 0.3rem 0.85rem;
-        border-radius: 50px;
-        border: 1px solid rgb(140 96 13 / 0.3);
-        margin-block: .3em;
-      `,
-      
-      // ----- Teams Row -----
-      ".mc-teams": `
-        display: flex;
         align-items: center;
-        justify-content: space-between;
-        padding-block: 0.5rem;
-        position: relative;
       `,
-      ".mc-team": `
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.75rem;
-        flex: 1;
-        text-align: center;
-      `,
-      ".mc-avatar": `
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        object-fit: cover;
-        background: rgb(47 32 4); /* 900 */
-        border: 2px solid rgb(140 96 13 / 0.4);
-        padding: 4px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      `,
-      ".mc-team-name": `
-        font-size: 1rem;
-        font-weight: 600;
-        color: rgb(253 245 232); /* 50 */
-        line-height: 1.3;
-      `,
-      ".mc-vs-badge": `
+      ".match-date": `
         font-size: 0.75rem;
-        font-weight: 800;
-        color: rgb(187 127 17); /* 600 */
-        background: rgb(33 22 3); /* 950 */
-        padding: 0.45rem 0.65rem;
-        border-radius: 50%;
+        color: rgb(242 198 115 / 0.8);
+        font-weight: 500;
+      `,
+      ".badge": `
+        background: rgb(47 32 4);
+        padding: 0.25rem 0.65rem;
+        border-radius: 30px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: rgb(246 217 162);
         border: 1px solid rgb(93 64 9 / 0.6);
-        z-index: 2;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       `,
-      
-      // ----- Footer / Action Zone -----
-      ".mc-footer": `
-        margin-top: 0.25rem;
-      `,
-      ".mc-probss-btn": `
+
+      // ----- header -----
+      ".match-header": `
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: linear-gradient(90deg, rgb(233 159 22), rgb(238 178 68)); /* 500 to 400 */
-        color: rgb(33 22 3); /* 950 text contrast */
-        padding: 0.85rem 1.4rem;
-        border-radius: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgb(233 159 22 / 0.2);
+        border-bottom: 1px solid rgb(93 64 9 / 0.4);
+        padding-bottom: 0.75rem;
+        margin-top: -0.25rem;
       `,
-      ".mc-probss-label": `
+      ".teams": `
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: rgb(253 245 232);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+      `,
+      ".teams .vs": `
+        color: rgb(187 127 17);
+        font-weight: 500;
         font-size: 0.85rem;
+        margin: 0 0.3rem;
+      `,
+
+      // ----- xG row -----
+      ".xg-row": `
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgb(47 32 4);
+        border-radius: 14px;
+        padding: 0.75rem 1rem;
+        gap: 0.5rem;
+        border: 1px solid rgb(93 64 9 / 0.3);
+      `,
+      ".xg-item": `
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+      `,
+      ".xg-label": `
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: rgb(242 198 115 / 0.8);
+        margin-bottom: 0.15rem;
+      `,
+      ".xg-value": `
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: rgb(253 245 232);
+      `,
+      ".xg-divider": `
+        color: rgb(93 64 9);
+        font-size: 1rem;
+        font-weight: 300;
+      `,
+      ".xg-total": `
+        background: rgb(93 64 9 / 0.5);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: rgb(251 236 208);
+        border: 1px solid rgb(140 96 13 / 0.4);
+      `,
+      ".correlation": `
+        font-size: 0.65rem;
+        color: rgb(140 96 13);
+        text-align: right;
+        margin-top: -0.4rem;
+      `,
+
+      // ----- odds section -----
+      ".odds-section": `
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      `,
+      ".section-title": `
+        font-size: 0.7rem;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        opacity: 0.85;
+        letter-spacing: 0.8px;
+        color: rgb(242 198 115);
+        margin-bottom: 0.4rem;
       `,
-      ".mc-probss-value": `
-        font-size: 1.25rem;
-        letter-spacing: -0.01em;
+      ".odds-grid": `
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
       `,
-      
-      // ----- Responsive Breakpoints -----
-      "@media (max-width: 500px)": {
-        ".mc-card": `
-          padding: 1.35rem 1.15rem;
-          border-radius: 20px;
-          gap: 1.1rem;
-        `,
-        ".mc-avatar": `
-          width: 52px;
-          height: 52px;
-        `,
-        ".mc-team-name": `
-          font-size: 0.9rem;
-        `,
-        ".mc-probss-btn": `
-          padding: 0.75rem 1.15rem;
-        `,
-        ".mc-probss-value": `
-          font-size: 1.1rem;
-        `
-      }
+      ".odd-box": `
+        background: rgb(47 32 4);
+        border-radius: 12px;
+        padding: 0.65rem 0.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid rgb(93 64 9 / 0.3);
+      `,
+      ".odd-meta": `
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+      `,
+      ".odd-label": `
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: rgb(251 236 208);
+      `,
+      ".odd-odd": `
+        font-size: 0.65rem;
+        color: rgb(187 127 17);
+        font-weight: 700;
+      `,
+      ".odd-value": `
+        font-size: 0.95rem;
+        font-weight: 700;
+      `,
+      ".high": `
+        color: rgb(242 198 115);
+      `,
+      ".low": `
+        color: rgb(140 96 13);
+      `,
+
+      // ----- 1X2 outcome & market odds -----
+      ".outcome-row": `
+        display: flex;
+        justify-content: space-around;
+        background: rgb(47 32 4);
+        border-radius: 12px;
+        padding: 0.75rem 0.2rem;
+        border: 1px solid rgb(93 64 9 / 0.3);
+      `,
+      ".outcome-item": `
+        text-align: center;
+        flex: 1;
+      `,
+      ".outcome-label": `
+        display: block;
+        color: rgb(187 127 17);
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 0.1rem;
+      `,
+      ".outcome-val": `
+        font-size: 0.7rem;
+        color: rgb(238 178 68);
+        font-weight: 500;
+        display: block;
+      `,
+      ".outcome-odd": `
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-top: 0.15rem;
+      `,
+      ".mid": `
+        color: rgb(251 236 208);
+      `,
+
+      // ----- scorelines -----
+      ".scorelines": `
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.3rem;
+      `,
+      ".score-badge": `
+        background: rgb(47 32 4);
+        border-radius: 20px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        color: rgb(253 245 232);
+        border: 1px solid rgb(93 64 9 / 0.5);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      `,
+      ".score-badge.highlight": `
+        background: rgb(233 159 22 / 0.1);
+        border-color: rgb(233 159 22 / 0.4);
+        color: rgb(238 178 68);
+      `,
+      ".score-badge span": `
+        color: rgb(242 198 115);
+        font-weight: 500;
+        font-size: 0.65rem;
+      `,
+      ".score-badge.highlight span": `
+        color: rgb(251 236 208);
+      `,
+
+      // ----- note -----
+      ".note": `
+        font-size: 0.65rem;
+        color: rgb(140 96 13);
+        margin-top: 0.3rem;
+        font-style: italic;
+      `,
     },
-    
+
     isReactive: true,
-    id: "bcard-grid"
-  }
+    id: "predictions-grid",
+  };
 }
 
-export default Atom(BettingCard)
+export default Atom(MatchCard);

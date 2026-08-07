@@ -3,150 +3,166 @@ import { Atom } from 'valen';
 function MatchCard() {
   return {
     template: () => `
-    <div class="match-card">
-      <div class="match-meta">
-        <span class="match-date">[ fullDate ]</span>
-        <span class="badge">[ league ]</span>
+<div class="match-card">
+  <div class="match-meta">
+    <span class="match-date">[fullDate]</span>
+    <span class="badge">[league]</span>
+  </div>
+
+  <div class="match-header">
+    <div class="teams">
+      <span>[match.homeTeam]</span>
+      <span class="vs">vs</span>
+      <span>[match.awayTeam]</span>
+    </div>
+  </div>
+
+  <div class="xg-row">
+    <div class="xg-item">
+      <span class="xg-label">Home xG</span>
+      <span class="xg-value">[xG.home]</span>
+    </div>
+
+    <div class="xg-divider">—</div>
+
+    <div class="xg-item">
+      <span class="xg-label">Away xG</span>
+      <span class="xg-value">[xG.away]</span>
+    </div>
+
+    <div class="xg-total">Total [xG.total]</div>
+  </div>
+
+  <div class="correlation">Correlation λ₃: [correlation]</div>
+
+  <div class="odds-section">
+    <div class="section-title">📊 Predicted & Bookie Odds</div>
+
+    <div class="odds-grid">
+      <!-- Over/Under 1.5 -->
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Over 1.5</span>
+          <span class="odd-odd">@ [odds.over15] / [OU15.Over]</span>
+        </div>
+        <span class="odd-value [over15.hClass]">[over15.edgeDisplay]</span>
       </div>
 
-      <div class="match-header">
-        <div class="teams">
-          <span>[ match.homeTeam ] </span>
-          <span class="vs">vs</span>
-          <span> [ match.awayTeam ]</span>
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Under 1.5</span>
+          <span class="odd-odd">@ [odds.under15] / [OU15.Under]</span>
         </div>
+        <span class="odd-value [under15.hClass]">[under15.edgeDisplay]</span>
       </div>
-               
-      <div class="xg-row">
-        <div class="xg-item">
-          <span class="xg-label">Home xG</span>
-          <span class="xg-value">[ xG.home ]</span>
-        </div>
-        <div class="xg-divider">—</div>
-        <div class="xg-item">
-          <span class="xg-label">Away xG</span>
-          <span class="xg-value">[ xG.away ]</span>
-        </div>
-        <div class="xg-total">Total [ xG.total ]</div>
-      </div>
-              
-      <div class="correlation">Correlation λ₃: [ correlation ]</div>
-          
-      <div class="odds-section">
-        <div class="section-title">📊 Predicted & Bookie Odds</div>
-        <div class="odds-grid">
-          
-          <!-- Over/Under 1.5 -->
-          <div class="odd-box">
-            <div class="odd-meta">
-              <span class="odd-label">Over 1.5</span>
-              <span class="odd-odd">@ [ odds.over15 ] / [ OU15.Over ]</span>
-            </div>
-            <span class="odd-value [over15.hClass]">[ over15.edge > 0 ? '+'+over15.edge : over15.edge ]</span>
-          </div>
-          <div class="odd-box">
-            <div class="odd-meta">
-              <span class="odd-label">Under 1.5</span>
-              <span class="odd-odd">@ [ odds.under15 ] / [ OU15.Under ]</span>
-            </div>
-            <span class="odd-value [under15.hClass]">[ under15.edge > 0 ? '+'+under15.edge : under15.edge ]</span>
-          </div>
 
-          <!-- Over/Under 2.5 -->
-          <div class="odd-box">
-            <div class="odd-meta">
-              <span class="odd-label">Over 2.5</span>
-              <span class="odd-odd">@ [ odds.over25 ] / [ OU25.Over ]</span>
-            </div>
-            <span class="odd-value [over25.hClass]">[ over25.edge > 0 ? '+'+over25.edge : over25.edge ]</span>
-          </div>
-          <div class="odd-box">
-            <div class="odd-meta">
-              <span class="odd-label">Under 2.5</span>
-              <span class="odd-odd">@ [ odds.under25 ] / [ OU25.Under ]</span>
-            </div>
-            <span class="odd-value [under25.hClass]">[ under25.edge > 0 ? '+'+under25.edge : under25.edge ]</span>
-          </div>
-
-          <!-- Over/Under 3.5 -->
-          <div class="odd-box">
-            <div class="odd-meta">
-              <span class="odd-label">Over 3.5</span>
-              <span class="odd-odd">@ [ odds.over35 ] / [ OU35.Over ]</span>
-            </div>
-            <span class="odd-value [over35.hClass]">[ over35.edge > 0 ? '+'+over35.edge : over35.edge ]</span>
-          </div>
-          <div class="odd-box">
-            <div class="odd-meta">
-              <span class="odd-label">Under 3.5</span>
-              <span class="odd-odd">@ [ odds.under35 ] / [ OU35.Under ]</span>
-            </div>
-            <span class="odd-value [under35.hClass]">[ under35.edge > 0 ? '+'+under35.edge : under35.edge ]</span>
-          </div>
-
-          <!-- BTTS -->
-          <div class="odd-box">
-            <div class="odd-meta">
-              <span class="odd-label">BTTS (YES)</span>
-              <span class="odd-odd">@ [ odds.gg ] / [ BTTS.BTTS ]</span>
-            </div>
-            <span class="odd-value [bttsYes.hClass]">[ bttsYes.edge > 0 ? '+'+bttsYes.edge : bttsYes.edge ]</span>
-          </div>
-          <div class="odd-box">
-            <div class="odd-meta">
-              <span class="odd-label">BTTS (NO)</span>
-              <span class="odd-odd">@ [ odds.ng ] / [ BTTS.BTTSN ]</span>
-            </div>
-            <span class="odd-value [bttsNo.hClass]">[ bttsNo.edge > 0 ? '+'+bttsNo.edge : bttsNo.edge ]</span>
-          </div>
-
+      <!-- Over/Under 2.5 -->
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Over 2.5</span>
+          <span class="odd-odd">@ [odds.over25] / [OU25.Over]</span>
         </div>
+        <span class="odd-value [over25.hClass]">[over25.edgeDisplay]</span>
       </div>
-                    
-      <div class="outcome-row">
-        <div class="outcome-item">
-          <span class="outcome-label">Home</span>
-          <span class="outcome-val home">@ [ odds.homeWin ] / [ oneX2.Home ]</span>
-          <span class="outcome-odd [homeWin.hClass]">[ homeWin.edge > 0 ? '+'+homeWin.edge : homeWin.edge ]</span>
+
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Under 2.5</span>
+          <span class="odd-odd">@ [odds.under25] / [OU25.Under]</span>
         </div>
-        <div class="outcome-item">
-          <span class="outcome-label">Draw</span>
-          <span class="outcome-val draw">@ [ odds.draw ] / [ oneX2.Draw ]</span>
-          <span class="outcome-odd mid">[ draw.edge > 0 ? '+'+draw.edge : draw.edge ]</span>
-        </div>
-        <div class="outcome-item">
-          <span class="outcome-label">Away</span>
-          <span class="outcome-val away">@ [ odds.awayWin ] / [ oneX2.Away ]</span>
-          <span class="outcome-odd [awayWin.hClass]">[ awayWin.edge > 0 ? '+'+awayWin.edge : awayWin.edge ]</span>
-        </div>
+        <span class="odd-value [under25.hClass]">[under25.edgeDisplay]</span>
       </div>
-                    
-      <div>
-        <div class="section-title">🎯 Top Scorelines</div>
-        <div class="scorelines">
-          <div class="score-badge mid">[ topScorelines[0].score ]
-            <span class="odd">@ [ topScorelines[0].probability ]</span>
-          </div>
-          <div class="score-badge mid">[ topScorelines[1].score ] 
-            <span>@ [ topScorelines[1].probability ]</span>
-          </div>
-          <div class="score-badge mid">[ topScorelines[2].score ] 
-            <span>@ [ topScorelines[2].probability ]</span>
-          </div>
+
+      <!-- Over/Under 3.5 -->
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Over 3.5</span>
+          <span class="odd-odd">@ [odds.over35] / [OU35.Over]</span>
         </div>
+        <span class="odd-value [over35.hClass]">[over35.edgeDisplay]</span>
       </div>
-                        
-      <div class="note">Enhanced: NegBin + league blowout boost + zero-inflation</div>
-    </div>`,
+
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">Under 3.5</span>
+          <span class="odd-odd">@ [odds.under35] / [OU35.Under]</span>
+        </div>
+        <span class="odd-value [under35.hClass]">[under35.edgeDisplay]</span>
+      </div>
+
+      <!-- BTTS -->
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">BTTS (YES)</span>
+          <span class="odd-odd">@ [odds.gg] / [BTTS.BTTS]</span>
+        </div>
+        <span class="odd-value [bttsYes.hClass]">[bttsYes.edgeDisplay]</span>
+      </div>
+
+      <div class="odd-box">
+        <div class="odd-meta">
+          <span class="odd-label">BTTS (NO)</span>
+          <span class="odd-odd">@ [odds.ng] / [BTTS.BTTSN]</span>
+        </div>
+        <span class="odd-value [bttsNo.hClass]">[bttsNo.edgeDisplay]</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="outcome-row">
+    <div class="outcome-item">
+      <span class="outcome-label">Home</span>
+      <span class="outcome-val home">@ [odds.homeWin] / [oneX2.Home]</span>
+      <span class="outcome-odd [homeWin.hClass]">[homeWin.edgeDisplay]</span>
+    </div>
+
+    <div class="outcome-item">
+      <span class="outcome-label">Draw</span>
+      <span class="outcome-val draw">@ [odds.draw] / [oneX2.Draw]</span>
+      <span class="outcome-odd [draw.hClass]">[draw.edgeDisplay]</span>
+    </div>
+
+    <div class="outcome-item">
+      <span class="outcome-label">Away</span>
+      <span class="outcome-val away">@ [odds.awayWin] / [oneX2.Away]</span>
+      <span class="outcome-odd [awayWin.hClass]">[awayWin.edgeDisplay]</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="section-title">🎯 Top Scorelines</div>
+
+    <div class="scorelines">
+      <div class="score-badge mid">
+        [topScorelines[0].score]
+        <span class="odd">@ [topScorelines[0].probability]</span>
+      </div>
+
+      <div class="score-badge mid">
+        [topScorelines[1].score]
+        <span>@ [topScorelines[1].probability]</span>
+      </div>
+
+      <div class="score-badge mid">
+        [topScorelines[2].score]
+        <span>@ [topScorelines[2].probability]</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    Bivariate Poisson correlation model with calibrated 1X2 and market edge.
+  </div>
+</div>`,
 
     stylesheet: {
       ".match-card": `
         box-sizing: border-box;
-        width: 100; 
-        background: rgb(33 22 3); /* 950 */
-        border: 1px solid rgb(93 64 9 / 0.4); /* 800 */
+        width: 100%;
+        background: rgb(33 22 3);
+        border: 1px solid rgb(93 64 9 / 0.4);
         border-radius: 20px;
-        padding: 1.6rem 1.4rem;
+        padding: clamp(1.2rem, 4vw, 1.6rem) clamp(1rem, 4vw, 1.4rem);
         margin-top: 0;
         transition: border-color 0.2s ease, box-shadow 0.2s ease;
         display: flex;
@@ -155,10 +171,10 @@ function MatchCard() {
         font-family: system-ui, -apple-system, sans-serif;
       `,
       ".match-card:hover": `
-        border-color: rgb(140 96 13 / 0.7); /* 700 */
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgb(238 178 68 / 0.15); 
+        border-color: rgb(140 96 13 / 0.7);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgb(238 178 68 / 0.15);
       `,
-      
+
       // ----- match meta -----
       ".match-meta": `
         display: flex;
@@ -167,18 +183,18 @@ function MatchCard() {
       `,
       ".match-date": `
         font-size: 0.75rem;
-        color: rgb(242 198 115 / 0.8); /* 300 */
+        color: rgb(242 198 115 / 0.8);
         font-weight: 500;
       `,
       ".badge": `
-        background: rgb(47 32 4); /* 900 */
+        background: rgb(47 32 4);
         padding: 0.25rem 0.65rem;
         border-radius: 30px;
         font-size: 0.65rem;
         font-weight: 600;
         letter-spacing: 0.6px;
         text-transform: uppercase;
-        color: rgb(246 217 162); /* 200 */
+        color: rgb(246 217 162);
         border: 1px solid rgb(93 64 9 / 0.6);
       `,
 
@@ -194,25 +210,25 @@ function MatchCard() {
       ".teams": `
         font-size: 1.35rem;
         font-weight: 800;
-        color: rgb(253 245 232); /* 50 */
+        color: rgb(253 245 232);
         display: flex;
         align-items: center;
         gap: 0.4rem;
         flex-wrap: wrap;
       `,
       ".teams .vs": `
-        color: rgb(187 127 17); /* 600 */
+        color: rgb(187 127 17);
         font-weight: 500;
         font-size: 0.85rem;
         margin: 0 0.3rem;
       `,
-      
+
       // ----- xG row -----
       ".xg-row": `
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: rgb(47 32 4); /* 900 */
+        background: rgb(47 32 4);
         border-radius: 14px;
         padding: 0.75rem 1rem;
         gap: 0.5rem;
@@ -228,36 +244,36 @@ function MatchCard() {
         font-size: 0.65rem;
         font-weight: 600;
         letter-spacing: 0.5px;
-        color: rgb(242 198 115 / 0.8); /* 300 muted */
+        color: rgb(242 198 115 / 0.8);
         margin-bottom: 0.15rem;
       `,
       ".xg-value": `
         font-size: 1.5rem;
         font-weight: 700;
-        color: rgb(253 245 232); /* 50 */
+        color: rgb(253 245 232);
       `,
       ".xg-divider": `
-        color: rgb(93 64 9); /* 800 */
+        color: rgb(93 64 9);
         font-size: 1rem;
         font-weight: 300;
       `,
       ".xg-total": `
-        background: rgb(93 64 9 / 0.5); /* 800 layout */
+        background: rgb(93 64 9 / 0.5);
         padding: 0.25rem 0.75rem;
         border-radius: 20px;
         font-size: 0.7rem;
         font-weight: 600;
-        color: rgb(251 236 208); /* 100 */
-        border: 1px solid rgb(140 96 13 / 0.4); /* 700 */
+        color: rgb(251 236 208);
+        border: 1px solid rgb(140 96 13 / 0.4);
       `,
       ".correlation": `
         font-size: 0.65rem;
-        color: rgb(140 96 13); /* 700 */
+        color: rgb(140 96 13);
         text-align: right;
         margin-top: -0.4rem;
       `,
-      
-      // ----- odds & odds -----
+
+      // ----- odds section -----
       ".odds-section": `
         display: flex;
         flex-direction: column;
@@ -268,7 +284,7 @@ function MatchCard() {
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.8px;
-        color: rgb(242 198 115); /* 300 */
+        color: rgb(242 198 115);
         margin-bottom: 0.4rem;
       `,
       ".odds-grid": `
@@ -277,7 +293,7 @@ function MatchCard() {
         gap: 0.5rem;
       `,
       ".odd-box": `
-        background: rgb(47 32 4); /* 900 */
+        background: rgb(47 32 4);
         border-radius: 12px;
         padding: 0.65rem 0.5rem;
         display: flex;
@@ -293,11 +309,11 @@ function MatchCard() {
       ".odd-label": `
         font-size: 0.75rem;
         font-weight: 500;
-        color: rgb(251 236 208); /* 100 */
+        color: rgb(251 236 208);
       `,
       ".odd-odd": `
         font-size: 0.65rem;
-        color: rgb(187 127 17); /* 600 */
+        color: rgb(187 127 17);
         font-weight: 700;
       `,
       ".odd-value": `
@@ -305,17 +321,17 @@ function MatchCard() {
         font-weight: 700;
       `,
       ".high": `
-        color: rgb(242 198 115); /* 300 */
+        color: rgb(242 198 115);
       `,
       ".low": `
-        color: rgb(140 96 13); /* 700 */
+        color: rgb(140 96 13);
       `,
-      
-      // ----- 1X2 Outome & Market Odds -----
+
+      // ----- 1X2 outcome & market odds -----
       ".outcome-row": `
         display: flex;
         justify-content: space-around;
-        background: rgb(47 32 4); /* 900 */
+        background: rgb(47 32 4);
         border-radius: 12px;
         padding: 0.75rem 0.2rem;
         border: 1px solid rgb(93 64 9 / 0.3);
@@ -326,7 +342,7 @@ function MatchCard() {
       `,
       ".outcome-label": `
         display: block;
-        color: rgb(187 127 17); /* 600 */
+        color: rgb(187 127 17);
         font-size: 0.65rem;
         font-weight: 600;
         text-transform: uppercase;
@@ -344,7 +360,10 @@ function MatchCard() {
         font-weight: 700;
         margin-top: 0.15rem;
       `,
-      ".mid": "color: rgb(251 236 208);",      
+      ".mid": `
+        color: rgb(251 236 208);
+      `,
+
       // ----- scorelines -----
       ".scorelines": `
         display: flex;
@@ -353,48 +372,43 @@ function MatchCard() {
         margin-top: 0.3rem;
       `,
       ".score-badge": `
-        background: rgb(47 32 4); /* 900 */
+        background: rgb(47 32 4);
         border-radius: 20px;
         padding: 0.4rem 0.8rem;
         font-size: 0.75rem;
         font-weight: 600;
         letter-spacing: 0.3px;
-        color: rgb(253 245 232); /* 50 */
+        color: rgb(253 245 232);
         border: 1px solid rgb(93 64 9 / 0.5);
         display: flex;
         align-items: center;
         gap: 0.4rem;
       `,
       ".score-badge.highlight": `
-        background: rgb(233 159 22 / 0.1); 
+        background: rgb(233 159 22 / 0.1);
         border-color: rgb(233 159 22 / 0.4);
-        color: rgb(238 178 68); /* 400 */
+        color: rgb(238 178 68);
       `,
       ".score-badge span": `
-        color: rgb(242 198 115); /* 300 */
+        color: rgb(242 198 115);
         font-weight: 500;
         font-size: 0.65rem;
       `,
       ".score-badge.highlight span": `
-        color: rgb(251 236 208); /* 100 */
+        color: rgb(251 236 208);
       `,
-      
+
+      // ----- note -----
       ".note": `
         font-size: 0.65rem;
-        color: rgb(140 96 13); /* 700 */
+        color: rgb(140 96 13);
         margin-top: 0.3rem;
         font-style: italic;
       `,
-      
-      // responsive
-      "@media (max-width: 500px)": {
-        ".match-card": `
-          padding: 1.2rem;
-        `
-      }
     },
+
     isReactive: true,
-    id: "predictions-grid"
+    id: "predictions-grid",
   };
 }
 

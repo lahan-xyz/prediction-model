@@ -37,7 +37,7 @@ const LEAGUES = [
 // Example:
 // node server.js
 // SEASON=2025 node server.js
-const SEASON = 2025 || defaultSeason();
+const SEASON = 2026 || defaultSeason();
 
 // Saves to ../league_stats.js relative to this file
 const OUTPUT_PATH = path.resolve(

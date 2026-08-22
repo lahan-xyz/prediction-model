@@ -1,5 +1,5 @@
 const express = require('express');
-const fetch = require('node-fetch');
+const axios = require('axios');
 const app = express();
 const { before, after } = require('../league_stats_extraction/main.js');
 
@@ -14,7 +14,13 @@ const ID = {
   
     "1590149",
     
-    "990749"
+    "990749",
+    // UEL
+    "1639762",
+    // UECL
+    "1584527",
+    // USC
+    "1572828"
   ],
   
   
@@ -55,50 +61,121 @@ app.use((req, res, next) => {
   next();
 });
 
-async function FETCH(endpoint) {
-  const response = await fetch(endpoint, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-      'Accept': 'application/json, text/plain, */*',
-      'Accept-Language': 'en-US,en;q=0.9',
-      'Referer': 'https://sports.bet9ja.com/',
-      'Origin': 'https://sports.bet9ja.com',
-      'Sec-Fetch-Dest': 'empty',
-      'Sec-Fetch-Mode': 'cors',
-      'Sec-Fetch-Site': 'same-origin',
-      'Cache-Control': 'no-cache'
-    },
-    credentials: 'include' // if in browser, sends cookies
-  });
-  return response.json();
+// --- 1. Simple concurrency limiter (replaces p-limit) ---
+async function asyncPool(concurrency, items, asyncFn) {
+  const results = [];
+  const inProgress = new Set();
+  
+  for (const item of items) {
+    // Wait if we've reached the concurrency limit
+    if (inProgress.size >= concurrency) {
+      await Promise.race(inProgress);
+    }
+    
+    const p = asyncFn(item).then(result => {
+      results.push(result);
+      inProgress.delete(p);
+      return result;
+    }).catch(err => {
+      inProgress.delete(p);
+      throw err; // propagate error to caller
+    });
+    
+    inProgress.add(p);
+  }
+  
+  // Wait for all remaining tasks
+  await Promise.allSettled(inProgress); // or Promise.all if you want to throw on first error
+  return results;
 }
 
+// --- 2. Reusable axios instance ---
+const apiClient = axios.create({
+  baseURL: 'https://sports.bet9ja.com/mobile/feapi/PalimpsestAjax',
+  timeout: 10000,
+  withCredentials: true,
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+    'Accept': 'application/json, text/plain, */*',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Referer': 'https://sports.bet9ja.com/',
+    'Origin': 'https://sports.bet9ja.com',
+    'Sec-Fetch-Dest': 'empty',
+    'Sec-Fetch-Mode': 'cors',
+    'Sec-Fetch-Site': 'same-origin',
+    'Cache-Control': 'no-cache'
+  }
+});
+
+// --- 3. FETCH function ---
+async function FETCH(endpoint) {
+  const response = await apiClient.get(endpoint);
+  if (response.status !== 200) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  }
+  return response.data;
+}
+
+// --- 4. Fetch and merge two market responses for one group ---
+async function fetchCombinedOdds(groupId) {
+  const baseUrl = `/GetEventsInGroupV2?GROUPID=${groupId}&DISP=0&v_cache_version=1.318.4.243`;
+  
+  const [data1, data2] = await Promise.all([
+    FETCH(`${baseUrl}&GROUPMARKETID=1`),
+    FETCH(`${baseUrl}&GROUPMARKETID=S_GGNG`)
+  ]);
+  
+  const eventsMap = new Map();
+  data1.D.E.forEach(e => eventsMap.set(e.ID, e));
+  data2.D.E.forEach(e => {
+    const existing = eventsMap.get(e.ID);
+    if (existing) {
+      existing.O = { ...existing.O, ...e.O };
+    } else {
+      eventsMap.set(e.ID, e);
+    }
+  });
+  
+  const mkMap = new Map();
+  data1.D.MK.forEach(m => mkMap.set(m.ID, m));
+  data2.D.MK.forEach(m => mkMap.set(m.ID, m));
+  
+  const mergedD = {
+    ...data1.D,
+    MK: Array.from(mkMap.values()),
+    E: Array.from(eventsMap.values())
+  };
+  
+  return { ...data1, D: mergedD };
+}
+
+// --- 5. Express endpoint ---
 app.post('/api/odds', async (req, res) => {
-  ODDS = [];
-  
   const { country } = req.body;
-  
-  const ids = ID[country];
+  const ids = ID[country]; // assume ID is defined elsewhere
   
   if (!ids || !ids.length) {
-    res.json([]);
-    return;
+    return res.json([]);
   }
   
-  for (const id of ids) {
+  // Process up to 5 leagues concurrently
+  const results = await asyncPool(5, ids, async (id) => {
     try {
-      const endpoint = `https://sports.bet9ja.com/mobile/feapi/PalimpsestAjax/GetEventsInGroupV2?GROUPID=${id}&DISP=0&GROUPMARKETID=1&v_cache_version=1.318.4.243`;
-      const data = await FETCH(endpoint);
-      const odds = extractMatchOdds(data);
-      ODDS.push(...odds);
+      return await fetchCombinedOdds(id);
     } catch (err) {
-      console.log(err);
-      //res.status(500).json({ error: err.message });
+      console.error(`Error fetching league ${id}:`, err.message);
+      return null; // skip this league
     }
-  }
+  });
   
-  res.json(ODDS);
+  // Extract odds from successful results
+  const allOdds = results
+    .filter(Boolean)
+    .flatMap(mergedData => extractMatchOdds(mergedData));
+  
+  res.json(allOdds);
 });
+
 
 /*
 {

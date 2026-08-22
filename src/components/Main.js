@@ -1,8 +1,8 @@
 import { Component } from "valen";
 import Button from '../widgets/Button.js';
 import MatchCard from '../MatchCard.js';
-import BettingCard from '../BettingCard.js';
-import predictMultiMatch from '../model/utils.js';
+//import BettingCard from '../BettingCard.js';
+import { predictMatch, predictMultiMatch } from '../model/utils.js';
 
 function Main() {
   return {
@@ -29,7 +29,7 @@ function Main() {
       }
       
       this.runPredictions = async function() {
-        /* BettingCard.renderWith({
+       /* BettingCard.renderWith({
              date: "26th May, 2015",
              market: "First Half over 1.5",
              homeTeam: "Chelsea",
@@ -46,7 +46,7 @@ function Main() {
         
         try {
           state.statusMsg = "Fetching Fixtures & odds...";
-          const fixtures = await getFixturesNOdds("FRA");
+          const fixtures = await getFixturesNOdds("ITA");
  
           state.statusMsg = "Running Predictions...";
           
@@ -55,10 +55,12 @@ function Main() {
           
           const predictions = await predictMultiMatch(fixtures);
           
+          //const predictions = await predictMatch("Heidenheim", "Bayern", null, true);
+          
           if (MatchCard.isMounted) {
             MatchCard.set(predictions);
           } else {
-            MatchCard.renderWith(predictions);
+            await MatchCard.renderWith(predictions);
           }
         } catch (err) {
           console.error('Prediction failed:' + err);

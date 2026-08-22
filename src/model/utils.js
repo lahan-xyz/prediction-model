@@ -49,9 +49,9 @@ const CALIB_CONFIG = {
 };
 
 const leagueStrength = {
-  EPL: 1.0,
+  "EPL": 1.0,
   "La Liga": 0.929,
-  Bundesliga: 0.921,
+  "Bundesliga": 0.921,
   "Serie A": 0.911,
   "Ligue 1": 0.909,
 };
@@ -116,6 +116,7 @@ function weightedAverage(arr, limit = MODEL_CONFIG.recentFormLimit) {
   return totalWeight > 0 ? sum / totalWeight : 0;
 }
 
+
 function isTeamStats(entry) {
   return (
     entry &&
@@ -130,6 +131,8 @@ function isTeamStats(entry) {
 }
 
 function getTeamData(team) {
+  team = nameShortened.get(team) || team;
+  
   if (!team) return null;
 
   for (const league of LEAGUES) {
@@ -146,7 +149,6 @@ function getTeamData(team) {
       };
     }
   }
-
   return null;
 }
 
@@ -383,6 +385,10 @@ function toOdds(probability) {
 
   return clamp(1 / p, 1.0, MODEL_CONFIG.maxFairOdds).toFixed(2);
 }
+
+const nameShortened = new Map([
+  ['Milan', 'AC Milan']
+]);
 
 // ============================================
 // Match Prediction
@@ -731,7 +737,7 @@ async function predictMultiMatch(fixtures) {
 
     const homeExists = Boolean(getTeamData(homeTeam));
     const awayExists = Boolean(getTeamData(awayTeam));
-
+  
     if (!homeExists) missingTeams.add(homeTeam);
     if (!awayExists) missingTeams.add(awayTeam);
     if (!homeExists || !awayExists) continue;
@@ -795,5 +801,4 @@ async function predictMultiMatch(fixtures) {
   return outArr;
 }
 
-export { predictMatch, computeROI };
-export default predictMultiMatch;
+export { predictMatch, predictMultiMatch };

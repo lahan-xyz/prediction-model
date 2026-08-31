@@ -30,8 +30,8 @@ const MODEL_CONFIG = {
   bttsImbalanceThreshold: 0.8,
   bttsLowTempoThreshold: 3.0,
   maxGoalsDeterministic: 10,
-  xGMin: 0.3,
-  xGMax: 3.2,
+  xGMin: 0.1,
+  xGMax: 5.5,
   recentFormLimit: 6,
   maxFairOdds: 999.99,
 };

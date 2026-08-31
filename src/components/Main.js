@@ -11,6 +11,8 @@ function Main() {
       statusMsg: "Run Predictions"
     },
     created(state) {
+      const toProb = (odd) => ((1 / parseFloat(odd)) * 100).toFixed(2) + "%";
+      
       async function getFixturesNOdds(country) {
         try {
           const res = await fetch('http://localhost:3000/api/odds', {
@@ -46,7 +48,7 @@ function Main() {
         
         try {
           state.statusMsg = "Fetching Fixtures & odds...";
-          const fixtures = await getFixturesNOdds("SPA");
+          const fixtures = await getFixturesNOdds("FRA");
  
           state.statusMsg = "Running Predictions...";
           
@@ -54,8 +56,35 @@ function Main() {
           await new Promise(resolve => setTimeout(resolve, 50));
           
           const predictions = await predictMultiMatch(fixtures);
+          const simplified = predictions.map(entry => {
+            const { match, league, xG, fullDate, odds, topScorelines } = entry;
+            
+            return {
+              date: fullDate,
+              match,
+              league,
+              homeXG: xG.home,
+              awayXG: xG.away,
+              totalXG: xG.total,
+              homeWinProbability: toProb(odds.homeWin),
+              drawProbability: toProb(odds.draw),
+              awayWinProbability: toProb(odds.awayWin),
+              OVER_15: toProb(odds.over15),
+              OVER_25: toProb(odds.over25),
+              OVER_35: toProb(odds.over35),
+              UNDER_15: toProb(odds.under15),
+              UNDER_25: toProb(odds.under25),
+              UNDER_35: toProb(odds.under35),
+              BTTS_YES: toProb(odds.gg),
+              BTTS_NO: toProb(odds.ng),
+              TOPSCORELINE_1: topScorelines[0].score,
+              TOPSCORELINE_2: topScorelines[1].score,
+              TOPSCORELINE_3: topScorelines[2].score
+            }
+          })
           
-          //const predictions = await predictMatch("Heidenheim", "Bayern", null, true);
+          console.log(JSON.stringify(simplified, null, 2))
+          //const predictions = await predictMatch("Bayern", "Stuttgart");
           
           if (MatchCard.isMounted) {
             MatchCard.set(predictions);

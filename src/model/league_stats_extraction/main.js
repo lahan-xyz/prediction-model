@@ -3,14 +3,14 @@ const before = ["Newcastle United", "Manchester City", "Manchester United", "Wol
   "Paris FC 98", "Stade Rennes",
   "Monchengladbach", "SV 07 Elversberg", "Hamburg", "Atl. Madrid", "Ath. Bilbao",
   "Coventry City", "Hull City", "Manchester Utd", "Leeds Utd", "Ipswich Town", "Newcastle Utd",
-  "Deportivo La Coruna", "Racing Santander", "AC Milan"
+  "Deportivo La Coruna", "Racing Santander", "AC Milan", "Schalke 04"
 ];
 
 const after = ["Newcastle", "Man City", "Man Utd", "Wolves", "Nottingham", "Sociedad", "Atletico", "Vallecano", "Celta", "Betis", "Oviedo", "PSG", "Bayern", "HSV", "Leverkusen", "Mainz", "Dortmund", "M'gladbach", "Frankfurt", "Stuttgart", "Cologne", "Leipzig", "Heidenheim", "Parma",
   
   "Paris FC", "Rennes", "M'gladbach", "Elversberg", "HSV", "Atletico", "Athletic Club",
   "Coventry", "Hull", "Man Utd", "Leeds", "Ipswich", "Newcastle",
-  "La Coruna", "Santander", "Milan"
+  "Dep. La Coruna", "Santander", "Milan", "Schalke"
 ];
 
 const simplifyTeamNames = (JSON) => {

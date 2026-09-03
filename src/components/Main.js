@@ -31,15 +31,15 @@ function Main() {
       }
       
       this.runPredictions = async function() {
-       /* BettingCard.renderWith({
-             date: "26th May, 2015",
-             market: "First Half over 1.5",
-             homeTeam: "Chelsea",
-             homeAvatar: "https://images.fotmob.com/image_resources/logo/teamlogo/8455.png",
-             awayTeam: "PSG",
-             awayAvatar: "https://images.fotmob.com/image_resources/logo/teamlogo/9847.png",
-             probs: 0.65
-           });*/
+        /* BettingCard.renderWith({
+              date: "26th May, 2015",
+              market: "First Half over 1.5",
+              homeTeam: "Chelsea",
+              homeAvatar: "https://images.fotmob.com/image_resources/logo/teamlogo/8455.png",
+              awayTeam: "PSG",
+              awayAvatar: "https://images.fotmob.com/image_resources/logo/teamlogo/9847.png",
+              probs: 0.65
+            });*/
         
         if (state.isLoading) return;
         state.isLoading = true;
@@ -48,14 +48,16 @@ function Main() {
         
         try {
           state.statusMsg = "Fetching Fixtures & odds...";
-          const fixtures = await getFixturesNOdds("FRA");
- 
+          const fixtures = await getFixturesNOdds("ITA");
+          
           state.statusMsg = "Running Predictions...";
           
           // YIELD TO BROWSER: Allow the DOM to paint the new message before blocking the thread
           await new Promise(resolve => setTimeout(resolve, 50));
           
           const predictions = await predictMultiMatch(fixtures);
+          //const predictions = [await predictMatch("Cagliari", "Inter")];
+  
           const simplified = predictions.map(entry => {
             const { match, league, xG, fullDate, odds, topScorelines } = entry;
             
@@ -84,7 +86,6 @@ function Main() {
           })
           
           console.log(JSON.stringify(simplified, null, 2))
-          //const predictions = await predictMatch("Bayern", "Stuttgart");
           
           if (MatchCard.isMounted) {
             MatchCard.set(predictions);

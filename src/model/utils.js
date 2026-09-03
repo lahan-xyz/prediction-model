@@ -147,6 +147,9 @@ function getTeamData(team) {
       };
     }
   }
+  
+  console.warn("Can't find: '"+team+"'")
+  
   return null;
 }
 

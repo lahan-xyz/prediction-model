@@ -2,7 +2,7 @@ import { Component } from "valen";
 import Button from '../widgets/Button.js';
 import MatchCard from '../MatchCard.js';
 //import BettingCard from '../BettingCard.js';
-import { predictMatch, predictMultiMatch } from '../model/utils.js';
+import { predictMatch, predictMultiMatch } from '../model/utils1.js';
 
 function Main() {
   return {

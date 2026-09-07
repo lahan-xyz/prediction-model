@@ -25,6 +25,10 @@ const MODEL_CONFIG = {
   lambda3Slope: 0.03,
   lambda3Min: 0.03,
   lambda3Max: 0.18,
+  // Shared component (lambda3) can claim at most this fraction of whichever
+  // side has the smaller expected goals, so that side always keeps some
+  // independent scoring probability of its own - see calculateLambda3.
+  lambda3MaxShareOfMin: 0.85,
   bttsLowTempoPenalty: 0.92,
   bttsImbalancePenalty: 0.9,
   bttsImbalanceThreshold: 0.8,
@@ -34,11 +38,14 @@ const MODEL_CONFIG = {
   xGMax: 5.5,
   recentFormLimit: 6,
   maxFairOdds: 999.99,
+  // Band around the "was this stored as total-match xG instead of per-team
+  // xG?" guess (previously a hard >2.0 cutoff) - see calculateExpectedGoals.
+  legacyAvgBandLow: 1.8,
+  legacyAvgBandHigh: 2.2,
 };
 
 const CALIB_CONFIG = {
   highXGThreshold: 3.2,
-  highXGDecay: 0.92,
   tightXGDiff: 0.4,
   tightXGDrawBoost: 0.25,
   openGameThreshold: 3.6,
@@ -105,7 +112,7 @@ function weightedAverage(arr, limit = MODEL_CONFIG.recentFormLimit) {
   let totalWeight = 0;
   let currentWeight = 1;
   
-  // Assumes the newest match is at the end of the array.
+  // Confirmed: last6XG/last6XGA are ordered oldest -> newest (most recent match last).
   for (let i = recent.length - 1; i >= 0; i--) {
     const value = safeNumber(recent[i], 0);
     sum += value * currentWeight;
@@ -181,23 +188,42 @@ function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
   const totalXG = safeNumber(homeXG, 0) + safeNumber(awayXG, 0);
   const diffXG = safeNumber(homeXG, 0) - safeNumber(awayXG, 0);
   
-  // High-total games tend to compress decisive outcomes slightly.
-  if (totalXG > CALIB_CONFIG.highXGThreshold) {
-    h *= CALIB_CONFIG.highXGDecay;
-    a *= CALIB_CONFIG.highXGDecay;
-  }
+  // --- Draw adjustment ------------------------------------------------
+  // One combined factor instead of three separately-triggered rules. The
+  // old version had highXGDecay shrink h/a (which implicitly *raises*
+  // draw's relative share once renormalized) while openGameDrawPenalty
+  // explicitly *lowers* draw directly - both could fire together for the
+  // same very-open match and partially cancel, and two matches with the
+  // identical xG gap (diffXG) could get very different draw treatment
+  // depending only on total tempo (verified: 1.0 vs 0.9 and 2.0 vs 1.9
+  // both have diffXG=0.1, but shifted draw probability by +5.1pp and
+  // +1.4pp respectively under the old rules). These two factors are each
+  // a smooth ramp between the existing config thresholds, so the same
+  // closeness or the same tempo always gets the same treatment.
+  //
+  // Closeness: tighter xG race -> higher draw probability. Full boost at
+  // diffXG=0, fading to no adjustment by |diffXG| = tightXGDiff.
+  const closeness = clamp(1 - Math.abs(diffXG) / CALIB_CONFIG.tightXGDiff, 0, 1);
+  const closenessFactor = 1 + CALIB_CONFIG.tightXGDrawBoost * closeness;
   
-  // Tight xG races deserve a draw boost.
-  if (Math.abs(diffXG) < CALIB_CONFIG.tightXGDiff) {
-    d *= 1 + CALIB_CONFIG.tightXGDrawBoost;
-  }
+  // Openness: more combined xG -> lower draw probability (two independent-
+  // ish scoring processes are less likely to land on the same number the
+  // higher their rates are). No adjustment at totalXG <= highXGThreshold,
+  // full penalty by totalXG >= openGameThreshold.
+  const openness = clamp(
+    (totalXG - CALIB_CONFIG.highXGThreshold) /
+      (CALIB_CONFIG.openGameThreshold - CALIB_CONFIG.highXGThreshold),
+    0,
+    1
+  );
+  const opennessFactor = 1 - CALIB_CONFIG.openGameDrawPenalty * openness;
   
-  // Very open games reduce draw likelihood.
-  if (totalXG > CALIB_CONFIG.openGameThreshold) {
-    d *= Math.max(0, 1 - CALIB_CONFIG.openGameDrawPenalty);
-  }
+  d *= closenessFactor * opennessFactor;
   
-  // Strong domination boosts the favored side.
+  // --- Favorite adjustment ---------------------------------------------
+  // Strong domination boosts the favored side. Left as a threshold - unlike
+  // the draw rules above, this only ever touches one side, so it can't
+  // cancel against anything else here.
   if (diffXG > CALIB_CONFIG.strongDominationDiff) {
     h *= 1 + CALIB_CONFIG.homeDominationBoost;
   } else if (diffXG < -CALIB_CONFIG.strongDominationDiff) {
@@ -252,10 +278,22 @@ function calculateExpectedGoals(
   
   const rawAvg = (subjectLeagueAverage + oppLeagueAverage) / 2;
   
-  // Legacy guard:
-  // If an old stats file stored TOTAL match xG instead of per-team xG,
-  // this prevents catastrophic scaling.
-  let teamLeagueAvg = rawAvg > 2.0 ? rawAvg / 2 : rawAvg;
+  // Legacy guard: some older stats data stored TOTAL match xG instead of
+  // per-team xG. We can't always tell which format a given number is in
+  // just from its size, so a hard cutoff (previously ">2.0") meant a 0.01
+  // change in this input could jump the output by ~68% right at the
+  // boundary (verified: 1.99 -> 0.96, 2.00 -> 0.96, 2.01 -> 1.61 homeXG,
+  // all else equal - see review notes). Blending smoothly between the two
+  // interpretations across a band removes that cliff: below the band,
+  // treat as per-team; above it, treat as total (halved); in between,
+  // gradually interpolate.
+  const totalLikelihood = clamp(
+    (rawAvg - MODEL_CONFIG.legacyAvgBandLow) /
+      (MODEL_CONFIG.legacyAvgBandHigh - MODEL_CONFIG.legacyAvgBandLow),
+    0,
+    1
+  );
+  let teamLeagueAvg = rawAvg * (1 - totalLikelihood / 2);
   teamLeagueAvg = Math.max(0.1, teamLeagueAvg);
   
   const stat = (value, fallback = teamLeagueAvg) => {
@@ -367,8 +405,18 @@ function calculateLambda3(homeXG, awayXG) {
     lambda *= MODEL_CONFIG.bttsImbalancePenalty;
   }
   
-  // The shared component cannot exceed either marginal mean.
-  lambda = clamp(lambda, 0, Math.max(0, Math.min(h, a)));
+  // The shared component (this uses the trivariate-reduction method: home
+  // goals = W + Z1, away goals = W + Z2, with W, Z1, Z2 all independent
+  // Poisson) can never exceed either marginal mean, or Z1/Z2 would need a
+  // negative rate. Capping it right at min(h,a) - as opposed to a fraction
+  // of it - drives the weaker side's *independent* component to exactly
+  // zero at extreme mismatches (verified: homeXG=5.5, awayXG=0.1 ->
+  // awayBaseXG=0.0000), meaning their goals become entirely nested inside
+  // the component shared with the favorite rather than having any scoring
+  // probability that's genuinely their own. Capping at lambda3MaxShareOfMin
+  // of min(h,a) instead guarantees the weaker side always keeps some.
+  const ceiling = Math.max(0, Math.min(h, a)) * MODEL_CONFIG.lambda3MaxShareOfMin;
+  lambda = clamp(lambda, 0, ceiling);
   
   return lambda;
 }
@@ -712,12 +760,53 @@ function normalize1X2(source) {
   };
 }
 
-const formattedDates = new Map();
-const predictedMatches = new Set();
+const FIXTURE_TIME_ZONE = "Africa/Lagos";
+
+// Formats a fixture's kickoff time directly in FIXTURE_TIME_ZONE, instead of
+// formatting in the runtime's local zone and then string-shifting the hour.
+// The old approach assumed the server always runs exactly one hour behind
+// WAT, broke on non-UTC deployments, and produced unpadded hours (e.g. "9:"
+// instead of "09:"). Letting Intl do the timezone conversion removes both
+// problems, so the formattedDates cache (which only existed to memoize that
+// shift) is no longer needed either.
+function formatFixtureDate(startDate) {
+  const dateObj = startDate ? new Date(startDate) : new Date();
+  
+  if (Number.isNaN(dateObj.getTime())) {
+    return String(startDate || "");
+  }
+  
+  const datePart = dateObj.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: FIXTURE_TIME_ZONE,
+  });
+  
+  const timePart = dateObj
+    .toLocaleTimeString("en-US", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: FIXTURE_TIME_ZONE,
+    })
+    // Defensive: some engines render midnight as "24:00" instead of "00:00"
+    // with hour12:false.
+    .replace(/^24:/, "00:");
+  
+  return `${datePart} (${timePart})`;
+}
 
 async function predictMultiMatch(fixtures) {
   const outArr = [];
   const missingTeams = new Set();
+  // Scoped to this call only - dedupes fixtures that appear twice within
+  // the same `fixtures` array. Deliberately NOT module-level: this used to
+  // persist across calls, which meant a fixture predicted once would be
+  // silently skipped on every future call (e.g. when re-running to pick up
+  // updated market odds).
+  const seenInThisBatch = new Set();
   
   if (!Array.isArray(fixtures)) {
     return outArr;
@@ -733,11 +822,12 @@ async function predictMultiMatch(fixtures) {
       markets,
     } = fixture || {};
     
-    let keyOfPredicted = `${homeTeam} vs ${awayTeam}`;
+    // Keyed on league + startDate too, so two distinct fixtures between
+    // same-named teams (different competition, different day) aren't
+    // treated as duplicates.
+    const keyOfPredicted = `${homeTeam} vs ${awayTeam}|${league ?? ""}|${startDate ?? ""}`;
     
-    const isPredicted = predictedMatches.has(keyOfPredicted);
-    
-    if (!homeTeam || !awayTeam || isPredicted) continue;
+    if (!homeTeam || !awayTeam || seenInThisBatch.has(keyOfPredicted)) continue;
     
     const homeExists = Boolean(getTeamData(homeTeam));
     const awayExists = Boolean(getTeamData(awayTeam));
@@ -746,37 +836,7 @@ async function predictMultiMatch(fixtures) {
     if (!awayExists) missingTeams.add(awayTeam);
     if (!homeExists || !awayExists) continue;
     
-    const dateObj = startDate ? new Date(startDate) : new Date();
-    let fullDate = Number.isNaN(dateObj.getTime()) ?
-      String(startDate || "") :
-      dateObj.toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }) +
-      ` (${dateObj.toLocaleTimeString("en-US", {
-          hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-        })})`;
-    
-    if (formattedDates.has(fullDate)) {
-      fullDate = formattedDates.get(fullDate);
-    } else {
-      
-      const dateSplitted = fullDate.split(':')[0];
-      
-      const hour = parseInt(dateSplitted.slice(dateSplitted.indexOf('(') + 1));
-      
-      const WAThr = hour === 23 ? "00" : `${hour + 1}`;
-      
-      const dateKey = fullDate;
-      
-      fullDate = fullDate.replace(`${hour}:`, `${WAThr}:`);
-      
-      formattedDates.set(dateKey, fullDate);
-    }
+    const fullDate = formatFixtureDate(startDate);
     
     const safeMarkets =
       markets && typeof markets === "object" ? markets : {};
@@ -813,7 +873,7 @@ async function predictMultiMatch(fixtures) {
       BTTS: normalizeBTTS(BTTS),
     });
     
-    predictedMatches.add(keyOfPredicted);
+    seenInThisBatch.add(keyOfPredicted);
   }
   
   if (missingTeams.size > 0) {

@@ -48,7 +48,7 @@ function Main() {
         
         try {
           state.statusMsg = "Fetching Fixtures & odds...";
-          const fixtures = await getFixturesNOdds("ITA");
+          const fixtures = await getFixturesNOdds("ENG");
           
           state.statusMsg = "Running Predictions...";
           
@@ -56,7 +56,7 @@ function Main() {
           await new Promise(resolve => setTimeout(resolve, 50));
           
           const predictions = await predictMultiMatch(fixtures);
-          //const predictions = [await predictMatch("Cagliari", "Inter")];
+          //const predictions = [await predictMatch("Bologna", "Sassuolo")];
   
           const simplified = predictions.map(entry => {
             const { match, league, xG, fullDate, odds, topScorelines } = entry;

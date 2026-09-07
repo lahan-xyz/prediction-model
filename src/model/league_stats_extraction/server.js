@@ -145,7 +145,6 @@ function computeLeagueAverage(teamsObj) {
 
   for (const teamName of Object.keys(teamsObj)) {
     const team = teamsObj[teamName];
-
     const homeCount = safeNumber(team.homeMatchesCount, 0);
     const awayCount = safeNumber(team.awayMatchesCount, 0);
     const totalMatches = homeCount + awayCount;
@@ -192,7 +191,7 @@ function extractData(data, displayName) {
     const teamName = team?.title;
 
     if (!teamName) continue;
-
+    if (teamName === "Chelsea") console.log(team.history[0]);
     const history = Array.isArray(team.history) ? team.history : [];
 
     let homeMatchesCount = 0;

@@ -17,11 +17,6 @@ const MODEL_CONFIG = {
 
   strengthDiffMultiplier: 0.08,
 
-  lowTempoThreshold: 2.6,
-  lowTempoMultiplier: 0.92,
-  highTempoThreshold: 3.4,
-  highTempoMultiplier: 1.05,
-
   leagueNormWeight: 0.1,
   asymmetryBoost: 1.05,
 
@@ -57,45 +52,42 @@ const MODEL_CONFIG = {
   //
   // PPDA = Passes Allowed Per Defensive Action.
   // Lower PPDA means more aggressive pressing.
-  // Higher PPDA means a more passive / deeper block.
   //
-  // The model converts PPDA into a 0..1 pressing intensity score:
-  // 0 = extremely passive
-  // 0.5 = neutral / unknown
-  // 1 = extremely aggressive press
-  //
-  // ppdaAttackWeight:
-  //   If Team A presses more intensely than Team B, Team A gets a small xG boost.
-  //   If Team B presses more intensely, Team A gets a small xG penalty.
-  //
-  // ppdaFacedWeight:
-  //   Uses last6PPDA_A as the press difficulty a team has recently faced.
-  //   If the current opponent presses harder than what the team is used to facing,
-  //   apply a small suppression to that team's xG.
-  //
-  // ppdaTempoWeight:
-  //   High-pressing matchups are generally more transitional and can raise tempo.
-  //   Low-pressing matchups can reduce tempo.
-  //
-  // ppdaCorrelationWeight:
-  //   High-pressing games can increase shared goal dependence / transitional chaos.
-  //   This adjusts lambda3 slightly.
+  //  - League-normalized baseline. Preferred source is the
+  //    `leagueAveragePPDA` field emitted by the generator (see
+  //    LEAGUE_PPDA_BASELINES_FROM_DATA below). The hard-coded map is a
+  //    fallback for older league_stats.js files that predate the field.
+  //  - Primary signal lives on the DEFENSIVE side: opponent's press
+  //    intensity scales their xGA contribution to our xG.
+  //  - Attack term is a press MISMATCH (opponent press minus our press).
+  //  - Venue fallback applies a home/away press delta.
   ppdaEnabled: true,
-  ppdaBaseline: 13.0,
+  ppdaBaseline: 13.0,           // fallback when nothing else is available
   ppdaScale: 3.5,
   ppdaUnknownIntensity: 0.5,
-  ppdaAttackWeight: 0.05,
-  ppdaFacedWeight: 0.03,
-  ppdaTempoWeight: 0.08,
-  ppdaCorrelationWeight: 0.12,
+  ppdaAttackWeight: 0.08,       // press mismatch -> own xG
+  ppdaDefenseWeight: 0.10,      // opponent press -> their xGA (primary)
+  ppdaFacedWeight: 0.05,
+  ppdaTempoWeight: 0.10,
+  ppdaCorrelationWeight: 0.15,
+
+  // PPDA-unit offset used when only one venue's PPDA is populated.
+  // Home teams press more (lower PPDA), so:
+  //   want home, have away -> subtract delta
+  //   want away, have home -> add delta
+  ppdaVenueFallbackDelta: 1.2,
+
+  // ============================================
+  // Tempo (continuous — replaces the old hard thresholds)
+  // ============================================
+  tempoNeutral: 3.0,
+  tempoSlope: 0.10,
+  tempoMinMult: 0.90,
+  tempoMaxMult: 1.08,
 
   // ============================================
   // Optional Outcome Regression
   // ============================================
-  //
-  // last6Goals and last6GA are noisy results, not underlying quality.
-  // These settings apply only a very small regression toward actual outcomes.
-  // Set outcomeEnabled to false if you want a pure xG model.
   outcomeEnabled: true,
   outcomeAttackWeight: 0.05,
   outcomeDefenseWeight: 0.05,
@@ -119,6 +111,17 @@ const leagueStrength = {
   Bundesliga: 0.921,
   "Serie A": 0.911,
   "Ligue 1": 0.909,
+};
+
+// [PPDA-BASELINE] Hard-coded fallback map. Used only when the generated
+// league_stats.js doesn't carry a `leagueAveragePPDA` for a league, or when
+// the league is unknown. Approximate means; update only if you must.
+const LEAGUE_PPDA_BASELINES_FALLBACK = {
+  EPL: 13.0,
+  "La Liga": 15.0,
+  Bundesliga: 11.0,
+  "Serie A": 13.5,
+  "Ligue 1": 14.5,
 };
 
 const LEAGUES = [EPL, LALIGA, LIGUE1, BUNDESLIGA, SERIEA].filter(Boolean);
@@ -198,6 +201,16 @@ function isTeamStats(entry) {
   );
 }
 
+// Shared helper so predictMatch and calculateExpectedGoals agree on what
+// "has tempo data" means. Prevents the two checks from drifting.
+function hasTempoData(teamA, teamB) {
+  if (!teamA || !teamB) return false;
+  return [
+    teamA.homeXG, teamA.awayXG, teamA.homeXGA, teamA.awayXGA,
+    teamB.homeXG, teamB.awayXG, teamB.homeXGA, teamB.awayXGA,
+  ].some((v) => safeNumber(v, 0) > 0);
+}
+
 // ============================================
 // Team Data Index
 // ============================================
@@ -206,14 +219,26 @@ function isTeamStats(entry) {
 
 const TEAM_DATA_MAP = new Map();
 
+// [PPDA-BASELINE] Data-driven league PPDA baselines. Populated from each
+// league object's `leagueAveragePPDA` field when present. Falls back to
+// LEAGUE_PPDA_BASELINES_FALLBACK at lookup time if a league is missing here.
+const LEAGUE_PPDA_BASELINES_FROM_DATA = new Map();
+
 for (const league of LEAGUES) {
   if (!league || typeof league !== "object") continue;
 
   const leagueAvgXG = safeNumber(league.leagueAverageXG, 1.2);
   const leagueName = league.leagueName || "Unknown";
 
+  // [PPDA-BASELINE] Capture the generator-provided league average PPDA.
+  const leagueAvgPPDA = safeNumber(league.leagueAveragePPDA, 0);
+  if (leagueAvgPPDA > 0 && !LEAGUE_PPDA_BASELINES_FROM_DATA.has(leagueName)) {
+    LEAGUE_PPDA_BASELINES_FROM_DATA.set(leagueName, leagueAvgPPDA);
+  }
+
   for (const [teamName, entry] of Object.entries(league)) {
     if (teamName === "leagueAverageXG" || teamName === "leagueName") continue;
+    if (teamName === "leagueAveragePPDA") continue;
 
     if (isTeamStats(entry) && !TEAM_DATA_MAP.has(teamName)) {
       TEAM_DATA_MAP.set(teamName, {
@@ -247,30 +272,40 @@ function getTeamData(team) {
 // PPDA Helpers
 // ============================================
 
-function normalizePPDA(ppda) {
+// [PPDA-BASELINE] Resolves the effective PPDA baseline for a league.
+// Priority:
+//   1. Live value from the generated league_stats.js (leagueAveragePPDA).
+//   2. Hard-coded fallback map (for older generated files).
+//   3. Global MODEL_CONFIG.ppdaBaseline (unknown leagues).
+function resolvePPDABaseline(leagueName) {
+  if (leagueName) {
+    const fromData = LEAGUE_PPDA_BASELINES_FROM_DATA.get(leagueName);
+    if (Number.isFinite(fromData) && fromData > 0) return fromData;
+
+    const fromFallback = LEAGUE_PPDA_BASELINES_FALLBACK[leagueName];
+    if (Number.isFinite(fromFallback) && fromFallback > 0) return fromFallback;
+  }
+
+  return MODEL_CONFIG.ppdaBaseline;
+}
+
+// Accepts a league-specific baseline. A team at PPDA 10 in the Bundesliga
+// lands near 0.5 intensity (neutral for them); the same PPDA in La Liga
+// lands much higher.
+function normalizePPDA(ppda, baseline = MODEL_CONFIG.ppdaBaseline) {
   const value = safeNumber(ppda, 0);
 
   if (value <= 0) {
     return MODEL_CONFIG.ppdaUnknownIntensity;
   }
 
-  // Lower PPDA -> higher pressing intensity.
-  //
-  // Logistic curve around ppdaBaseline.
-  // Example with baseline 13 and scale 3.5:
-  // PPDA 8  -> intensity around 0.80
-  // PPDA 13 -> intensity around 0.50
-  // PPDA 20 -> intensity around 0.12
   const z = clamp(
-    (MODEL_CONFIG.ppdaBaseline - value) /
-      Math.max(0.001, MODEL_CONFIG.ppdaScale),
+    (baseline - value) / Math.max(0.001, MODEL_CONFIG.ppdaScale),
     -4,
     4
   );
 
-  const intensity = 1 / (1 + Math.exp(-z));
-
-  return clamp(intensity, 0, 1);
+  return clamp(1 / (1 + Math.exp(-z)), 0, 1);
 }
 
 function getSeasonPPDA(team, isHome, isNeutral) {
@@ -287,12 +322,15 @@ function getSeasonPPDA(team, isHome, isNeutral) {
   }
 
   const venue = isHome ? home : away;
-
   if (venue > 0) return venue;
 
-  // Fallback to opposite venue if only one side is available.
-  if (home > 0) return home;
-  if (away > 0) return away;
+  // Fallback with a home/away press delta. Home teams press more, so their
+  // PPDA is lower than their away PPDA. Without this, the one populated
+  // venue leaked into the other slot 1:1.
+  const delta = safeNumber(MODEL_CONFIG.ppdaVenueFallbackDelta, 1.2);
+
+  if (isHome && away > 0) return Math.max(1, away - delta);
+  if (!isHome && home > 0) return home + delta;
 
   return 0;
 }
@@ -312,11 +350,16 @@ function getTeamPPDA(team, isHome, isNeutral) {
   );
 }
 
-function getPressMeta(team, isHome, isNeutral) {
+// Accepts the league name so it can pick the right PPDA baseline. Returns
+// `baseline` in the result so it can be surfaced in the output.
+function getPressMeta(team, isHome, isNeutral, leagueName) {
+  const baseline = resolvePPDABaseline(leagueName);
+
   const fallback = {
     intensity: MODEL_CONFIG.ppdaUnknownIntensity,
     hasData: false,
     ppda: 0,
+    baseline,
   };
 
   if (!MODEL_CONFIG.ppdaEnabled || !team) {
@@ -330,9 +373,10 @@ function getPressMeta(team, isHome, isNeutral) {
   }
 
   return {
-    intensity: normalizePPDA(ppda),
+    intensity: normalizePPDA(ppda, baseline),
     hasData: true,
     ppda,
+    baseline,
   };
 }
 
@@ -383,8 +427,6 @@ function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
   const diffXG = safeNumber(homeXG, 0) - safeNumber(awayXG, 0);
 
   // --- Draw adjustment ------------------------------------------------
-  //
-  // Closeness: tighter xG race -> higher draw probability.
   const closeness = clamp(
     1 - Math.abs(diffXG) / CALIB_CONFIG.tightXGDiff,
     0,
@@ -394,7 +436,6 @@ function calibrate1X2(homeWin, draw, awayWin, homeXG, awayXG) {
   const closenessFactor =
     1 + CALIB_CONFIG.tightXGDrawBoost * closeness;
 
-  // Openness: more combined xG -> lower draw probability.
   const openness = clamp(
     (totalXG - CALIB_CONFIG.highXGThreshold) /
       (CALIB_CONFIG.openGameThreshold - CALIB_CONFIG.highXGThreshold),
@@ -505,11 +546,48 @@ function calculateExpectedGoals(
     seasonAttack * MODEL_CONFIG.seasonWeight +
     recentAttack * MODEL_CONFIG.formWeight;
 
-  const blendedDefense = Math.max(
+  let blendedDefense = Math.max(
     0.1,
     seasonDefense * MODEL_CONFIG.seasonWeight +
       recentDefense * MODEL_CONFIG.formWeight
   );
+
+  // ============================================
+  // PPDA — Press metadata (league-normalized)
+  // ============================================
+  const subjectPressMeta = getPressMeta(
+    subject,
+    isSubjectHome,
+    isNeutral,
+    subjectLeague
+  );
+
+  const opponentPressMeta = getPressMeta(
+    opponent,
+    !isSubjectHome,
+    isNeutral,
+    oppLeague
+  );
+
+  // ============================================
+  // PPDA — Defensive component (primary signal)
+  // ============================================
+  //
+  // A high-pressing opponent concedes less than their raw xGA suggests.
+  // Folded into blendedDefense BEFORE base xG is computed so it propagates
+  // properly. Intensity is centered at 0.5, so a neutral press leaves
+  // blendedDefense unchanged.
+  if (MODEL_CONFIG.ppdaEnabled && opponentPressMeta.hasData) {
+    const oppPressCentered = clamp(
+      (opponentPressMeta.intensity - 0.5) * 2,
+      -1,
+      1
+    );
+
+    // Higher press -> lower xGA conceded -> lower our xG.
+    blendedDefense *= 1 - MODEL_CONFIG.ppdaDefenseWeight * oppPressCentered;
+    blendedDefense = Math.max(0.1, blendedDefense);
+  }
 
   let baseXG = (blendedAttack * blendedDefense) / teamLeagueAvg;
 
@@ -518,62 +596,40 @@ function calculateExpectedGoals(
   baseXG *= 1 + MODEL_CONFIG.strengthDiffMultiplier * cappedDiff;
 
   // ============================================
-  // PPDA Adjustment
+  // PPDA — Press mismatch (secondary)
   // ============================================
   //
-  // subjectPressMeta:
-  //   How intensely the subject team presses.
-  //
-  // opponentPressMeta:
-  //   How intensely the opponent presses.
-  //
-  // If subject presses much more intensely than opponent, subject gains
-  // a small chance-creation advantage through higher turnovers.
-  //
-  // If opponent presses much more intensely, subject loses a little.
-
-  const subjectPressMeta = getPressMeta(
-    subject,
-    isSubjectHome,
-    isNeutral
-  );
-
-  const opponentPressMeta = getPressMeta(
-    opponent,
-    !isSubjectHome,
-    isNeutral
-  );
-
+  // If the opponent presses harder than us, they leave space behind -> boost.
+  // If we press harder than them, we're more exposed -> small penalty.
   if (
     MODEL_CONFIG.ppdaEnabled &&
     subjectPressMeta.hasData &&
     opponentPressMeta.hasData
   ) {
-    const pressDiff = clamp(
-      subjectPressMeta.intensity - opponentPressMeta.intensity,
+    const pressMismatch = clamp(
+      opponentPressMeta.intensity - subjectPressMeta.intensity,
       -1,
       1
     );
 
-    baseXG *= 1 + MODEL_CONFIG.ppdaAttackWeight * pressDiff;
+    baseXG *= 1 + MODEL_CONFIG.ppdaAttackWeight * pressMismatch;
   }
 
   // ============================================
-  // Faced-Press Context
+  // PPDA — Faced-press context (tertiary)
   // ============================================
   //
   // last6PPDA_A is treated as the PPDA of recent opponents against this team.
-  // Lower values mean this team has recently faced more aggressive presses.
-  //
-  // If the current opponent presses harder than the press difficulty this
-  // team has recently faced, apply a small suppression.
-  // If the current opponent presses less, apply a small boost.
-
+  // normalizePPDA uses the subject's league baseline for consistency with how
+  // the opponent's intensity was computed.
   if (MODEL_CONFIG.ppdaEnabled && opponentPressMeta.hasData) {
     const facedPPDA = weightedAverage(subject.last6PPDA_A);
 
     if (facedPPDA > 0) {
-      const facedIntensity = normalizePPDA(facedPPDA);
+      const facedIntensity = normalizePPDA(
+        facedPPDA,
+        subjectPressMeta.baseline
+      );
 
       const pressDifficulty = clamp(
         opponentPressMeta.intensity - facedIntensity,
@@ -586,58 +642,58 @@ function calculateExpectedGoals(
   }
 
   // ============================================
-  // Tempo Adjustment
+  // Tempo — continuous multiplier
   // ============================================
+  //
+  // Only applied when at least one side actually has tempo inputs, so
+  // all-missing teams no longer silently drift into a low-tempo penalty.
+  if (hasTempoData(subject, opponent)) {
+    const subjectTotalEvents =
+      (stat(subject.homeXG) +
+        stat(subject.homeXGA) +
+        stat(subject.awayXG) +
+        stat(subject.awayXGA)) /
+      2;
 
-  const subjectTotalEvents =
-    (stat(subject.homeXG) +
-      stat(subject.homeXGA) +
-      stat(subject.awayXG) +
-      stat(subject.awayXGA)) /
-    2;
+    const opponentTotalEvents =
+      (stat(opponent.homeXG) +
+        stat(opponent.homeXGA) +
+        stat(opponent.awayXG) +
+        stat(opponent.awayXGA)) /
+      2;
 
-  const opponentTotalEvents =
-    (stat(opponent.homeXG) +
-      stat(opponent.homeXGA) +
-      stat(opponent.awayXG) +
-      stat(opponent.awayXGA)) /
-    2;
+    let matchTempo = (subjectTotalEvents + opponentTotalEvents) / 2;
 
-  const rawMatchTempo = (subjectTotalEvents + opponentTotalEvents) / 2;
+    // PPDA nudge before the tempo multiplier.
+    if (
+      MODEL_CONFIG.ppdaEnabled &&
+      (subjectPressMeta.hasData || opponentPressMeta.hasData)
+    ) {
+      const avgPressIntensity =
+        (subjectPressMeta.intensity + opponentPressMeta.intensity) / 2;
 
-  // PPDA tempo effect:
-  // High pressing from both sides can increase transitional tempo.
-  // Low pressing from both sides can reduce it.
-  let matchTempo = rawMatchTempo;
+      const pressTempoShift = clamp(
+        (avgPressIntensity - 0.5) * 2,
+        -1,
+        1
+      );
 
-  if (
-    MODEL_CONFIG.ppdaEnabled &&
-    (subjectPressMeta.hasData || opponentPressMeta.hasData)
-  ) {
-    const avgPressIntensity =
-      (subjectPressMeta.intensity + opponentPressMeta.intensity) / 2;
-
-    const pressTempoShift = clamp(
-      (avgPressIntensity - 0.5) * 2,
-      -1,
-      1
-    );
-
-    matchTempo =
-      rawMatchTempo *
-      clamp(
+      matchTempo *= clamp(
         1 + MODEL_CONFIG.ppdaTempoWeight * pressTempoShift,
         0.85,
         1.15
       );
-  }
+    }
 
-  if (matchTempo < MODEL_CONFIG.lowTempoThreshold) {
-    baseXG *= MODEL_CONFIG.lowTempoMultiplier;
-  }
+    const tempoDelta = matchTempo - MODEL_CONFIG.tempoNeutral;
 
-  if (matchTempo > MODEL_CONFIG.highTempoThreshold) {
-    baseXG *= MODEL_CONFIG.highTempoMultiplier;
+    const tempoMult = clamp(
+      1 + MODEL_CONFIG.tempoSlope * tempoDelta,
+      MODEL_CONFIG.tempoMinMult,
+      MODEL_CONFIG.tempoMaxMult
+    );
+
+    baseXG *= tempoMult;
   }
 
   // League normalization.
@@ -797,8 +853,19 @@ function predictMatch(home, away, lg, isNeutral = false) {
     return null;
   }
 
-  const homePressMeta = getPressMeta(homeInfo.data, true, isNeutral);
-  const awayPressMeta = getPressMeta(awayInfo.data, false, isNeutral);
+  const homePressMeta = getPressMeta(
+    homeInfo.data,
+    true,
+    isNeutral,
+    homeInfo.leagueName
+  );
+
+  const awayPressMeta = getPressMeta(
+    awayInfo.data,
+    false,
+    isNeutral,
+    awayInfo.leagueName
+  );
 
   const lambda3 = calculateLambda3(
     homeXG,
@@ -925,8 +992,14 @@ function predictMatch(home, away, lg, isNeutral = false) {
         awayPressMeta.ppda > 0 ? awayPressMeta.ppda.toFixed(2) : null,
       homeIntensity: homePressMeta.intensity.toFixed(3),
       awayIntensity: awayPressMeta.intensity.toFixed(3),
+      homeBaseline: homePressMeta.baseline.toFixed(2),
+      awayBaseline: awayPressMeta.baseline.toFixed(2),
       homeHasData: homePressMeta.hasData,
       awayHasData: awayPressMeta.hasData,
+    },
+    dataQuality: {
+      tempoFromRealData: hasTempoData(homeInfo.data, awayInfo.data),
+      pressFromRealData: homePressMeta.hasData && awayPressMeta.hasData,
     },
     odds: {
       over15: toOdds(1 - under15),

@@ -2,7 +2,7 @@ import { Component } from "valen";
 import Button from '../widgets/Button.js';
 import MatchCard from '../MatchCard.js';
 //import BettingCard from '../BettingCard.js';
-import { predictMatch, predictMultiMatch } from '../model/utils1.js';
+import { predictMatch, predictMultiMatch } from '../model/utils_.js';
 
 function Main() {
   return {
@@ -48,7 +48,7 @@ function Main() {
         
         try {
           state.statusMsg = "Fetching Fixtures & odds...";
-          const fixtures = await getFixturesNOdds("ENG");
+          const fixtures = await getFixturesNOdds("ITA");
           
           state.statusMsg = "Running Predictions...";
           

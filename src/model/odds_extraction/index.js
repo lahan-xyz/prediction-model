@@ -4,23 +4,25 @@ const app = express();
 const { before, after } = require('../league_stats_extraction/main.js');
 
 
-app.use(express.json())
+app.use(express.json());
 
 const teamNames = new Map(before.map((name, i) => [name, after[i]]));
 
 const ID = {
+  EUR: [
+    // UCL
+    "5468459",
+    // UEL
+    "5472998",
+    // UECL
+    "5473534"
+  ],
   ENG: [
     "170880", 
-  
-    "1590149",
-    
-    "990749",
-    // UEL
-    "1639762",
-    // UECL
-    "1584527",
-    // USC
-    "1572828"
+    // FA
+    "708732",
+    // EFL
+    "990749"
   ],
   
   
@@ -125,6 +127,8 @@ async function fetchCombinedOdds(groupId) {
     FETCH(`${baseUrl}&GROUPMARKETID=S_GGNG`)
   ]);
   
+  console.log(data2)
+  
   const eventsMap = new Map();
   data1.D.E.forEach(e => eventsMap.set(e.ID, e));
   data2.D.E.forEach(e => {
@@ -155,6 +159,7 @@ app.post('/api/odds', async (req, res) => {
   const ids = ID[country]; // assume ID is defined elsewhere
   
   if (!ids || !ids.length) {
+    console.log("ID '"+country+"' not found");
     return res.json([]);
   }
   

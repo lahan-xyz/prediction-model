@@ -1,0 +1,8491 @@
+2026-09-17 22:00:34 : pid 13288 started
+WARNING: linker: /data/user/0/io.tempage.dorynode/files/bin/node: unsupported flags DT_FLAGS_1=0x8000001
+
+=== /forecast-odds/public (per gameId) ===
+
+Match: Monza vs Sassuolo
+--- gameId: 043c288f-436d-42f1-a968-acc98960abcb ---
+
+{
+  "id": "3242808a-f3f4-43a1-a847-74aefe90a713",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 37.9,
+      "trend": 5.9,
+      "spread": 6.3
+    },
+    {
+      "outcome": "x",
+      "probability": 25,
+      "trend": -3.1,
+      "spread": 1.9
+    },
+    {
+      "outcome": "2",
+      "probability": 37.2,
+      "trend": -4.3,
+      "spread": 6.8
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 62.8,
+      "trend": 2.2,
+      "spread": 6.8
+    },
+    {
+      "outcome": "12",
+      "probability": 75,
+      "trend": 0.6,
+      "spread": 1.9
+    },
+    {
+      "outcome": "x2",
+      "probability": 62.1,
+      "trend": -8.5,
+      "spread": 6.3
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 71.9,
+      "trend": 10.2,
+      "spread": 5.5
+    },
+    {
+      "outcome": "no",
+      "probability": 28.1,
+      "trend": -17.7,
+      "spread": 5.5
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 94.7,
+      "trend": -2.4,
+      "spread": 1
+    },
+    {
+      "line": "1",
+      "probability": 93.8,
+      "trend": -2.3,
+      "spread": 1.1
+    },
+    {
+      "line": "1.5",
+      "probability": 83.4,
+      "trend": 4.1,
+      "spread": 5.4
+    },
+    {
+      "line": "2",
+      "probability": 77.1,
+      "trend": 5.5,
+      "spread": 4.9
+    },
+    {
+      "line": "2.5",
+      "probability": 63.9,
+      "trend": 10.7,
+      "spread": 5.4
+    },
+    {
+      "line": "3",
+      "probability": 50.9,
+      "trend": 9.9,
+      "spread": 7.1
+    },
+    {
+      "line": "3.5",
+      "probability": 38.9,
+      "trend": 6.3,
+      "spread": 8
+    },
+    {
+      "line": "4",
+      "probability": 28.4,
+      "trend": 7.6,
+      "spread": 8.2
+    },
+    {
+      "line": "4.5",
+      "probability": 24.9,
+      "trend": 6.7,
+      "spread": 8.3
+    },
+    {
+      "line": "5",
+      "probability": 6.9,
+      "trend": -3.9,
+      "spread": 7.5
+    },
+    {
+      "line": "5.5",
+      "probability": 6.2,
+      "trend": -2.9,
+      "spread": 6.5
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 5.3,
+      "trend": -3,
+      "spread": 1
+    },
+    {
+      "line": "1",
+      "probability": 6.2,
+      "trend": -4.1,
+      "spread": 1.1
+    },
+    {
+      "line": "1.5",
+      "probability": 16.6,
+      "trend": -8.3,
+      "spread": 5.4
+    },
+    {
+      "line": "2",
+      "probability": 22.9,
+      "trend": -9.1,
+      "spread": 4.9
+    },
+    {
+      "line": "2.5",
+      "probability": 36.1,
+      "trend": -12.2,
+      "spread": 5.4
+    },
+    {
+      "line": "3",
+      "probability": 49.1,
+      "trend": -13.6,
+      "spread": 7.1
+    },
+    {
+      "line": "3.5",
+      "probability": 61.1,
+      "trend": -10.4,
+      "spread": 8
+    },
+    {
+      "line": "4",
+      "probability": 71.6,
+      "trend": -14.6,
+      "spread": 8.2
+    },
+    {
+      "line": "4.5",
+      "probability": 75.1,
+      "trend": -14.2,
+      "spread": 8.3
+    },
+    {
+      "line": "5",
+      "probability": 93.1,
+      "trend": -4,
+      "spread": 7.5
+    },
+    {
+      "line": "5.5",
+      "probability": 93.8,
+      "trend": -3.3,
+      "spread": 6.5
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 84.9,
+      "trend": 9.7,
+      "spread": 7.7
+    },
+    {
+      "line": "1",
+      "probability": 77.3,
+      "trend": 16.7,
+      "spread": 11.3
+    },
+    {
+      "line": "1.5",
+      "probability": 51.6,
+      "trend": 11.1,
+      "spread": 7.2
+    },
+    {
+      "line": "2",
+      "probability": 22.5,
+      "trend": 1.6,
+      "spread": 16.2
+    },
+    {
+      "line": "2.5",
+      "probability": 16,
+      "trend": 0.1,
+      "spread": 12.5
+    },
+    {
+      "line": "3",
+      "probability": 6.5,
+      "trend": null,
+      "spread": 6.9
+    },
+    {
+      "line": "3.5",
+      "probability": 5.6,
+      "trend": null,
+      "spread": 5.8
+    },
+    {
+      "line": "4",
+      "probability": 1.8,
+      "trend": null,
+      "spread": 2.2
+    },
+    {
+      "line": "4.5",
+      "probability": 1.7,
+      "trend": null,
+      "spread": 2
+    },
+    {
+      "line": "5",
+      "probability": 0.5,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5.5",
+      "probability": 0.4,
+      "trend": null,
+      "spread": 0.6
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 15.1,
+      "trend": -15.2,
+      "spread": 7.7
+    },
+    {
+      "line": "1",
+      "probability": 22.7,
+      "trend": -22.8,
+      "spread": 11.3
+    },
+    {
+      "line": "1.5",
+      "probability": 48.4,
+      "trend": -17.4,
+      "spread": 7.2
+    },
+    {
+      "line": "2",
+      "probability": 77.5,
+      "trend": -8.7,
+      "spread": 16.2
+    },
+    {
+      "line": "2.5",
+      "probability": 84,
+      "trend": -6.9,
+      "spread": 12.5
+    },
+    {
+      "line": "3",
+      "probability": 93.5,
+      "trend": null,
+      "spread": 6.9
+    },
+    {
+      "line": "3.5",
+      "probability": 94.4,
+      "trend": null,
+      "spread": 5.8
+    },
+    {
+      "line": "4",
+      "probability": 98.2,
+      "trend": null,
+      "spread": 2.2
+    },
+    {
+      "line": "4.5",
+      "probability": 98.3,
+      "trend": null,
+      "spread": 2
+    },
+    {
+      "line": "5",
+      "probability": 99.5,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5.5",
+      "probability": 99.6,
+      "trend": null,
+      "spread": 0.6
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 77.7,
+      "trend": -3.6,
+      "spread": 1.6
+    },
+    {
+      "line": "1",
+      "probability": 66,
+      "trend": -4.5,
+      "spread": 2.3
+    },
+    {
+      "line": "1.5",
+      "probability": 46.2,
+      "trend": -1.4,
+      "spread": 5
+    },
+    {
+      "line": "2",
+      "probability": 30.2,
+      "trend": 1.6,
+      "spread": 8.6
+    },
+    {
+      "line": "2.5",
+      "probability": 24.3,
+      "trend": 3,
+      "spread": 8.5
+    },
+    {
+      "line": "3",
+      "probability": 4.6,
+      "trend": null,
+      "spread": 3.9
+    },
+    {
+      "line": "3.5",
+      "probability": 4,
+      "trend": -4.4,
+      "spread": 3.5
+    },
+    {
+      "line": "4",
+      "probability": 1.2,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "4.5",
+      "probability": 1.1,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 22.3,
+      "trend": -4.3,
+      "spread": 1.6
+    },
+    {
+      "line": "1",
+      "probability": 34,
+      "trend": -1.7,
+      "spread": 2.3
+    },
+    {
+      "line": "1.5",
+      "probability": 53.8,
+      "trend": -4.3,
+      "spread": 5
+    },
+    {
+      "line": "2",
+      "probability": 69.8,
+      "trend": -8.3,
+      "spread": 8.6
+    },
+    {
+      "line": "2.5",
+      "probability": 75.7,
+      "trend": -9.8,
+      "spread": 8.5
+    },
+    {
+      "line": "3",
+      "probability": 95.4,
+      "trend": null,
+      "spread": 3.9
+    },
+    {
+      "line": "3.5",
+      "probability": 96,
+      "trend": -2,
+      "spread": 3.5
+    },
+    {
+      "line": "4",
+      "probability": 98.8,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "4.5",
+      "probability": 98.9,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0.6,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "-4",
+      "probability": 0.6,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "-3.5",
+      "probability": 1.9,
+      "trend": null,
+      "spread": 2.1
+    },
+    {
+      "line": "-3",
+      "probability": 2.1,
+      "trend": null,
+      "spread": 2.2
+    },
+    {
+      "line": "-2.5",
+      "probability": 6.2,
+      "trend": -0.7,
+      "spread": 4.8
+    },
+    {
+      "line": "-2",
+      "probability": 7.1,
+      "trend": -0.4,
+      "spread": 5.7
+    },
+    {
+      "line": "-1.5",
+      "probability": 14.9,
+      "trend": -1,
+      "spread": 10.6
+    },
+    {
+      "line": "-1",
+      "probability": 18.6,
+      "trend": -0.1,
+      "spread": 13
+    },
+    {
+      "line": "-0.5",
+      "probability": 37.9,
+      "trend": null,
+      "spread": 6.3
+    },
+    {
+      "line": "0",
+      "probability": 50.9,
+      "trend": 6.5,
+      "spread": 8.1
+    },
+    {
+      "line": "0.5",
+      "probability": 62.8,
+      "trend": null,
+      "spread": 6.8
+    },
+    {
+      "line": "1",
+      "probability": 84.9,
+      "trend": 8,
+      "spread": 7.1
+    },
+    {
+      "line": "1.5",
+      "probability": 87.8,
+      "trend": 3.7,
+      "spread": 6.1
+    },
+    {
+      "line": "2",
+      "probability": 95.6,
+      "trend": 0.4,
+      "spread": 3.7
+    },
+    {
+      "line": "2.5",
+      "probability": 96.1,
+      "trend": -0.1,
+      "spread": 3.3
+    },
+    {
+      "line": "3",
+      "probability": 98.8,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "3.5",
+      "probability": 98.8,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "4",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-4",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-3.5",
+      "probability": 1.2,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "-3",
+      "probability": 1.2,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "-2.5",
+      "probability": 3.9,
+      "trend": -6.4,
+      "spread": 3.3
+    },
+    {
+      "line": "-2",
+      "probability": 4.4,
+      "trend": -7,
+      "spread": 3.7
+    },
+    {
+      "line": "-1.5",
+      "probability": 12.2,
+      "trend": -10.3,
+      "spread": 6.1
+    },
+    {
+      "line": "-1",
+      "probability": 15.1,
+      "trend": -11.6,
+      "spread": 7.1
+    },
+    {
+      "line": "-0.5",
+      "probability": 37.2,
+      "trend": null,
+      "spread": 6.8
+    },
+    {
+      "line": "0",
+      "probability": 49.1,
+      "trend": -8,
+      "spread": 8.1
+    },
+    {
+      "line": "0.5",
+      "probability": 62.1,
+      "trend": null,
+      "spread": 6.3
+    },
+    {
+      "line": "1",
+      "probability": 81.4,
+      "trend": -6.3,
+      "spread": 13
+    },
+    {
+      "line": "1.5",
+      "probability": 85.1,
+      "trend": -4.9,
+      "spread": 10.6
+    },
+    {
+      "line": "2",
+      "probability": 92.9,
+      "trend": -5.1,
+      "spread": 5.7
+    },
+    {
+      "line": "2.5",
+      "probability": 93.8,
+      "trend": -4.3,
+      "spread": 4.8
+    },
+    {
+      "line": "3",
+      "probability": 97.9,
+      "trend": null,
+      "spread": 2.2
+    },
+    {
+      "line": "3.5",
+      "probability": 98.1,
+      "trend": null,
+      "spread": 2.1
+    },
+    {
+      "line": "4",
+      "probability": 99.4,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "4.5",
+      "probability": 99.4,
+      "trend": null,
+      "spread": 0.7
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-17T11:40:24.754Z",
+  "updatedAt": "2026-09-17T11:40:24.754Z",
+  "gameId": "043c288f-436d-42f1-a968-acc98960abcb",
+  "metadataId": "a72f03c9-ed48-4ed6-8a57-cca63b5e4f00"
+}
+
+Match: Atlético M vs Chapecoense
+--- gameId: 1bea61e7-6b27-4c15-83d6-856da45f9a48 ---
+
+{
+  "id": "d40d2d4c-0810-49ca-a704-00657fe3996b",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 60.6,
+      "trend": -8.6,
+      "spread": 2.5
+    },
+    {
+      "outcome": "x",
+      "probability": 26.3,
+      "trend": 4.7,
+      "spread": 1.6
+    },
+    {
+      "outcome": "2",
+      "probability": 13.1,
+      "trend": 0.9,
+      "spread": 1.5
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 86.9,
+      "trend": -6.4,
+      "spread": 1.5
+    },
+    {
+      "outcome": "12",
+      "probability": 73.7,
+      "trend": -9.5,
+      "spread": 1.6
+    },
+    {
+      "outcome": "x2",
+      "probability": 39.4,
+      "trend": 5.1,
+      "spread": 2.5
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 66.8,
+      "trend": 17,
+      "spread": 3.5
+    },
+    {
+      "outcome": "no",
+      "probability": 33.2,
+      "trend": -24.9,
+      "spread": 3.5
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 100,
+      "trend": 0.2,
+      "spread": 1.2
+    },
+    {
+      "line": "1",
+      "probability": 100,
+      "trend": 1.5,
+      "spread": 1.6
+    },
+    {
+      "line": "1.5",
+      "probability": 91.6,
+      "trend": 12.2,
+      "spread": 3.4
+    },
+    {
+      "line": "2",
+      "probability": 87.5,
+      "trend": 12.8,
+      "spread": 4.9
+    },
+    {
+      "line": "2.5",
+      "probability": 60.7,
+      "trend": 5.5,
+      "spread": 5.7
+    },
+    {
+      "line": "3",
+      "probability": 44.6,
+      "trend": 2.6,
+      "spread": 6.2
+    },
+    {
+      "line": "3.5",
+      "probability": 28.4,
+      "trend": -5,
+      "spread": 5.5
+    },
+    {
+      "line": "4",
+      "probability": 5,
+      "trend": -18.2,
+      "spread": 4.6
+    },
+    {
+      "line": "4.5",
+      "probability": 4.5,
+      "trend": -12.9,
+      "spread": 3.5
+    },
+    {
+      "line": "5",
+      "probability": 4.5,
+      "trend": -7.3,
+      "spread": 2.5
+    },
+    {
+      "line": "5.5",
+      "probability": 4.5,
+      "trend": -5,
+      "spread": 2.1
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 0,
+      "trend": -10.7,
+      "spread": 1.2
+    },
+    {
+      "line": "1",
+      "probability": 0,
+      "trend": -12,
+      "spread": 1.6
+    },
+    {
+      "line": "1.5",
+      "probability": 8.4,
+      "trend": -17.4,
+      "spread": 3.4
+    },
+    {
+      "line": "2",
+      "probability": 12.5,
+      "trend": -22,
+      "spread": 4.9
+    },
+    {
+      "line": "2.5",
+      "probability": 39.3,
+      "trend": -9.7,
+      "spread": 5.7
+    },
+    {
+      "line": "3",
+      "probability": 55.4,
+      "trend": -7.3,
+      "spread": 6.2
+    },
+    {
+      "line": "3.5",
+      "probability": 71.6,
+      "trend": -0.3,
+      "spread": 5.5
+    },
+    {
+      "line": "4",
+      "probability": 95,
+      "trend": 7.6,
+      "spread": 4.6
+    },
+    {
+      "line": "4.5",
+      "probability": 95.5,
+      "trend": 7.9,
+      "spread": 3.5
+    },
+    {
+      "line": "5",
+      "probability": 95.5,
+      "trend": -3.2,
+      "spread": 2.5
+    },
+    {
+      "line": "5.5",
+      "probability": 95.5,
+      "trend": -0.6,
+      "spread": 2.1
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 99.5,
+      "trend": 4.6,
+      "spread": 2.6
+    },
+    {
+      "line": "1",
+      "probability": 99.2,
+      "trend": 9.2,
+      "spread": 4.3
+    },
+    {
+      "line": "1.5",
+      "probability": 65.6,
+      "trend": -0.6,
+      "spread": 4.8
+    },
+    {
+      "line": "2",
+      "probability": 37.9,
+      "trend": -14.2,
+      "spread": 6.2
+    },
+    {
+      "line": "2.5",
+      "probability": 26,
+      "trend": -14,
+      "spread": 4.4
+    },
+    {
+      "line": "3",
+      "probability": 1.1,
+      "trend": -24.8,
+      "spread": 3.5
+    },
+    {
+      "line": "3.5",
+      "probability": 1.1,
+      "trend": -20.8,
+      "spread": 2.7
+    },
+    {
+      "line": "4",
+      "probability": 0,
+      "trend": null,
+      "spread": 1.4
+    },
+    {
+      "line": "4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 1.3
+    },
+    {
+      "line": "5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "5.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.5
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 0.5,
+      "trend": -14.8,
+      "spread": 2.6
+    },
+    {
+      "line": "1",
+      "probability": 0.8,
+      "trend": -17.2,
+      "spread": 4.3
+    },
+    {
+      "line": "1.5",
+      "probability": 34.4,
+      "trend": -6.1,
+      "spread": 4.8
+    },
+    {
+      "line": "2",
+      "probability": 62.1,
+      "trend": 8,
+      "spread": 6.2
+    },
+    {
+      "line": "2.5",
+      "probability": 74,
+      "trend": 7.3,
+      "spread": 4.4
+    },
+    {
+      "line": "3",
+      "probability": 98.9,
+      "trend": 16.9,
+      "spread": 3.5
+    },
+    {
+      "line": "3.5",
+      "probability": 98.9,
+      "trend": 12.3,
+      "spread": 2.7
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 1.4
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 1.3
+    },
+    {
+      "line": "5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "5.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.5
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 67.3,
+      "trend": 11.1,
+      "spread": 1.8
+    },
+    {
+      "line": "1",
+      "probability": 43.3,
+      "trend": 14.1,
+      "spread": 2.9
+    },
+    {
+      "line": "1.5",
+      "probability": 25.6,
+      "trend": 4.9,
+      "spread": 1.9
+    },
+    {
+      "line": "2",
+      "probability": 4.7,
+      "trend": null,
+      "spread": 1.5
+    },
+    {
+      "line": "2.5",
+      "probability": 4.5,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "3",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "3.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 32.7,
+      "trend": -19.9,
+      "spread": 1.8
+    },
+    {
+      "line": "1",
+      "probability": 56.7,
+      "trend": -20.2,
+      "spread": 2.9
+    },
+    {
+      "line": "1.5",
+      "probability": 74.4,
+      "trend": -11.8,
+      "spread": 1.9
+    },
+    {
+      "line": "2",
+      "probability": 95.3,
+      "trend": null,
+      "spread": 1.5
+    },
+    {
+      "line": "2.5",
+      "probability": 95.5,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "3",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "3.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-3.5",
+      "probability": 1.1,
+      "trend": -13.8,
+      "spread": 1.3
+    },
+    {
+      "line": "-3",
+      "probability": 1.1,
+      "trend": -15.4,
+      "spread": 1.5
+    },
+    {
+      "line": "-2.5",
+      "probability": 7.2,
+      "trend": -21.4,
+      "spread": 2.3
+    },
+    {
+      "line": "-2",
+      "probability": 8.3,
+      "trend": -18.9,
+      "spread": 2.9
+    },
+    {
+      "line": "-1.5",
+      "probability": 39.1,
+      "trend": -3.5,
+      "spread": 3
+    },
+    {
+      "line": "-1",
+      "probability": 50.5,
+      "trend": -7,
+      "spread": 3.6
+    },
+    {
+      "line": "-0.5",
+      "probability": 60.6,
+      "trend": null,
+      "spread": 2.5
+    },
+    {
+      "line": "0",
+      "probability": 83.3,
+      "trend": -9.7,
+      "spread": 2.2
+    },
+    {
+      "line": "0.5",
+      "probability": 86.9,
+      "trend": null,
+      "spread": 1.5
+    },
+    {
+      "line": "1",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "1.5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "2",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "2.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "3",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "3.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-3.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-3",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-2.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-2",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-1.5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "-1",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "-0.5",
+      "probability": 13.1,
+      "trend": null,
+      "spread": 1.5
+    },
+    {
+      "line": "0",
+      "probability": 16.7,
+      "trend": -0.8,
+      "spread": 2.2
+    },
+    {
+      "line": "0.5",
+      "probability": 39.4,
+      "trend": null,
+      "spread": 2.6
+    },
+    {
+      "line": "1",
+      "probability": 49.5,
+      "trend": 3.4,
+      "spread": 3.6
+    },
+    {
+      "line": "1.5",
+      "probability": 60.9,
+      "trend": 3.2,
+      "spread": 3
+    },
+    {
+      "line": "2",
+      "probability": 91.7,
+      "trend": 16.6,
+      "spread": 2.9
+    },
+    {
+      "line": "2.5",
+      "probability": 92.8,
+      "trend": 10.8,
+      "spread": 2.3
+    },
+    {
+      "line": "3",
+      "probability": 98.9,
+      "trend": 4.9,
+      "spread": 1.5
+    },
+    {
+      "line": "3.5",
+      "probability": 98.9,
+      "trend": 3.3,
+      "spread": 1.3
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.6
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-13T13:49:11.775Z",
+  "updatedAt": "2026-09-13T13:49:11.775Z",
+  "gameId": "1bea61e7-6b27-4c15-83d6-856da45f9a48",
+  "metadataId": "c00be2a7-c20e-48dc-a988-fb0ebae9629e"
+}
+
+Match: Atlético PR vs Bahia
+--- gameId: 1ff9b049-852e-4858-9678-15248d30f4fb ---
+
+{
+  "id": "40a7dbb7-ac18-49fc-a3ae-4f4f2ea78f9a",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 36.7,
+      "trend": -10,
+      "spread": 17.4
+    },
+    {
+      "outcome": "x",
+      "probability": 32.4,
+      "trend": 3.8,
+      "spread": 6.1
+    },
+    {
+      "outcome": "2",
+      "probability": 30.9,
+      "trend": 2.6,
+      "spread": 23.6
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 69.1,
+      "trend": -6,
+      "spread": 23.6
+    },
+    {
+      "outcome": "12",
+      "probability": 67.6,
+      "trend": -8.6,
+      "spread": 6.1
+    },
+    {
+      "outcome": "x2",
+      "probability": 63.3,
+      "trend": 5.8,
+      "spread": 17.4
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 66.1,
+      "trend": 11.1,
+      "spread": 12.6
+    },
+    {
+      "outcome": "no",
+      "probability": 33.9,
+      "trend": -14.6,
+      "spread": 12.6
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 96.7,
+      "trend": 1.5,
+      "spread": 3
+    },
+    {
+      "line": "1",
+      "probability": 96.2,
+      "trend": 2.8,
+      "spread": 3.7
+    },
+    {
+      "line": "1.5",
+      "probability": 84.8,
+      "trend": 9,
+      "spread": 9.5
+    },
+    {
+      "line": "2",
+      "probability": 76.3,
+      "trend": 11,
+      "spread": 13.8
+    },
+    {
+      "line": "2.5",
+      "probability": 53.9,
+      "trend": 4.9,
+      "spread": 19.9
+    },
+    {
+      "line": "3",
+      "probability": 47.1,
+      "trend": 12.2,
+      "spread": 20.7
+    },
+    {
+      "line": "3.5",
+      "probability": 41.2,
+      "trend": 12.5,
+      "spread": 17.8
+    },
+    {
+      "line": "4",
+      "probability": 35.2,
+      "trend": 17.3,
+      "spread": 14.9
+    },
+    {
+      "line": "4.5",
+      "probability": 32.4,
+      "trend": 16.3,
+      "spread": 12.7
+    },
+    {
+      "line": "5",
+      "probability": 16.2,
+      "trend": 5.7,
+      "spread": 9.3
+    },
+    {
+      "line": "5.5",
+      "probability": 13.3,
+      "trend": 5,
+      "spread": 7.9
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 3.3,
+      "trend": -7.3,
+      "spread": 3
+    },
+    {
+      "line": "1",
+      "probability": 3.8,
+      "trend": -8.3,
+      "spread": 3.7
+    },
+    {
+      "line": "1.5",
+      "probability": 15.2,
+      "trend": -11.4,
+      "spread": 9.5
+    },
+    {
+      "line": "2",
+      "probability": 23.7,
+      "trend": -10.8,
+      "spread": 13.8
+    },
+    {
+      "line": "2.5",
+      "probability": 46.1,
+      "trend": -5.1,
+      "spread": 19.9
+    },
+    {
+      "line": "3",
+      "probability": 52.9,
+      "trend": -12.5,
+      "spread": 20.7
+    },
+    {
+      "line": "3.5",
+      "probability": 58.8,
+      "trend": -14.9,
+      "spread": 17.8
+    },
+    {
+      "line": "4",
+      "probability": 64.8,
+      "trend": -25.6,
+      "spread": 14.9
+    },
+    {
+      "line": "4.5",
+      "probability": 67.6,
+      "trend": -21.1,
+      "spread": 12.7
+    },
+    {
+      "line": "5",
+      "probability": 83.8,
+      "trend": -15.2,
+      "spread": 9.3
+    },
+    {
+      "line": "5.5",
+      "probability": 86.7,
+      "trend": -9.4,
+      "spread": 7.9
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 84.4,
+      "trend": 2.4,
+      "spread": 3.8
+    },
+    {
+      "line": "1",
+      "probability": 77.8,
+      "trend": 8.9,
+      "spread": 6.6
+    },
+    {
+      "line": "1.5",
+      "probability": 56,
+      "trend": 9.7,
+      "spread": 6.2
+    },
+    {
+      "line": "2",
+      "probability": 36.1,
+      "trend": 7.4,
+      "spread": 6.2
+    },
+    {
+      "line": "2.5",
+      "probability": 24.9,
+      "trend": 1.2,
+      "spread": 3.8
+    },
+    {
+      "line": "3",
+      "probability": 7.9,
+      "trend": -3.8,
+      "spread": 2
+    },
+    {
+      "line": "3.5",
+      "probability": 6.4,
+      "trend": -7.1,
+      "spread": 1.7
+    },
+    {
+      "line": "4",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "4.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5.5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 15.6,
+      "trend": -9.4,
+      "spread": 3.8
+    },
+    {
+      "line": "1",
+      "probability": 22.2,
+      "trend": -13.3,
+      "spread": 6.6
+    },
+    {
+      "line": "1.5",
+      "probability": 44,
+      "trend": -14.1,
+      "spread": 6.2
+    },
+    {
+      "line": "2",
+      "probability": 63.9,
+      "trend": -13.9,
+      "spread": 6.2
+    },
+    {
+      "line": "2.5",
+      "probability": 75.1,
+      "trend": -10.8,
+      "spread": 3.8
+    },
+    {
+      "line": "3",
+      "probability": 92.1,
+      "trend": -6.8,
+      "spread": 2
+    },
+    {
+      "line": "3.5",
+      "probability": 93.6,
+      "trend": -4.5,
+      "spread": 1.7
+    },
+    {
+      "line": "4",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "4.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5.5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 77.5,
+      "trend": 7.5,
+      "spread": 16.6
+    },
+    {
+      "line": "1",
+      "probability": 62.4,
+      "trend": 13.1,
+      "spread": 29.1
+    },
+    {
+      "line": "1.5",
+      "probability": 45.1,
+      "trend": 11.8,
+      "spread": 26.3
+    },
+    {
+      "line": "2",
+      "probability": 34.5,
+      "trend": 17.3,
+      "spread": 28.4
+    },
+    {
+      "line": "2.5",
+      "probability": 25.5,
+      "trend": 11.1,
+      "spread": 20.5
+    },
+    {
+      "line": "3",
+      "probability": 2.3,
+      "trend": null,
+      "spread": 18.4
+    },
+    {
+      "line": "3.5",
+      "probability": 1.9,
+      "trend": null,
+      "spread": 14.5
+    },
+    {
+      "line": "4",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 7.3
+    },
+    {
+      "line": "4.5",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 6.4
+    },
+    {
+      "line": "5",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 2.6
+    },
+    {
+      "line": "5.5",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 2.4
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 22.5,
+      "trend": -12.7,
+      "spread": 16.6
+    },
+    {
+      "line": "1",
+      "probability": 37.6,
+      "trend": -15.5,
+      "spread": 29.1
+    },
+    {
+      "line": "1.5",
+      "probability": 54.9,
+      "trend": -17.6,
+      "spread": 26.3
+    },
+    {
+      "line": "2",
+      "probability": 65.5,
+      "trend": -26.9,
+      "spread": 28.4
+    },
+    {
+      "line": "2.5",
+      "probability": 74.5,
+      "trend": -20.8,
+      "spread": 20.5
+    },
+    {
+      "line": "3",
+      "probability": 97.7,
+      "trend": null,
+      "spread": 18.4
+    },
+    {
+      "line": "3.5",
+      "probability": 98.1,
+      "trend": null,
+      "spread": 14.5
+    },
+    {
+      "line": "4",
+      "probability": 99.3,
+      "trend": null,
+      "spread": 7.3
+    },
+    {
+      "line": "4.5",
+      "probability": 99.3,
+      "trend": null,
+      "spread": 6.4
+    },
+    {
+      "line": "5",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 2.6
+    },
+    {
+      "line": "5.5",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 2.4
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-4",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-3.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 2.1
+    },
+    {
+      "line": "-3",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 2.3
+    },
+    {
+      "line": "-2.5",
+      "probability": 6.2,
+      "trend": -6.5,
+      "spread": 4.6
+    },
+    {
+      "line": "-2",
+      "probability": 8.2,
+      "trend": -5.9,
+      "spread": 6
+    },
+    {
+      "line": "-1.5",
+      "probability": 21.4,
+      "trend": -5.3,
+      "spread": 11.4
+    },
+    {
+      "line": "-1",
+      "probability": 26.4,
+      "trend": -4.5,
+      "spread": 15.7
+    },
+    {
+      "line": "-0.5",
+      "probability": 36.7,
+      "trend": null,
+      "spread": 17.4
+    },
+    {
+      "line": "0",
+      "probability": 57.2,
+      "trend": -7,
+      "spread": 27.6
+    },
+    {
+      "line": "0.5",
+      "probability": 69.1,
+      "trend": null,
+      "spread": 23.6
+    },
+    {
+      "line": "1",
+      "probability": 86,
+      "trend": -5.8,
+      "spread": 25.9
+    },
+    {
+      "line": "1.5",
+      "probability": 90.5,
+      "trend": -3,
+      "spread": 20.9
+    },
+    {
+      "line": "2",
+      "probability": 97.4,
+      "trend": null,
+      "spread": 15.9
+    },
+    {
+      "line": "2.5",
+      "probability": 98,
+      "trend": null,
+      "spread": 13.1
+    },
+    {
+      "line": "3",
+      "probability": 99.3,
+      "trend": null,
+      "spread": 7.1
+    },
+    {
+      "line": "3.5",
+      "probability": 99.3,
+      "trend": null,
+      "spread": 6.3
+    },
+    {
+      "line": "4",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 2.7
+    },
+    {
+      "line": "4.5",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 2.6
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 2.6
+    },
+    {
+      "line": "-4",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 2.7
+    },
+    {
+      "line": "-3.5",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 6.3
+    },
+    {
+      "line": "-3",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 7.1
+    },
+    {
+      "line": "-2.5",
+      "probability": 2,
+      "trend": null,
+      "spread": 13.1
+    },
+    {
+      "line": "-2",
+      "probability": 2.6,
+      "trend": null,
+      "spread": 15.9
+    },
+    {
+      "line": "-1.5",
+      "probability": 9.5,
+      "trend": -4.5,
+      "spread": 20.8
+    },
+    {
+      "line": "-1",
+      "probability": 14,
+      "trend": -2.5,
+      "spread": 25.9
+    },
+    {
+      "line": "-0.5",
+      "probability": 30.9,
+      "trend": null,
+      "spread": 23.6
+    },
+    {
+      "line": "0",
+      "probability": 42.8,
+      "trend": 2.9,
+      "spread": 27.6
+    },
+    {
+      "line": "0.5",
+      "probability": 63.3,
+      "trend": null,
+      "spread": 17.4
+    },
+    {
+      "line": "1",
+      "probability": 73.6,
+      "trend": -0.3,
+      "spread": 15.7
+    },
+    {
+      "line": "1.5",
+      "probability": 78.6,
+      "trend": -3.3,
+      "spread": 11.4
+    },
+    {
+      "line": "2",
+      "probability": 91.8,
+      "trend": -2.5,
+      "spread": 6
+    },
+    {
+      "line": "2.5",
+      "probability": 93.8,
+      "trend": -1.4,
+      "spread": 4.5
+    },
+    {
+      "line": "3",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 2.3
+    },
+    {
+      "line": "3.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 2.1
+    },
+    {
+      "line": "4",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4.5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0.6
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-15T16:59:57.815Z",
+  "updatedAt": "2026-09-15T16:59:57.815Z",
+  "gameId": "1ff9b049-852e-4858-9678-15248d30f4fb",
+  "metadataId": "7675336d-bc0b-4311-b30b-2b5dc4bba644"
+}
+
+Match: Vasco da Gama vs Coritiba
+--- gameId: 31166742-eb0d-40c4-9220-9001b8785b7d ---
+
+{
+  "id": "ba97bfc4-0075-49ae-b8ee-99d91ee0f218",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 59.5,
+      "trend": 5.4,
+      "spread": 1.6
+    },
+    {
+      "outcome": "x",
+      "probability": 22.4,
+      "trend": -3.6,
+      "spread": 0.5
+    },
+    {
+      "outcome": "2",
+      "probability": 18.2,
+      "trend": -1.6,
+      "spread": 1.2
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 81.8,
+      "trend": -1,
+      "spread": 1.2
+    },
+    {
+      "outcome": "12",
+      "probability": 77.6,
+      "trend": 1.2,
+      "spread": 0.5
+    },
+    {
+      "outcome": "x2",
+      "probability": 40.5,
+      "trend": -4.3,
+      "spread": 1.6
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 65.7,
+      "trend": 12.3,
+      "spread": 1.5
+    },
+    {
+      "outcome": "no",
+      "probability": 34.3,
+      "trend": -20.3,
+      "spread": 1.5
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 95,
+      "trend": -4.2,
+      "spread": 0.4
+    },
+    {
+      "line": "1",
+      "probability": 94.4,
+      "trend": -2.5,
+      "spread": 0.5
+    },
+    {
+      "line": "1.5",
+      "probability": 86.7,
+      "trend": 9.3,
+      "spread": 1.2
+    },
+    {
+      "line": "2",
+      "probability": 79.5,
+      "trend": 12.9,
+      "spread": 1.7
+    },
+    {
+      "line": "2.5",
+      "probability": 65.1,
+      "trend": 17,
+      "spread": 2.2
+    },
+    {
+      "line": "3",
+      "probability": 51.5,
+      "trend": 15.9,
+      "spread": 2.6
+    },
+    {
+      "line": "3.5",
+      "probability": 38.2,
+      "trend": 9.1,
+      "spread": 2.4
+    },
+    {
+      "line": "4",
+      "probability": 27,
+      "trend": 11,
+      "spread": 2.2
+    },
+    {
+      "line": "4.5",
+      "probability": 22.2,
+      "trend": 8.1,
+      "spread": 1.7
+    },
+    {
+      "line": "5",
+      "probability": 12.1,
+      "trend": 1.3,
+      "spread": 1.3
+    },
+    {
+      "line": "5.5",
+      "probability": 10.7,
+      "trend": 2.3,
+      "spread": 1.1
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 5,
+      "trend": -6.4,
+      "spread": 0.4
+    },
+    {
+      "line": "1",
+      "probability": 5.6,
+      "trend": -8.1,
+      "spread": 0.5
+    },
+    {
+      "line": "1.5",
+      "probability": 13.3,
+      "trend": -14.5,
+      "spread": 1.2
+    },
+    {
+      "line": "2",
+      "probability": 20.5,
+      "trend": -15.6,
+      "spread": 1.7
+    },
+    {
+      "line": "2.5",
+      "probability": 34.9,
+      "trend": -17.5,
+      "spread": 2.2
+    },
+    {
+      "line": "3",
+      "probability": 48.5,
+      "trend": -18.1,
+      "spread": 2.6
+    },
+    {
+      "line": "3.5",
+      "probability": 61.8,
+      "trend": -13,
+      "spread": 2.4
+    },
+    {
+      "line": "4",
+      "probability": 73,
+      "trend": -21.5,
+      "spread": 2.2
+    },
+    {
+      "line": "4.5",
+      "probability": 77.8,
+      "trend": -11.7,
+      "spread": 1.7
+    },
+    {
+      "line": "5",
+      "probability": 87.9,
+      "trend": -10.1,
+      "spread": 1.3
+    },
+    {
+      "line": "5.5",
+      "probability": 89.3,
+      "trend": -7.8,
+      "spread": 1.1
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 87.9,
+      "trend": 0.2,
+      "spread": 0.8
+    },
+    {
+      "line": "1",
+      "probability": 83.7,
+      "trend": 8.5,
+      "spread": 1.3
+    },
+    {
+      "line": "1.5",
+      "probability": 62.3,
+      "trend": 10.7,
+      "spread": 1.7
+    },
+    {
+      "line": "2",
+      "probability": 48.3,
+      "trend": 15,
+      "spread": 2.3
+    },
+    {
+      "line": "2.5",
+      "probability": 35.3,
+      "trend": 9.4,
+      "spread": 1.7
+    },
+    {
+      "line": "3",
+      "probability": 20.1,
+      "trend": 6.6,
+      "spread": 1.6
+    },
+    {
+      "line": "3.5",
+      "probability": 16.3,
+      "trend": 4,
+      "spread": 1.2
+    },
+    {
+      "line": "4",
+      "probability": 7,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "4.5",
+      "probability": 6.3,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5",
+      "probability": 2.2,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5.5",
+      "probability": 2.1,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 12.1,
+      "trend": -11,
+      "spread": 0.8
+    },
+    {
+      "line": "1",
+      "probability": 16.3,
+      "trend": -15.3,
+      "spread": 1.3
+    },
+    {
+      "line": "1.5",
+      "probability": 37.7,
+      "trend": -16.9,
+      "spread": 1.7
+    },
+    {
+      "line": "2",
+      "probability": 51.7,
+      "trend": -21.8,
+      "spread": 2.3
+    },
+    {
+      "line": "2.5",
+      "probability": 64.7,
+      "trend": -17.2,
+      "spread": 1.7
+    },
+    {
+      "line": "3",
+      "probability": 79.9,
+      "trend": -15.7,
+      "spread": 1.6
+    },
+    {
+      "line": "3.5",
+      "probability": 83.7,
+      "trend": -13.6,
+      "spread": 1.2
+    },
+    {
+      "line": "4",
+      "probability": 93,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "4.5",
+      "probability": 93.7,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5",
+      "probability": 97.8,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5.5",
+      "probability": 97.9,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 66.8,
+      "trend": 0.2,
+      "spread": 1.2
+    },
+    {
+      "line": "1",
+      "probability": 47.7,
+      "trend": 6,
+      "spread": 2
+    },
+    {
+      "line": "1.5",
+      "probability": 30.2,
+      "trend": 2.3,
+      "spread": 1.3
+    },
+    {
+      "line": "2",
+      "probability": 12.6,
+      "trend": 0.7,
+      "spread": 1.1
+    },
+    {
+      "line": "2.5",
+      "probability": 10,
+      "trend": -0.5,
+      "spread": 0.8
+    },
+    {
+      "line": "3",
+      "probability": 2.8,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "3.5",
+      "probability": 2.6,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4",
+      "probability": 0.6,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 0.6,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 33.2,
+      "trend": -10.3,
+      "spread": 1.2
+    },
+    {
+      "line": "1",
+      "probability": 52.3,
+      "trend": -12.2,
+      "spread": 2
+    },
+    {
+      "line": "1.5",
+      "probability": 69.8,
+      "trend": -9,
+      "spread": 1.3
+    },
+    {
+      "line": "2",
+      "probability": 87.4,
+      "trend": -8.5,
+      "spread": 1.1
+    },
+    {
+      "line": "2.5",
+      "probability": 90,
+      "trend": -7.4,
+      "spread": 0.8
+    },
+    {
+      "line": "3",
+      "probability": 97.2,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "3.5",
+      "probability": 97.4,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4",
+      "probability": 99.4,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 99.4,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-4",
+      "probability": 3.1,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-3.5",
+      "probability": 8.2,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-3",
+      "probability": 9.2,
+      "trend": -1,
+      "spread": 0.7
+    },
+    {
+      "line": "-2.5",
+      "probability": 19.1,
+      "trend": 4.5,
+      "spread": 1.1
+    },
+    {
+      "line": "-2",
+      "probability": 23.4,
+      "trend": 6.6,
+      "spread": 1.4
+    },
+    {
+      "line": "-1.5",
+      "probability": 37.4,
+      "trend": 6.3,
+      "spread": 1.5
+    },
+    {
+      "line": "-1",
+      "probability": 48,
+      "trend": 8.6,
+      "spread": 2
+    },
+    {
+      "line": "-0.5",
+      "probability": 59.5,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "0",
+      "probability": 76.6,
+      "trend": 0.1,
+      "spread": 1.7
+    },
+    {
+      "line": "0.5",
+      "probability": 81.8,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "1",
+      "probability": 92.1,
+      "trend": -6,
+      "spread": 0.8
+    },
+    {
+      "line": "1.5",
+      "probability": 92.9,
+      "trend": -6.1,
+      "spread": 0.6
+    },
+    {
+      "line": "2",
+      "probability": 97.8,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "2.5",
+      "probability": 97.9,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "3",
+      "probability": 99.5,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "3.5",
+      "probability": 99.5,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "4.5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-4",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-3.5",
+      "probability": 0.5,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-3",
+      "probability": 0.5,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-2.5",
+      "probability": 2.1,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-2",
+      "probability": 2.2,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-1.5",
+      "probability": 7.1,
+      "trend": -2.9,
+      "spread": 0.6
+    },
+    {
+      "line": "-1",
+      "probability": 7.9,
+      "trend": -3.1,
+      "spread": 0.8
+    },
+    {
+      "line": "-0.5",
+      "probability": 18.2,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "0",
+      "probability": 23.4,
+      "trend": -2.6,
+      "spread": 1.7
+    },
+    {
+      "line": "0.5",
+      "probability": 40.5,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "1",
+      "probability": 52,
+      "trend": -7.2,
+      "spread": 2
+    },
+    {
+      "line": "1.5",
+      "probability": 62.6,
+      "trend": -7.9,
+      "spread": 1.5
+    },
+    {
+      "line": "2",
+      "probability": 76.6,
+      "trend": -17.1,
+      "spread": 1.4
+    },
+    {
+      "line": "2.5",
+      "probability": 80.9,
+      "trend": -15.1,
+      "spread": 1.1
+    },
+    {
+      "line": "3",
+      "probability": 90.8,
+      "trend": -8.2,
+      "spread": 0.7
+    },
+    {
+      "line": "3.5",
+      "probability": 91.8,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4",
+      "probability": 96.9,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4.5",
+      "probability": 97,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-13T14:20:11.627Z",
+  "updatedAt": "2026-09-13T14:20:11.627Z",
+  "gameId": "31166742-eb0d-40c4-9220-9001b8785b7d",
+  "metadataId": "8995a8ae-7695-4657-9a61-6838aef0342a"
+}
+
+Match: Sevilla vs Barcelona
+--- gameId: 3f84dea7-ec69-413c-96ee-42c0a04af86f ---
+
+{
+  "id": "9932cb84-b45d-444d-9ce6-0d6f8f931320",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 6.7,
+      "trend": -0.5,
+      "spread": 3.7
+    },
+    {
+      "outcome": "x",
+      "probability": 9.9,
+      "trend": -3.1,
+      "spread": 3.2
+    },
+    {
+      "outcome": "2",
+      "probability": 82.9,
+      "trend": 1.6,
+      "spread": 6.7
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 17.1,
+      "trend": -4.2,
+      "spread": 6.7
+    },
+    {
+      "outcome": "12",
+      "probability": 90.1,
+      "trend": 0.5,
+      "spread": 3.2
+    },
+    {
+      "outcome": "x2",
+      "probability": 93.3,
+      "trend": -3.1,
+      "spread": 3.7
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 76.1,
+      "trend": 15.8,
+      "spread": 2.6
+    },
+    {
+      "outcome": "no",
+      "probability": 23.9,
+      "trend": -23.3,
+      "spread": 2.6
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 99.1,
+      "trend": 0.1,
+      "spread": 0.7
+    },
+    {
+      "line": "1",
+      "probability": 99.1,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "1.5",
+      "probability": 97.9,
+      "trend": 1.3,
+      "spread": 1.9
+    },
+    {
+      "line": "2",
+      "probability": 96.2,
+      "trend": 1.8,
+      "spread": 2.8
+    },
+    {
+      "line": "2.5",
+      "probability": 91.8,
+      "trend": 11.8,
+      "spread": 4.6
+    },
+    {
+      "line": "3",
+      "probability": 86.5,
+      "trend": 13.5,
+      "spread": 6.2
+    },
+    {
+      "line": "3.5",
+      "probability": 78.5,
+      "trend": 21.8,
+      "spread": 7.3
+    },
+    {
+      "line": "4",
+      "probability": 69.5,
+      "trend": 22.3,
+      "spread": 7.9
+    },
+    {
+      "line": "4.5",
+      "probability": 57.5,
+      "trend": 19.3,
+      "spread": 6.8
+    },
+    {
+      "line": "5",
+      "probability": 48.5,
+      "trend": 18.5,
+      "spread": 7.3
+    },
+    {
+      "line": "5.5",
+      "probability": 39.9,
+      "trend": 13.9,
+      "spread": 5.9
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 0.9,
+      "trend": -2.9,
+      "spread": 0.7
+    },
+    {
+      "line": "1",
+      "probability": 0.9,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "1.5",
+      "probability": 2.1,
+      "trend": -11.9,
+      "spread": 1.9
+    },
+    {
+      "line": "2",
+      "probability": 3.8,
+      "trend": -11.7,
+      "spread": 2.8
+    },
+    {
+      "line": "2.5",
+      "probability": 8.2,
+      "trend": -20.5,
+      "spread": 4.6
+    },
+    {
+      "line": "3",
+      "probability": 13.5,
+      "trend": -18.1,
+      "spread": 6.2
+    },
+    {
+      "line": "3.5",
+      "probability": 21.5,
+      "trend": -23.3,
+      "spread": 7.3
+    },
+    {
+      "line": "4",
+      "probability": 30.5,
+      "trend": -26.2,
+      "spread": 7.9
+    },
+    {
+      "line": "4.5",
+      "probability": 42.5,
+      "trend": -23.9,
+      "spread": 6.8
+    },
+    {
+      "line": "5",
+      "probability": 51.5,
+      "trend": -28.5,
+      "spread": 7.3
+    },
+    {
+      "line": "5.5",
+      "probability": 60.1,
+      "trend": -24.4,
+      "spread": 5.9
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 70.4,
+      "trend": 7.5,
+      "spread": 2
+    },
+    {
+      "line": "1",
+      "probability": 53.6,
+      "trend": 12.5,
+      "spread": 3.4
+    },
+    {
+      "line": "1.5",
+      "probability": 34.3,
+      "trend": 6.5,
+      "spread": 2.4
+    },
+    {
+      "line": "2",
+      "probability": 15.9,
+      "trend": 5.5,
+      "spread": 2
+    },
+    {
+      "line": "2.5",
+      "probability": 12.4,
+      "trend": 3.7,
+      "spread": 1.4
+    },
+    {
+      "line": "3",
+      "probability": 3.9,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "3.5",
+      "probability": 3.5,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4",
+      "probability": 0.8,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "4.5",
+      "probability": 0.8,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 29.6,
+      "trend": -14.8,
+      "spread": 2
+    },
+    {
+      "line": "1",
+      "probability": 46.4,
+      "trend": -19,
+      "spread": 3.4
+    },
+    {
+      "line": "1.5",
+      "probability": 65.7,
+      "trend": -13.7,
+      "spread": 2.4
+    },
+    {
+      "line": "2",
+      "probability": 84.1,
+      "trend": -13,
+      "spread": 2
+    },
+    {
+      "line": "2.5",
+      "probability": 87.6,
+      "trend": -11.4,
+      "spread": 1.4
+    },
+    {
+      "line": "3",
+      "probability": 96.1,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "3.5",
+      "probability": 96.5,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4",
+      "probability": 99.2,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "4.5",
+      "probability": 99.2,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 97.9,
+      "trend": -1.1,
+      "spread": 2.2
+    },
+    {
+      "line": "1",
+      "probability": 97.7,
+      "trend": null,
+      "spread": 3
+    },
+    {
+      "line": "1.5",
+      "probability": 89.9,
+      "trend": 4.4,
+      "spread": 6
+    },
+    {
+      "line": "2",
+      "probability": 88,
+      "trend": null,
+      "spread": 8.4
+    },
+    {
+      "line": "2.5",
+      "probability": 74.3,
+      "trend": 13.3,
+      "spread": 8.8
+    },
+    {
+      "line": "3",
+      "probability": 67.8,
+      "trend": null,
+      "spread": 10.8
+    },
+    {
+      "line": "3.5",
+      "probability": 54.2,
+      "trend": 15.7,
+      "spread": 9
+    },
+    {
+      "line": "4",
+      "probability": 43,
+      "trend": null,
+      "spread": 9.2
+    },
+    {
+      "line": "4.5",
+      "probability": 34.6,
+      "trend": 12.9,
+      "spread": 7.3
+    },
+    {
+      "line": "5",
+      "probability": 22.9,
+      "trend": null,
+      "spread": 6
+    },
+    {
+      "line": "5.5",
+      "probability": 19.5,
+      "trend": 8.6,
+      "spread": 4.9
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 2.1,
+      "trend": -4.6,
+      "spread": 2.2
+    },
+    {
+      "line": "1",
+      "probability": 2.3,
+      "trend": null,
+      "spread": 3
+    },
+    {
+      "line": "1.5",
+      "probability": 10.1,
+      "trend": -11.6,
+      "spread": 6
+    },
+    {
+      "line": "2",
+      "probability": 12,
+      "trend": null,
+      "spread": 8.4
+    },
+    {
+      "line": "2.5",
+      "probability": 25.7,
+      "trend": -19.4,
+      "spread": 8.8
+    },
+    {
+      "line": "3",
+      "probability": 32.2,
+      "trend": null,
+      "spread": 10.8
+    },
+    {
+      "line": "3.5",
+      "probability": 45.8,
+      "trend": -22.2,
+      "spread": 9
+    },
+    {
+      "line": "4",
+      "probability": 57,
+      "trend": null,
+      "spread": 9.2
+    },
+    {
+      "line": "4.5",
+      "probability": 65.4,
+      "trend": -20.1,
+      "spread": 7.3
+    },
+    {
+      "line": "5",
+      "probability": 77.1,
+      "trend": null,
+      "spread": 6
+    },
+    {
+      "line": "5.5",
+      "probability": 80.5,
+      "trend": -16.5,
+      "spread": 4.9
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-3.5",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-3",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-2.5",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-2",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-1.5",
+      "probability": 2.5,
+      "trend": null,
+      "spread": 1.7
+    },
+    {
+      "line": "-1",
+      "probability": 2.6,
+      "trend": null,
+      "spread": 1.9
+    },
+    {
+      "line": "-0.5",
+      "probability": 6.7,
+      "trend": null,
+      "spread": 3.7
+    },
+    {
+      "line": "0",
+      "probability": 7.5,
+      "trend": -3.7,
+      "spread": 5
+    },
+    {
+      "line": "0.5",
+      "probability": 16.7,
+      "trend": null,
+      "spread": 6.9
+    },
+    {
+      "line": "1",
+      "probability": 19.5,
+      "trend": -5.2,
+      "spread": 8.9
+    },
+    {
+      "line": "1.5",
+      "probability": 31,
+      "trend": -8.2,
+      "spread": 8.8
+    },
+    {
+      "line": "2",
+      "probability": 37.8,
+      "trend": -11.3,
+      "spread": 10.7
+    },
+    {
+      "line": "2.5",
+      "probability": 48.8,
+      "trend": -9.2,
+      "spread": 9
+    },
+    {
+      "line": "3",
+      "probability": 59.1,
+      "trend": -14.9,
+      "spread": 9.3
+    },
+    {
+      "line": "3.5",
+      "probability": 66.2,
+      "trend": -14.4,
+      "spread": 7.5
+    },
+    {
+      "line": "4",
+      "probability": 77,
+      "trend": -14.5,
+      "spread": 6.4
+    },
+    {
+      "line": "4.5",
+      "probability": 80.2,
+      "trend": -13.1,
+      "spread": 5.3
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 19.4,
+      "trend": 2.1,
+      "spread": 5.1
+    },
+    {
+      "line": "-4",
+      "probability": 22.5,
+      "trend": 3.5,
+      "spread": 6.2
+    },
+    {
+      "line": "-3.5",
+      "probability": 33.3,
+      "trend": 3.4,
+      "spread": 7.3
+    },
+    {
+      "line": "-3",
+      "probability": 40.4,
+      "trend": 10.2,
+      "spread": 9.1
+    },
+    {
+      "line": "-2.5",
+      "probability": 50.7,
+      "trend": 7.6,
+      "spread": 8.9
+    },
+    {
+      "line": "-2",
+      "probability": 61.7,
+      "trend": 7.8,
+      "spread": 10.4
+    },
+    {
+      "line": "-1.5",
+      "probability": 68.5,
+      "trend": 4.4,
+      "spread": 8.7
+    },
+    {
+      "line": "-1",
+      "probability": 80,
+      "trend": 0.7,
+      "spread": 8.8
+    },
+    {
+      "line": "-0.5",
+      "probability": 82.9,
+      "trend": null,
+      "spread": 6.7
+    },
+    {
+      "line": "0",
+      "probability": 92,
+      "trend": -4.1,
+      "spread": 4.8
+    },
+    {
+      "line": "0.5",
+      "probability": 92.8,
+      "trend": null,
+      "spread": 3.5
+    },
+    {
+      "line": "1",
+      "probability": 97,
+      "trend": null,
+      "spread": 1.8
+    },
+    {
+      "line": "1.5",
+      "probability": 97.1,
+      "trend": null,
+      "spread": 1.5
+    },
+    {
+      "line": "2",
+      "probability": 98.8,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "2.5",
+      "probability": 98.9,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "3",
+      "probability": 99.4,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "3.5",
+      "probability": 99.4,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4",
+      "probability": 99.5,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 99.5,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-17T19:57:56.458Z",
+  "updatedAt": "2026-09-17T19:57:56.458Z",
+  "gameId": "3f84dea7-ec69-413c-96ee-42c0a04af86f",
+  "metadataId": "0299aa43-1e32-4aef-b93b-3de258b851b8"
+}
+
+Match: Borussia M. vs Mainz
+--- gameId: 54468e7a-d446-4682-891e-1bb0b2f37726 ---
+
+{
+  "id": "ffe207c1-e111-42ed-a84f-35df68b35765",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 27.5,
+      "trend": -5.3,
+      "spread": 6.9
+    },
+    {
+      "outcome": "x",
+      "probability": 24.5,
+      "trend": -1.2,
+      "spread": 1.4
+    },
+    {
+      "outcome": "2",
+      "probability": 48,
+      "trend": 4.9,
+      "spread": 8.2
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 52,
+      "trend": -6.8,
+      "spread": 8.2
+    },
+    {
+      "outcome": "12",
+      "probability": 75.5,
+      "trend": -1.4,
+      "spread": 1.4
+    },
+    {
+      "outcome": "x2",
+      "probability": 72.5,
+      "trend": 2.6,
+      "spread": 6.9
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 70.9,
+      "trend": 1.5,
+      "spread": 2.2
+    },
+    {
+      "outcome": "no",
+      "probability": 29.1,
+      "trend": -9.1,
+      "spread": 2.2
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 95.1,
+      "trend": -2.1,
+      "spread": 0.2
+    },
+    {
+      "line": "1",
+      "probability": 94.6,
+      "trend": -2.5,
+      "spread": 0.2
+    },
+    {
+      "line": "1.5",
+      "probability": 87.3,
+      "trend": -2.6,
+      "spread": 0.6
+    },
+    {
+      "line": "2",
+      "probability": 80.4,
+      "trend": -1.1,
+      "spread": 0.8
+    },
+    {
+      "line": "2.5",
+      "probability": 66.1,
+      "trend": 1.7,
+      "spread": 1.1
+    },
+    {
+      "line": "3",
+      "probability": 52.6,
+      "trend": -1.1,
+      "spread": 1.3
+    },
+    {
+      "line": "3.5",
+      "probability": 39.3,
+      "trend": -2.3,
+      "spread": 1.2
+    },
+    {
+      "line": "4",
+      "probability": 28,
+      "trend": -1.8,
+      "spread": 1.1
+    },
+    {
+      "line": "4.5",
+      "probability": 22.9,
+      "trend": -3.1,
+      "spread": 0.8
+    },
+    {
+      "line": "5",
+      "probability": 12.7,
+      "trend": -3.3,
+      "spread": 0.6
+    },
+    {
+      "line": "5.5",
+      "probability": 11.2,
+      "trend": -3.5,
+      "spread": 0.5
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 4.9,
+      "trend": -0.9,
+      "spread": 0.2
+    },
+    {
+      "line": "1",
+      "probability": 5.4,
+      "trend": -2,
+      "spread": 0.2
+    },
+    {
+      "line": "1.5",
+      "probability": 12.7,
+      "trend": -7.9,
+      "spread": 0.6
+    },
+    {
+      "line": "2",
+      "probability": 19.6,
+      "trend": -3.1,
+      "spread": 0.8
+    },
+    {
+      "line": "2.5",
+      "probability": 33.9,
+      "trend": -5.3,
+      "spread": 1.1
+    },
+    {
+      "line": "3",
+      "probability": 47.4,
+      "trend": -1.9,
+      "spread": 1.3
+    },
+    {
+      "line": "3.5",
+      "probability": 60.7,
+      "trend": 0.8,
+      "spread": 1.2
+    },
+    {
+      "line": "4",
+      "probability": 72,
+      "trend": -2.4,
+      "spread": 1.1
+    },
+    {
+      "line": "4.5",
+      "probability": 77.1,
+      "trend": -5.6,
+      "spread": 0.8
+    },
+    {
+      "line": "5",
+      "probability": 87.3,
+      "trend": -6.6,
+      "spread": 0.6
+    },
+    {
+      "line": "5.5",
+      "probability": 88.8,
+      "trend": -7.1,
+      "spread": 0.5
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 75,
+      "trend": -7.7,
+      "spread": 4.8
+    },
+    {
+      "line": "1",
+      "probability": 61.7,
+      "trend": -7.8,
+      "spread": 8.4
+    },
+    {
+      "line": "1.5",
+      "probability": 40.3,
+      "trend": -6.4,
+      "spread": 6.3
+    },
+    {
+      "line": "2",
+      "probability": 21.4,
+      "trend": -6.4,
+      "spread": 5.9
+    },
+    {
+      "line": "2.5",
+      "probability": 16.3,
+      "trend": -5.2,
+      "spread": 4.1
+    },
+    {
+      "line": "3",
+      "probability": 5.8,
+      "trend": -4.2,
+      "spread": 2.1
+    },
+    {
+      "line": "3.5",
+      "probability": 5.2,
+      "trend": -4.1,
+      "spread": 1.8
+    },
+    {
+      "line": "4",
+      "probability": 1.4,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4.5",
+      "probability": 1.4,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 25,
+      "trend": -0.5,
+      "spread": 4.8
+    },
+    {
+      "line": "1",
+      "probability": 38.3,
+      "trend": 2,
+      "spread": 8.4
+    },
+    {
+      "line": "1.5",
+      "probability": 59.7,
+      "trend": 1.2,
+      "spread": 6.3
+    },
+    {
+      "line": "2",
+      "probability": 78.6,
+      "trend": 0.5,
+      "spread": 5.9
+    },
+    {
+      "line": "2.5",
+      "probability": 83.7,
+      "trend": -1.8,
+      "spread": 4.1
+    },
+    {
+      "line": "3",
+      "probability": 94.2,
+      "trend": -4,
+      "spread": 2.1
+    },
+    {
+      "line": "3.5",
+      "probability": 94.8,
+      "trend": -4.7,
+      "spread": 1.8
+    },
+    {
+      "line": "4",
+      "probability": 98.6,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4.5",
+      "probability": 98.6,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 84.6,
+      "trend": -3.4,
+      "spread": 2.9
+    },
+    {
+      "line": "1",
+      "probability": 78.4,
+      "trend": 0.2,
+      "spread": 4.8
+    },
+    {
+      "line": "1.5",
+      "probability": 55.8,
+      "trend": 1.2,
+      "spread": 5.5
+    },
+    {
+      "line": "2",
+      "probability": 39.5,
+      "trend": 2.2,
+      "spread": 7.2
+    },
+    {
+      "line": "2.5",
+      "probability": 28.8,
+      "trend": 0.6,
+      "spread": 5.2
+    },
+    {
+      "line": "3",
+      "probability": 14.5,
+      "trend": 0,
+      "spread": 4.3
+    },
+    {
+      "line": "3.5",
+      "probability": 12,
+      "trend": -0.8,
+      "spread": 3.3
+    },
+    {
+      "line": "4",
+      "probability": 4.5,
+      "trend": null,
+      "spread": 1.8
+    },
+    {
+      "line": "4.5",
+      "probability": 4.2,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "5",
+      "probability": 1.3,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5.5",
+      "probability": 1.2,
+      "trend": null,
+      "spread": 0.6
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 15.4,
+      "trend": -6.3,
+      "spread": 2.9
+    },
+    {
+      "line": "1",
+      "probability": 21.6,
+      "trend": -6.1,
+      "spread": 4.8
+    },
+    {
+      "line": "1.5",
+      "probability": 44.2,
+      "trend": -6.5,
+      "spread": 5.5
+    },
+    {
+      "line": "2",
+      "probability": 60.5,
+      "trend": -8,
+      "spread": 7.2
+    },
+    {
+      "line": "2.5",
+      "probability": 71.2,
+      "trend": -7.6,
+      "spread": 5.2
+    },
+    {
+      "line": "3",
+      "probability": 85.5,
+      "trend": -8.1,
+      "spread": 4.3
+    },
+    {
+      "line": "3.5",
+      "probability": 88,
+      "trend": -7.9,
+      "spread": 3.3
+    },
+    {
+      "line": "4",
+      "probability": 95.5,
+      "trend": null,
+      "spread": 1.8
+    },
+    {
+      "line": "4.5",
+      "probability": 95.8,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "5",
+      "probability": 98.7,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5.5",
+      "probability": 98.8,
+      "trend": null,
+      "spread": 0.6
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-4",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-3.5",
+      "probability": 1.3,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "-3",
+      "probability": 1.3,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "-2.5",
+      "probability": 4.4,
+      "trend": -3.9,
+      "spread": 1.9
+    },
+    {
+      "line": "-2",
+      "probability": 4.8,
+      "trend": -4.3,
+      "spread": 2.1
+    },
+    {
+      "line": "-1.5",
+      "probability": 12.6,
+      "trend": -5.5,
+      "spread": 4.2
+    },
+    {
+      "line": "-1",
+      "probability": 14.8,
+      "trend": -6.1,
+      "spread": 5.3
+    },
+    {
+      "line": "-0.5",
+      "probability": 27.5,
+      "trend": null,
+      "spread": 6.9
+    },
+    {
+      "line": "0",
+      "probability": 36.5,
+      "trend": -7.3,
+      "spread": 9.6
+    },
+    {
+      "line": "0.5",
+      "probability": 52,
+      "trend": null,
+      "spread": 8.2
+    },
+    {
+      "line": "1",
+      "probability": 65.5,
+      "trend": -8.6,
+      "spread": 9.4
+    },
+    {
+      "line": "1.5",
+      "probability": 72.6,
+      "trend": -10.8,
+      "spread": 7
+    },
+    {
+      "line": "2",
+      "probability": 85.3,
+      "trend": -10.7,
+      "spread": 5.8
+    },
+    {
+      "line": "2.5",
+      "probability": 87.5,
+      "trend": -9.9,
+      "spread": 4.5
+    },
+    {
+      "line": "3",
+      "probability": 94.8,
+      "trend": null,
+      "spread": 2.6
+    },
+    {
+      "line": "3.5",
+      "probability": 95.2,
+      "trend": null,
+      "spread": 2.2
+    },
+    {
+      "line": "4",
+      "probability": 98.4,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "4.5",
+      "probability": 98.4,
+      "trend": null,
+      "spread": 0.9
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 1.6,
+      "trend": null,
+      "spread": 0.9
+    },
+    {
+      "line": "-4",
+      "probability": 1.6,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "-3.5",
+      "probability": 4.8,
+      "trend": null,
+      "spread": 2.2
+    },
+    {
+      "line": "-3",
+      "probability": 5.2,
+      "trend": null,
+      "spread": 2.6
+    },
+    {
+      "line": "-2.5",
+      "probability": 12.5,
+      "trend": -0.6,
+      "spread": 4.5
+    },
+    {
+      "line": "-2",
+      "probability": 14.7,
+      "trend": 0.2,
+      "spread": 5.8
+    },
+    {
+      "line": "-1.5",
+      "probability": 27.4,
+      "trend": 1.6,
+      "spread": 7
+    },
+    {
+      "line": "-1",
+      "probability": 34.5,
+      "trend": 5,
+      "spread": 9.4
+    },
+    {
+      "line": "-0.5",
+      "probability": 48,
+      "trend": null,
+      "spread": 8.2
+    },
+    {
+      "line": "0",
+      "probability": 63.5,
+      "trend": 5.7,
+      "spread": 9.6
+    },
+    {
+      "line": "0.5",
+      "probability": 72.5,
+      "trend": null,
+      "spread": 6.9
+    },
+    {
+      "line": "1",
+      "probability": 85.2,
+      "trend": -2,
+      "spread": 5.3
+    },
+    {
+      "line": "1.5",
+      "probability": 87.4,
+      "trend": -3.8,
+      "spread": 4.2
+    },
+    {
+      "line": "2",
+      "probability": 95.2,
+      "trend": -3.8,
+      "spread": 2.1
+    },
+    {
+      "line": "2.5",
+      "probability": 95.6,
+      "trend": -3.4,
+      "spread": 1.9
+    },
+    {
+      "line": "3",
+      "probability": 98.7,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "3.5",
+      "probability": 98.7,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "4",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "4.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-17T15:17:36.723Z",
+  "updatedAt": "2026-09-17T15:17:36.723Z",
+  "gameId": "54468e7a-d446-4682-891e-1bb0b2f37726",
+  "metadataId": "d0574272-6eee-414b-828d-3e34040e744c"
+}
+
+Match: Chornomorets vs Obolon
+--- gameId: 7950cae3-0351-41f4-8154-cfb23b2cfc69 ---
+
+{
+  "id": "7ebb8815-53a4-49c3-9aa6-16eef3fa2c59",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 43.4,
+      "trend": 1.7,
+      "spread": 5
+    },
+    {
+      "outcome": "x",
+      "probability": 32.7,
+      "trend": 0.7,
+      "spread": 1.2
+    },
+    {
+      "outcome": "2",
+      "probability": 23.9,
+      "trend": -6.4,
+      "spread": 3.8
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 76.1,
+      "trend": 1.5,
+      "spread": 3.8
+    },
+    {
+      "outcome": "12",
+      "probability": 67.3,
+      "trend": -6.2,
+      "spread": 1.2
+    },
+    {
+      "outcome": "x2",
+      "probability": 56.6,
+      "trend": -6.7,
+      "spread": 5
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 42.6,
+      "trend": -3,
+      "spread": 0.5
+    },
+    {
+      "outcome": "no",
+      "probability": 57.4,
+      "trend": -3.3,
+      "spread": 0.5
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 85.2,
+      "trend": -2.6,
+      "spread": 0.8
+    },
+    {
+      "line": "1",
+      "probability": 80.3,
+      "trend": -6.6,
+      "spread": 1.2
+    },
+    {
+      "line": "1.5",
+      "probability": 61.2,
+      "trend": -3.3,
+      "spread": 1.7
+    },
+    {
+      "line": "2",
+      "probability": 45.1,
+      "trend": -4.1,
+      "spread": 2
+    },
+    {
+      "line": "2.5",
+      "probability": 30.2,
+      "trend": -6.7,
+      "spread": 1.7
+    },
+    {
+      "line": "3",
+      "probability": 17.4,
+      "trend": -5.9,
+      "spread": 1.3
+    },
+    {
+      "line": "3.5",
+      "probability": 10.6,
+      "trend": -9.5,
+      "spread": 0.9
+    },
+    {
+      "line": "4",
+      "probability": 5.8,
+      "trend": -5.6,
+      "spread": 0.6
+    },
+    {
+      "line": "4.5",
+      "probability": 5.3,
+      "trend": -5.4,
+      "spread": 0.5
+    },
+    {
+      "line": "5",
+      "probability": 1.7,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5.5",
+      "probability": 1.7,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 14.8,
+      "trend": -3,
+      "spread": 0.8
+    },
+    {
+      "line": "1",
+      "probability": 19.7,
+      "trend": -0.3,
+      "spread": 1.2
+    },
+    {
+      "line": "1.5",
+      "probability": 38.8,
+      "trend": -2.2,
+      "spread": 1.7
+    },
+    {
+      "line": "2",
+      "probability": 54.9,
+      "trend": -0.1,
+      "spread": 2
+    },
+    {
+      "line": "2.5",
+      "probability": 69.8,
+      "trend": 1.8,
+      "spread": 1.7
+    },
+    {
+      "line": "3",
+      "probability": 82.6,
+      "trend": -0.1,
+      "spread": 1.3
+    },
+    {
+      "line": "3.5",
+      "probability": 89.4,
+      "trend": 2.4,
+      "spread": 0.9
+    },
+    {
+      "line": "4",
+      "probability": 94.2,
+      "trend": -1,
+      "spread": 0.6
+    },
+    {
+      "line": "4.5",
+      "probability": 94.7,
+      "trend": -1.4,
+      "spread": 0.5
+    },
+    {
+      "line": "5",
+      "probability": 98.3,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5.5",
+      "probability": 98.3,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 69.5,
+      "trend": -3,
+      "spread": 3.6
+    },
+    {
+      "line": "1",
+      "probability": 52.2,
+      "trend": -0.5,
+      "spread": 6
+    },
+    {
+      "line": "1.5",
+      "probability": 33.3,
+      "trend": -2.1,
+      "spread": 4.2
+    },
+    {
+      "line": "2",
+      "probability": 15,
+      "trend": -4.6,
+      "spread": 3.4
+    },
+    {
+      "line": "2.5",
+      "probability": 11.8,
+      "trend": -2.5,
+      "spread": 2.4
+    },
+    {
+      "line": "3",
+      "probability": 3.6,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "3.5",
+      "probability": 3.3,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "4",
+      "probability": 0.8,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4.5",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5.5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 30.5,
+      "trend": -2.8,
+      "spread": 3.6
+    },
+    {
+      "line": "1",
+      "probability": 47.8,
+      "trend": -6.8,
+      "spread": 6
+    },
+    {
+      "line": "1.5",
+      "probability": 66.7,
+      "trend": -6.8,
+      "spread": 4.2
+    },
+    {
+      "line": "2",
+      "probability": 85,
+      "trend": -6.7,
+      "spread": 3.4
+    },
+    {
+      "line": "2.5",
+      "probability": 88.2,
+      "trend": -6.1,
+      "spread": 2.4
+    },
+    {
+      "line": "3",
+      "probability": 96.4,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "3.5",
+      "probability": 96.7,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "4",
+      "probability": 99.2,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4.5",
+      "probability": 99.3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5.5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 55.6,
+      "trend": -9.3,
+      "spread": 2.6
+    },
+    {
+      "line": "1",
+      "probability": 30.6,
+      "trend": -10.4,
+      "spread": 3.6
+    },
+    {
+      "line": "1.5",
+      "probability": 19.6,
+      "trend": -8.9,
+      "spread": 2.2
+    },
+    {
+      "line": "2",
+      "probability": 5.8,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "2.5",
+      "probability": 4.9,
+      "trend": -5.1,
+      "spread": 0.9
+    },
+    {
+      "line": "3",
+      "probability": 1,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "3.5",
+      "probability": 1,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 44.4,
+      "trend": 2.7,
+      "spread": 2.6
+    },
+    {
+      "line": "1",
+      "probability": 69.4,
+      "trend": 2.3,
+      "spread": 3.6
+    },
+    {
+      "line": "1.5",
+      "probability": 80.4,
+      "trend": 0.4,
+      "spread": 2.2
+    },
+    {
+      "line": "2",
+      "probability": 94.2,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "2.5",
+      "probability": 95.1,
+      "trend": -2,
+      "spread": 0.9
+    },
+    {
+      "line": "3",
+      "probability": 99,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "3.5",
+      "probability": 99,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0.4,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-4",
+      "probability": 0.4,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-3.5",
+      "probability": 1.7,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-3",
+      "probability": 1.8,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "-2.5",
+      "probability": 6.5,
+      "trend": -3.7,
+      "spread": 1.7
+    },
+    {
+      "line": "-2",
+      "probability": 7.5,
+      "trend": -3.4,
+      "spread": 2.1
+    },
+    {
+      "line": "-1.5",
+      "probability": 19.5,
+      "trend": -1.9,
+      "spread": 3.6
+    },
+    {
+      "line": "-1",
+      "probability": 25.7,
+      "trend": -0.7,
+      "spread": 5.1
+    },
+    {
+      "line": "-0.5",
+      "probability": 43.4,
+      "trend": null,
+      "spread": 5
+    },
+    {
+      "line": "0",
+      "probability": 64.5,
+      "trend": 2.4,
+      "spread": 6.3
+    },
+    {
+      "line": "0.5",
+      "probability": 76.1,
+      "trend": null,
+      "spread": 3.8
+    },
+    {
+      "line": "1",
+      "probability": 90.5,
+      "trend": 0.4,
+      "spread": 2.4
+    },
+    {
+      "line": "1.5",
+      "probability": 92,
+      "trend": -0.6,
+      "spread": 1.8
+    },
+    {
+      "line": "2",
+      "probability": 98,
+      "trend": -1,
+      "spread": 0.7
+    },
+    {
+      "line": "2.5",
+      "probability": 98.1,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "3",
+      "probability": 99.6,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "3.5",
+      "probability": 99.6,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "4.5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-4",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-3.5",
+      "probability": 0.4,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-3",
+      "probability": 0.4,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-2.5",
+      "probability": 1.9,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-2",
+      "probability": 2,
+      "trend": -6,
+      "spread": 0.7
+    },
+    {
+      "line": "-1.5",
+      "probability": 8,
+      "trend": -6.4,
+      "spread": 1.8
+    },
+    {
+      "line": "-1",
+      "probability": 9.5,
+      "trend": -7.1,
+      "spread": 2.4
+    },
+    {
+      "line": "-0.5",
+      "probability": 23.9,
+      "trend": null,
+      "spread": 3.8
+    },
+    {
+      "line": "0",
+      "probability": 35.5,
+      "trend": -9.2,
+      "spread": 6.3
+    },
+    {
+      "line": "0.5",
+      "probability": 56.6,
+      "trend": null,
+      "spread": 5
+    },
+    {
+      "line": "1",
+      "probability": 74.3,
+      "trend": -5.7,
+      "spread": 5.1
+    },
+    {
+      "line": "1.5",
+      "probability": 80.5,
+      "trend": -5,
+      "spread": 3.6
+    },
+    {
+      "line": "2",
+      "probability": 92.5,
+      "trend": -3.7,
+      "spread": 2.1
+    },
+    {
+      "line": "2.5",
+      "probability": 93.5,
+      "trend": -3.6,
+      "spread": 1.7
+    },
+    {
+      "line": "3",
+      "probability": 98.2,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "3.5",
+      "probability": 98.3,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4",
+      "probability": 99.6,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "4.5",
+      "probability": 99.6,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-16T06:43:33.246Z",
+  "updatedAt": "2026-09-16T06:43:33.246Z",
+  "gameId": "7950cae3-0351-41f4-8154-cfb23b2cfc69",
+  "metadataId": "43a905c1-740a-4884-871a-f909b11bea79"
+}
+
+Match: Twente vs PSV
+--- gameId: 7cc628fd-4c85-4d4c-b4d8-6efe376e000e ---
+
+{
+  "id": "e5f3dedd-75ef-4ab1-ae95-eebb81e7ff6c",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 23.8,
+      "trend": -10.9,
+      "spread": 18.1
+    },
+    {
+      "outcome": "x",
+      "probability": 21,
+      "trend": -3.7,
+      "spread": 3.7
+    },
+    {
+      "outcome": "2",
+      "probability": 55.2,
+      "trend": 10.6,
+      "spread": 21.7
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 44.8,
+      "trend": -15.1,
+      "spread": 21.7
+    },
+    {
+      "outcome": "12",
+      "probability": 79,
+      "trend": -1,
+      "spread": 3.7
+    },
+    {
+      "outcome": "x2",
+      "probability": 76.2,
+      "trend": 6.9,
+      "spread": 18.1
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 78.3,
+      "trend": -1.7,
+      "spread": 10.9
+    },
+    {
+      "outcome": "no",
+      "probability": 21.7,
+      "trend": -6.4,
+      "spread": 10.9
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 97.2,
+      "trend": -2,
+      "spread": 1.1
+    },
+    {
+      "line": "1",
+      "probability": 97,
+      "trend": -2,
+      "spread": 1.3
+    },
+    {
+      "line": "1.5",
+      "probability": 93,
+      "trend": -4.1,
+      "spread": 3.3
+    },
+    {
+      "line": "2",
+      "probability": 88.8,
+      "trend": -6.5,
+      "spread": 4.9
+    },
+    {
+      "line": "2.5",
+      "probability": 78.4,
+      "trend": 0.6,
+      "spread": 7
+    },
+    {
+      "line": "3",
+      "probability": 67.9,
+      "trend": -6.7,
+      "spread": 8.8
+    },
+    {
+      "line": "3.5",
+      "probability": 55.1,
+      "trend": -2.5,
+      "spread": 9.1
+    },
+    {
+      "line": "4",
+      "probability": 43.2,
+      "trend": -3.8,
+      "spread": 8.9
+    },
+    {
+      "line": "4.5",
+      "probability": 34.8,
+      "trend": -3.3,
+      "spread": 6.9
+    },
+    {
+      "line": "5",
+      "probability": 23.1,
+      "trend": -6.1,
+      "spread": 6.2
+    },
+    {
+      "line": "5.5",
+      "probability": 19.6,
+      "trend": -3,
+      "spread": 5
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 2.8,
+      "trend": -1,
+      "spread": 1.1
+    },
+    {
+      "line": "1",
+      "probability": 3,
+      "trend": -2.9,
+      "spread": 1.3
+    },
+    {
+      "line": "1.5",
+      "probability": 7,
+      "trend": -6.4,
+      "spread": 3.3
+    },
+    {
+      "line": "2",
+      "probability": 11.2,
+      "trend": -4.1,
+      "spread": 4.9
+    },
+    {
+      "line": "2.5",
+      "probability": 21.6,
+      "trend": -6.2,
+      "spread": 7
+    },
+    {
+      "line": "3",
+      "probability": 32.1,
+      "trend": -3.3,
+      "spread": 8.8
+    },
+    {
+      "line": "3.5",
+      "probability": 44.9,
+      "trend": -1.4,
+      "spread": 9.1
+    },
+    {
+      "line": "4",
+      "probability": 56.8,
+      "trend": -1,
+      "spread": 8.9
+    },
+    {
+      "line": "4.5",
+      "probability": 65.2,
+      "trend": -2.2,
+      "spread": 6.9
+    },
+    {
+      "line": "5",
+      "probability": 76.9,
+      "trend": -4.4,
+      "spread": 6.2
+    },
+    {
+      "line": "5.5",
+      "probability": 80.4,
+      "trend": -2.5,
+      "spread": 5
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 78.3,
+      "trend": -13.6,
+      "spread": 11.3
+    },
+    {
+      "line": "1",
+      "probability": 67.6,
+      "trend": -16.8,
+      "spread": 19.4
+    },
+    {
+      "line": "1.5",
+      "probability": 45.2,
+      "trend": -14.9,
+      "spread": 15.5
+    },
+    {
+      "line": "2",
+      "probability": 26.6,
+      "trend": -17.3,
+      "spread": 15.5
+    },
+    {
+      "line": "2.5",
+      "probability": 19.8,
+      "trend": -13.8,
+      "spread": 10.9
+    },
+    {
+      "line": "3",
+      "probability": 7.9,
+      "trend": -11.3,
+      "spread": 6.4
+    },
+    {
+      "line": "3.5",
+      "probability": 6.9,
+      "trend": -10,
+      "spread": 5.3
+    },
+    {
+      "line": "4",
+      "probability": 2.1,
+      "trend": null,
+      "spread": 2.1
+    },
+    {
+      "line": "4.5",
+      "probability": 2,
+      "trend": null,
+      "spread": 2
+    },
+    {
+      "line": "5",
+      "probability": 0.5,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5.5",
+      "probability": 0.5,
+      "trend": null,
+      "spread": 0.6
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 21.7,
+      "trend": 3.5,
+      "spread": 11.3
+    },
+    {
+      "line": "1",
+      "probability": 32.4,
+      "trend": 8.6,
+      "spread": 19.4
+    },
+    {
+      "line": "1.5",
+      "probability": 54.8,
+      "trend": 7.2,
+      "spread": 15.5
+    },
+    {
+      "line": "2",
+      "probability": 73.4,
+      "trend": 8.9,
+      "spread": 15.5
+    },
+    {
+      "line": "2.5",
+      "probability": 80.2,
+      "trend": 4.4,
+      "spread": 10.9
+    },
+    {
+      "line": "3",
+      "probability": 92.1,
+      "trend": 0.9,
+      "spread": 6.4
+    },
+    {
+      "line": "3.5",
+      "probability": 93.1,
+      "trend": -0.4,
+      "spread": 5.3
+    },
+    {
+      "line": "4",
+      "probability": 97.9,
+      "trend": null,
+      "spread": 2.1
+    },
+    {
+      "line": "4.5",
+      "probability": 98,
+      "trend": null,
+      "spread": 2
+    },
+    {
+      "line": "5",
+      "probability": 99.5,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "5.5",
+      "probability": 99.5,
+      "trend": null,
+      "spread": 0.6
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 90.5,
+      "trend": -5.2,
+      "spread": 8.7
+    },
+    {
+      "line": "1",
+      "probability": 87.7,
+      "trend": -4.2,
+      "spread": 14.2
+    },
+    {
+      "line": "1.5",
+      "probability": 68.1,
+      "trend": 0.1,
+      "spread": 16
+    },
+    {
+      "line": "2",
+      "probability": 56.7,
+      "trend": 3.5,
+      "spread": 20.5
+    },
+    {
+      "line": "2.5",
+      "probability": 41.7,
+      "trend": 0.9,
+      "spread": 15.6
+    },
+    {
+      "line": "3",
+      "probability": 26.6,
+      "trend": 1.3,
+      "spread": 14
+    },
+    {
+      "line": "3.5",
+      "probability": 21.1,
+      "trend": -0.6,
+      "spread": 10.6
+    },
+    {
+      "line": "4",
+      "probability": 10.2,
+      "trend": null,
+      "spread": 6.8
+    },
+    {
+      "line": "4.5",
+      "probability": 9,
+      "trend": null,
+      "spread": 5.7
+    },
+    {
+      "line": "5",
+      "probability": 3.5,
+      "trend": null,
+      "spread": 2.7
+    },
+    {
+      "line": "5.5",
+      "probability": 3.3,
+      "trend": null,
+      "spread": 2.5
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 9.5,
+      "trend": -5.9,
+      "spread": 8.7
+    },
+    {
+      "line": "1",
+      "probability": 12.3,
+      "trend": -5.3,
+      "spread": 14.2
+    },
+    {
+      "line": "1.5",
+      "probability": 31.9,
+      "trend": -8.4,
+      "spread": 16
+    },
+    {
+      "line": "2",
+      "probability": 43.3,
+      "trend": -11.3,
+      "spread": 20.5
+    },
+    {
+      "line": "2.5",
+      "probability": 58.3,
+      "trend": -9.3,
+      "spread": 15.6
+    },
+    {
+      "line": "3",
+      "probability": 73.4,
+      "trend": -10.8,
+      "spread": 14
+    },
+    {
+      "line": "3.5",
+      "probability": 78.9,
+      "trend": -9.5,
+      "spread": 10.6
+    },
+    {
+      "line": "4",
+      "probability": 89.8,
+      "trend": null,
+      "spread": 6.8
+    },
+    {
+      "line": "4.5",
+      "probability": 91,
+      "trend": null,
+      "spread": 5.7
+    },
+    {
+      "line": "5",
+      "probability": 96.5,
+      "trend": null,
+      "spread": 2.7
+    },
+    {
+      "line": "5.5",
+      "probability": 96.7,
+      "trend": null,
+      "spread": 2.5
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "-4",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "-3.5",
+      "probability": 1.3,
+      "trend": null,
+      "spread": 2.3
+    },
+    {
+      "line": "-3",
+      "probability": 1.3,
+      "trend": null,
+      "spread": 2.5
+    },
+    {
+      "line": "-2.5",
+      "probability": 4.1,
+      "trend": -6.7,
+      "spread": 5.7
+    },
+    {
+      "line": "-2",
+      "probability": 4.4,
+      "trend": -7.1,
+      "spread": 6.8
+    },
+    {
+      "line": "-1.5",
+      "probability": 11,
+      "trend": -9.6,
+      "spread": 11.5
+    },
+    {
+      "line": "-1",
+      "probability": 12.6,
+      "trend": -11.4,
+      "spread": 14.8
+    },
+    {
+      "line": "-0.5",
+      "probability": 23.8,
+      "trend": null,
+      "spread": 18.1
+    },
+    {
+      "line": "0",
+      "probability": 30.1,
+      "trend": -15.3,
+      "spread": 24.3
+    },
+    {
+      "line": "0.5",
+      "probability": 44.8,
+      "trend": null,
+      "spread": 21.7
+    },
+    {
+      "line": "1",
+      "probability": 55.9,
+      "trend": -17.2,
+      "spread": 24.5
+    },
+    {
+      "line": "1.5",
+      "probability": 64.7,
+      "trend": -16.6,
+      "spread": 19.2
+    },
+    {
+      "line": "2",
+      "probability": 77.5,
+      "trend": -15.6,
+      "spread": 17.2
+    },
+    {
+      "line": "2.5",
+      "probability": 81.2,
+      "trend": -13.8,
+      "spread": 13.3
+    },
+    {
+      "line": "3",
+      "probability": 90.5,
+      "trend": -3,
+      "spread": 9
+    },
+    {
+      "line": "3.5",
+      "probability": 91.5,
+      "trend": -3.8,
+      "spread": 7.5
+    },
+    {
+      "line": "4",
+      "probability": 96.5,
+      "trend": null,
+      "spread": 3.9
+    },
+    {
+      "line": "4.5",
+      "probability": 96.7,
+      "trend": null,
+      "spread": 3.5
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 3.3,
+      "trend": null,
+      "spread": 3.5
+    },
+    {
+      "line": "-4",
+      "probability": 3.5,
+      "trend": null,
+      "spread": 3.9
+    },
+    {
+      "line": "-3.5",
+      "probability": 8.5,
+      "trend": 0.5,
+      "spread": 7.5
+    },
+    {
+      "line": "-3",
+      "probability": 9.5,
+      "trend": 0.8,
+      "spread": 9
+    },
+    {
+      "line": "-2.5",
+      "probability": 18.8,
+      "trend": 3.2,
+      "spread": 13.3
+    },
+    {
+      "line": "-2",
+      "probability": 22.5,
+      "trend": 5.1,
+      "spread": 17.2
+    },
+    {
+      "line": "-1.5",
+      "probability": 35.3,
+      "trend": 6,
+      "spread": 19.2
+    },
+    {
+      "line": "-1",
+      "probability": 44.1,
+      "trend": 12.2,
+      "spread": 24.5
+    },
+    {
+      "line": "-0.5",
+      "probability": 55.2,
+      "trend": null,
+      "spread": 21.7
+    },
+    {
+      "line": "0",
+      "probability": 69.9,
+      "trend": 11.7,
+      "spread": 24.3
+    },
+    {
+      "line": "0.5",
+      "probability": 76.2,
+      "trend": null,
+      "spread": 18.1
+    },
+    {
+      "line": "1",
+      "probability": 87.3,
+      "trend": 0.9,
+      "spread": 14.8
+    },
+    {
+      "line": "1.5",
+      "probability": 88.9,
+      "trend": -1,
+      "spread": 11.5
+    },
+    {
+      "line": "2",
+      "probability": 95.6,
+      "trend": -3.4,
+      "spread": 6.8
+    },
+    {
+      "line": "2.5",
+      "probability": 95.9,
+      "trend": -3.9,
+      "spread": 5.7
+    },
+    {
+      "line": "3",
+      "probability": 98.7,
+      "trend": null,
+      "spread": 2.5
+    },
+    {
+      "line": "3.5",
+      "probability": 98.7,
+      "trend": null,
+      "spread": 2.3
+    },
+    {
+      "line": "4",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "4.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.7
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-17T19:38:11.301Z",
+  "updatedAt": "2026-09-17T19:38:11.301Z",
+  "gameId": "7cc628fd-4c85-4d4c-b4d8-6efe376e000e",
+  "metadataId": "38a34a19-208e-48ac-b047-fb3016818dc8"
+}
+
+Match: Horsens vs Aarhus
+--- gameId: 897ff0b9-b6ca-476a-a248-02cdd5dc7b86 ---
+
+{
+  "id": "b4a70000-463b-4a05-b32b-2c8f2c317cba",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 30.3,
+      "trend": 4.2,
+      "spread": 4.1
+    },
+    {
+      "outcome": "x",
+      "probability": 26.1,
+      "trend": -1,
+      "spread": 0.7
+    },
+    {
+      "outcome": "2",
+      "probability": 43.6,
+      "trend": -10.2,
+      "spread": 4.8
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 56.4,
+      "trend": 3.5,
+      "spread": 4.8
+    },
+    {
+      "outcome": "12",
+      "probability": 73.9,
+      "trend": -6.1,
+      "spread": 0.7
+    },
+    {
+      "outcome": "x2",
+      "probability": 69.7,
+      "trend": -11.6,
+      "spread": 4.1
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 67.5,
+      "trend": 6.5,
+      "spread": 0.3
+    },
+    {
+      "outcome": "no",
+      "probability": 32.5,
+      "trend": -14.4,
+      "spread": 0.3
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 94,
+      "trend": -3.2,
+      "spread": 0.2
+    },
+    {
+      "line": "1",
+      "probability": 93.1,
+      "trend": -4,
+      "spread": 0.3
+    },
+    {
+      "line": "1.5",
+      "probability": 84.1,
+      "trend": -0.3,
+      "spread": 0.6
+    },
+    {
+      "line": "2",
+      "probability": 75.7,
+      "trend": -1.2,
+      "spread": 0.8
+    },
+    {
+      "line": "2.5",
+      "probability": 60.2,
+      "trend": 2.1,
+      "spread": 1.1
+    },
+    {
+      "line": "3",
+      "probability": 45.9,
+      "trend": -0.4,
+      "spread": 1.2
+    },
+    {
+      "line": "3.5",
+      "probability": 33.1,
+      "trend": -3.9,
+      "spread": 1.1
+    },
+    {
+      "line": "4",
+      "probability": 22.5,
+      "trend": -0.7,
+      "spread": 0.9
+    },
+    {
+      "line": "4.5",
+      "probability": 18.7,
+      "trend": -1.5,
+      "spread": 0.7
+    },
+    {
+      "line": "5",
+      "probability": 9.5,
+      "trend": -1.8,
+      "spread": 0.5
+    },
+    {
+      "line": "5.5",
+      "probability": 8.5,
+      "trend": -1.5,
+      "spread": 0.4
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 6,
+      "trend": -3.3,
+      "spread": 0.2
+    },
+    {
+      "line": "1",
+      "probability": 6.9,
+      "trend": -5.6,
+      "spread": 0.3
+    },
+    {
+      "line": "1.5",
+      "probability": 15.9,
+      "trend": -10.2,
+      "spread": 0.6
+    },
+    {
+      "line": "2",
+      "probability": 24.3,
+      "trend": -8.9,
+      "spread": 0.8
+    },
+    {
+      "line": "2.5",
+      "probability": 39.8,
+      "trend": -9,
+      "spread": 1.1
+    },
+    {
+      "line": "3",
+      "probability": 54.1,
+      "trend": -9.6,
+      "spread": 1.2
+    },
+    {
+      "line": "3.5",
+      "probability": 66.9,
+      "trend": -6.6,
+      "spread": 1.1
+    },
+    {
+      "line": "4",
+      "probability": 77.5,
+      "trend": -9.6,
+      "spread": 0.9
+    },
+    {
+      "line": "4.5",
+      "probability": 81.3,
+      "trend": -9.1,
+      "spread": 0.7
+    },
+    {
+      "line": "5",
+      "probability": 90.5,
+      "trend": -8.7,
+      "spread": 0.5
+    },
+    {
+      "line": "5.5",
+      "probability": 91.5,
+      "trend": -7.6,
+      "spread": 0.4
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 74.2,
+      "trend": 0.7,
+      "spread": 2.2
+    },
+    {
+      "line": "1",
+      "probability": 60.4,
+      "trend": 6,
+      "spread": 3.8
+    },
+    {
+      "line": "1.5",
+      "probability": 39.3,
+      "trend": 2.9,
+      "spread": 2.9
+    },
+    {
+      "line": "2",
+      "probability": 20.4,
+      "trend": 2.2,
+      "spread": 2.8
+    },
+    {
+      "line": "2.5",
+      "probability": 15.6,
+      "trend": -0.2,
+      "spread": 1.9
+    },
+    {
+      "line": "3",
+      "probability": 5.5,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "3.5",
+      "probability": 4.9,
+      "trend": null,
+      "spread": 0.9
+    },
+    {
+      "line": "4",
+      "probability": 1.3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4.5",
+      "probability": 1.3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 25.8,
+      "trend": -10.6,
+      "spread": 2.2
+    },
+    {
+      "line": "1",
+      "probability": 39.6,
+      "trend": -13.9,
+      "spread": 3.8
+    },
+    {
+      "line": "1.5",
+      "probability": 60.7,
+      "trend": -11.2,
+      "spread": 2.9
+    },
+    {
+      "line": "2",
+      "probability": 79.6,
+      "trend": -11.7,
+      "spread": 2.8
+    },
+    {
+      "line": "2.5",
+      "probability": 84.4,
+      "trend": -9.9,
+      "spread": 1.9
+    },
+    {
+      "line": "3",
+      "probability": 94.5,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "3.5",
+      "probability": 95.1,
+      "trend": null,
+      "spread": 0.9
+    },
+    {
+      "line": "4",
+      "probability": 98.7,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4.5",
+      "probability": 98.7,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 81,
+      "trend": -9.4,
+      "spread": 2.3
+    },
+    {
+      "line": "1",
+      "probability": 72.2,
+      "trend": -9.1,
+      "spread": 3.9
+    },
+    {
+      "line": "1.5",
+      "probability": 49.4,
+      "trend": -7.1,
+      "spread": 3.9
+    },
+    {
+      "line": "2",
+      "probability": 31.4,
+      "trend": -8.4,
+      "spread": 4.7
+    },
+    {
+      "line": "2.5",
+      "probability": 23.2,
+      "trend": -7.6,
+      "spread": 3.3
+    },
+    {
+      "line": "3",
+      "probability": 10.2,
+      "trend": -6.9,
+      "spread": 2.3
+    },
+    {
+      "line": "3.5",
+      "probability": 8.7,
+      "trend": -6.7,
+      "spread": 1.8
+    },
+    {
+      "line": "4",
+      "probability": 2.9,
+      "trend": null,
+      "spread": 0.9
+    },
+    {
+      "line": "4.5",
+      "probability": 2.7,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "5",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5.5",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 19,
+      "trend": -1.8,
+      "spread": 2.3
+    },
+    {
+      "line": "1",
+      "probability": 27.8,
+      "trend": 0.8,
+      "spread": 3.9
+    },
+    {
+      "line": "1.5",
+      "probability": 50.6,
+      "trend": -0.6,
+      "spread": 3.9
+    },
+    {
+      "line": "2",
+      "probability": 68.6,
+      "trend": 0.1,
+      "spread": 4.7
+    },
+    {
+      "line": "2.5",
+      "probability": 76.8,
+      "trend": -2,
+      "spread": 3.3
+    },
+    {
+      "line": "3",
+      "probability": 89.8,
+      "trend": -3.5,
+      "spread": 2.3
+    },
+    {
+      "line": "3.5",
+      "probability": 91.3,
+      "trend": -3.8,
+      "spread": 1.8
+    },
+    {
+      "line": "4",
+      "probability": 97.1,
+      "trend": null,
+      "spread": 0.9
+    },
+    {
+      "line": "4.5",
+      "probability": 97.3,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "5",
+      "probability": 99.3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "5.5",
+      "probability": 99.3,
+      "trend": null,
+      "spread": 0.3
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-4",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-3.5",
+      "probability": 1.4,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "-3",
+      "probability": 1.5,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "-2.5",
+      "probability": 4.9,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "-2",
+      "probability": 5.4,
+      "trend": null,
+      "spread": 1.3
+    },
+    {
+      "line": "-1.5",
+      "probability": 13.9,
+      "trend": 1.5,
+      "spread": 2.5
+    },
+    {
+      "line": "-1",
+      "probability": 16.6,
+      "trend": 2.7,
+      "spread": 3.3
+    },
+    {
+      "line": "-0.5",
+      "probability": 30.3,
+      "trend": null,
+      "spread": 4.1
+    },
+    {
+      "line": "0",
+      "probability": 41,
+      "trend": 4.5,
+      "spread": 5.9
+    },
+    {
+      "line": "0.5",
+      "probability": 56.4,
+      "trend": null,
+      "spread": 4.8
+    },
+    {
+      "line": "1",
+      "probability": 70.8,
+      "trend": 3.3,
+      "spread": 5.2
+    },
+    {
+      "line": "1.5",
+      "probability": 76.8,
+      "trend": -1.4,
+      "spread": 3.8
+    },
+    {
+      "line": "2",
+      "probability": 88.7,
+      "trend": -3.6,
+      "spread": 2.9
+    },
+    {
+      "line": "2.5",
+      "probability": 90.2,
+      "trend": -4.4,
+      "spread": 2.3
+    },
+    {
+      "line": "3",
+      "probability": 96.4,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "3.5",
+      "probability": 96.6,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "4",
+      "probability": 99,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "4.5",
+      "probability": 99,
+      "trend": null,
+      "spread": 0.4
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 1,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "-4",
+      "probability": 1,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "-3.5",
+      "probability": 3.4,
+      "trend": null,
+      "spread": 1
+    },
+    {
+      "line": "-3",
+      "probability": 3.6,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "-2.5",
+      "probability": 9.8,
+      "trend": -6.2,
+      "spread": 2.3
+    },
+    {
+      "line": "-2",
+      "probability": 11.3,
+      "trend": -6.9,
+      "spread": 2.9
+    },
+    {
+      "line": "-1.5",
+      "probability": 23.2,
+      "trend": -9,
+      "spread": 3.8
+    },
+    {
+      "line": "-1",
+      "probability": 29.2,
+      "trend": -10.7,
+      "spread": 5.2
+    },
+    {
+      "line": "-0.5",
+      "probability": 43.6,
+      "trend": null,
+      "spread": 4.8
+    },
+    {
+      "line": "0",
+      "probability": 59,
+      "trend": -15.1,
+      "spread": 5.9
+    },
+    {
+      "line": "0.5",
+      "probability": 69.7,
+      "trend": null,
+      "spread": 4.1
+    },
+    {
+      "line": "1",
+      "probability": 83.4,
+      "trend": -13.2,
+      "spread": 3.3
+    },
+    {
+      "line": "1.5",
+      "probability": 86.1,
+      "trend": -12.1,
+      "spread": 2.5
+    },
+    {
+      "line": "2",
+      "probability": 94.6,
+      "trend": null,
+      "spread": 1.3
+    },
+    {
+      "line": "2.5",
+      "probability": 95.1,
+      "trend": null,
+      "spread": 1.1
+    },
+    {
+      "line": "3",
+      "probability": 98.5,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "3.5",
+      "probability": 98.6,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "4",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-17T20:16:00.440Z",
+  "updatedAt": "2026-09-17T20:16:00.440Z",
+  "gameId": "897ff0b9-b6ca-476a-a248-02cdd5dc7b86",
+  "metadataId": "572361d9-3ad7-45f8-8e8a-4541954d6032"
+}
+
+Match: Osasuna vs R. Vallecano
+--- gameId: d3d9f0d2-e096-430a-bcbf-fb075ee4c7f6 ---
+
+{
+  "id": "c86c50d9-eb84-451b-99ce-4e2da71bcacd",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 38.7,
+      "trend": -3.8,
+      "spread": 1.9
+    },
+    {
+      "outcome": "x",
+      "probability": 28.4,
+      "trend": -1.2,
+      "spread": 1.2
+    },
+    {
+      "outcome": "2",
+      "probability": 33,
+      "trend": 3.4,
+      "spread": 1.2
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 67,
+      "trend": -5.4,
+      "spread": 1.2
+    },
+    {
+      "outcome": "12",
+      "probability": 71.6,
+      "trend": -1.4,
+      "spread": 1.2
+    },
+    {
+      "outcome": "x2",
+      "probability": 61.3,
+      "trend": 1.3,
+      "spread": 1.9
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 61,
+      "trend": 5.8,
+      "spread": 4.2
+    },
+    {
+      "outcome": "no",
+      "probability": 39,
+      "trend": -13.3,
+      "spread": 4.2
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 91.9,
+      "trend": -6.3,
+      "spread": 1.4
+    },
+    {
+      "line": "1",
+      "probability": 90.3,
+      "trend": -5,
+      "spread": 1.9
+    },
+    {
+      "line": "1.5",
+      "probability": 78.3,
+      "trend": 3.3,
+      "spread": 3.8
+    },
+    {
+      "line": "2",
+      "probability": 67.4,
+      "trend": 2.6,
+      "spread": 5.3
+    },
+    {
+      "line": "2.5",
+      "probability": 50.8,
+      "trend": 4.7,
+      "spread": 5.6
+    },
+    {
+      "line": "3",
+      "probability": 35.9,
+      "trend": 1.9,
+      "spread": 5.6
+    },
+    {
+      "line": "3.5",
+      "probability": 24.6,
+      "trend": -3.5,
+      "spread": 4.6
+    },
+    {
+      "line": "4",
+      "probability": 15.6,
+      "trend": -0.5,
+      "spread": 3.6
+    },
+    {
+      "line": "4.5",
+      "probability": 13.3,
+      "trend": -1.2,
+      "spread": 2.8
+    },
+    {
+      "line": "5",
+      "probability": 5.9,
+      "trend": -2.8,
+      "spread": 1.7
+    },
+    {
+      "line": "5.5",
+      "probability": 5.5,
+      "trend": -1.4,
+      "spread": 1.5
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 8.1,
+      "trend": -4.2,
+      "spread": 1.4
+    },
+    {
+      "line": "1",
+      "probability": 9.7,
+      "trend": -4.9,
+      "spread": 1.9
+    },
+    {
+      "line": "1.5",
+      "probability": 21.7,
+      "trend": -8.8,
+      "spread": 3.8
+    },
+    {
+      "line": "2",
+      "probability": 32.6,
+      "trend": -7.4,
+      "spread": 5.3
+    },
+    {
+      "line": "2.5",
+      "probability": 49.2,
+      "trend": -6.2,
+      "spread": 5.6
+    },
+    {
+      "line": "3",
+      "probability": 64.1,
+      "trend": -7.3,
+      "spread": 5.6
+    },
+    {
+      "line": "3.5",
+      "probability": 75.4,
+      "trend": -5.2,
+      "spread": 4.6
+    },
+    {
+      "line": "4",
+      "probability": 84.4,
+      "trend": -9.4,
+      "spread": 3.6
+    },
+    {
+      "line": "4.5",
+      "probability": 86.7,
+      "trend": -9.4,
+      "spread": 2.8
+    },
+    {
+      "line": "5",
+      "probability": 94.1,
+      "trend": -4.9,
+      "spread": 1.7
+    },
+    {
+      "line": "5.5",
+      "probability": 94.5,
+      "trend": -3,
+      "spread": 1.5
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 75.3,
+      "trend": -2.8,
+      "spread": 3.2
+    },
+    {
+      "line": "1",
+      "probability": 62.3,
+      "trend": -3.1,
+      "spread": 5.6
+    },
+    {
+      "line": "1.5",
+      "probability": 40.8,
+      "trend": -3.5,
+      "spread": 4.3
+    },
+    {
+      "line": "2",
+      "probability": 21.9,
+      "trend": -1.9,
+      "spread": 4.3
+    },
+    {
+      "line": "2.5",
+      "probability": 16.6,
+      "trend": -1.6,
+      "spread": 3
+    },
+    {
+      "line": "3",
+      "probability": 6,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "3.5",
+      "probability": 5.4,
+      "trend": null,
+      "spread": 1.4
+    },
+    {
+      "line": "4",
+      "probability": 1.5,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "4.5",
+      "probability": 1.4,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 24.7,
+      "trend": -4.7,
+      "spread": 3.2
+    },
+    {
+      "line": "1",
+      "probability": 37.7,
+      "trend": -3.4,
+      "spread": 5.6
+    },
+    {
+      "line": "1.5",
+      "probability": 59.2,
+      "trend": -3.7,
+      "spread": 4.3
+    },
+    {
+      "line": "2",
+      "probability": 78.1,
+      "trend": -4.6,
+      "spread": 4.3
+    },
+    {
+      "line": "2.5",
+      "probability": 83.4,
+      "trend": -5.1,
+      "spread": 3
+    },
+    {
+      "line": "3",
+      "probability": 94,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "3.5",
+      "probability": 94.6,
+      "trend": null,
+      "spread": 1.4
+    },
+    {
+      "line": "4",
+      "probability": 98.5,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "4.5",
+      "probability": 98.6,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 72,
+      "trend": 0.6,
+      "spread": 1.9
+    },
+    {
+      "line": "1",
+      "probability": 56.6,
+      "trend": 2.2,
+      "spread": 3.2
+    },
+    {
+      "line": "1.5",
+      "probability": 36.4,
+      "trend": 0.1,
+      "spread": 2.4
+    },
+    {
+      "line": "2",
+      "probability": 17.7,
+      "trend": 0.8,
+      "spread": 2.2
+    },
+    {
+      "line": "2.5",
+      "probability": 13.7,
+      "trend": 0.6,
+      "spread": 1.6
+    },
+    {
+      "line": "3",
+      "probability": 4.5,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "3.5",
+      "probability": 4.1,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "4",
+      "probability": 1,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "4.5",
+      "probability": 1,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5.5",
+      "probability": 0.2,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 28,
+      "trend": -8.4,
+      "spread": 1.9
+    },
+    {
+      "line": "1",
+      "probability": 43.4,
+      "trend": -7.9,
+      "spread": 3.2
+    },
+    {
+      "line": "1.5",
+      "probability": 63.6,
+      "trend": -6.8,
+      "spread": 2.4
+    },
+    {
+      "line": "2",
+      "probability": 82.3,
+      "trend": -7.8,
+      "spread": 2.2
+    },
+    {
+      "line": "2.5",
+      "probability": 86.3,
+      "trend": -7.2,
+      "spread": 1.6
+    },
+    {
+      "line": "3",
+      "probability": 95.5,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "3.5",
+      "probability": 95.9,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "4",
+      "probability": 99,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "4.5",
+      "probability": 99,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5.5",
+      "probability": 99.8,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0.5,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-4",
+      "probability": 0.5,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-3.5",
+      "probability": 2.1,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "-3",
+      "probability": 2.2,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "-2.5",
+      "probability": 6.9,
+      "trend": -3.8,
+      "spread": 1.1
+    },
+    {
+      "line": "-2",
+      "probability": 7.8,
+      "trend": -3.9,
+      "spread": 1.3
+    },
+    {
+      "line": "-1.5",
+      "probability": 18.7,
+      "trend": -4.3,
+      "spread": 1.8
+    },
+    {
+      "line": "-1",
+      "probability": 23.3,
+      "trend": -3,
+      "spread": 2.3
+    },
+    {
+      "line": "-0.5",
+      "probability": 38.7,
+      "trend": null,
+      "spread": 1.9
+    },
+    {
+      "line": "0",
+      "probability": 54,
+      "trend": -5.5,
+      "spread": 1.7
+    },
+    {
+      "line": "0.5",
+      "probability": 67,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "1",
+      "probability": 81.9,
+      "trend": -9.7,
+      "spread": 1
+    },
+    {
+      "line": "1.5",
+      "probability": 85.2,
+      "trend": -9.8,
+      "spread": 0.8
+    },
+    {
+      "line": "2",
+      "probability": 94.4,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "2.5",
+      "probability": 94.9,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "3",
+      "probability": 98.5,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "3.5",
+      "probability": 98.6,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "4.5",
+      "probability": 99.7,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-4",
+      "probability": 0.3,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-3.5",
+      "probability": 1.4,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-3",
+      "probability": 1.4,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-2.5",
+      "probability": 5.1,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "-2",
+      "probability": 5.6,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "-1.5",
+      "probability": 14.8,
+      "trend": 0.5,
+      "spread": 0.8
+    },
+    {
+      "line": "-1",
+      "probability": 18.1,
+      "trend": 1.6,
+      "spread": 1
+    },
+    {
+      "line": "-0.5",
+      "probability": 33,
+      "trend": null,
+      "spread": 1.2
+    },
+    {
+      "line": "0",
+      "probability": 46,
+      "trend": 4,
+      "spread": 1.7
+    },
+    {
+      "line": "0.5",
+      "probability": 61.3,
+      "trend": null,
+      "spread": 1.9
+    },
+    {
+      "line": "1",
+      "probability": 76.7,
+      "trend": -2,
+      "spread": 2.3
+    },
+    {
+      "line": "1.5",
+      "probability": 81.3,
+      "trend": -5,
+      "spread": 1.8
+    },
+    {
+      "line": "2",
+      "probability": 92.2,
+      "trend": -6.5,
+      "spread": 1.3
+    },
+    {
+      "line": "2.5",
+      "probability": 93.1,
+      "trend": -6.7,
+      "spread": 1.1
+    },
+    {
+      "line": "3",
+      "probability": 97.8,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "3.5",
+      "probability": 97.9,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "4",
+      "probability": 99.5,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "4.5",
+      "probability": 99.5,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-16T20:51:50.485Z",
+  "updatedAt": "2026-09-16T20:51:50.485Z",
+  "gameId": "d3d9f0d2-e096-430a-bcbf-fb075ee4c7f6",
+  "metadataId": "860fc539-f70a-4c43-9f3a-00ed8bc84a6d"
+}
+
+Match: Epitsentr vs Livyi Bereh
+--- gameId: e28d3ef5-a816-49f7-90fa-4e1b7ba238d0 ---
+
+{
+  "id": "416de9aa-bb6a-4342-bf9c-8e646a39efd0",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 56.2,
+      "trend": 8.1,
+      "spread": 10.5
+    },
+    {
+      "outcome": "x",
+      "probability": 29.2,
+      "trend": -0.5,
+      "spread": 8.2
+    },
+    {
+      "outcome": "2",
+      "probability": 14.6,
+      "trend": -11.2,
+      "spread": 4.4
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 85.4,
+      "trend": 6.6,
+      "spread": 4.4
+    },
+    {
+      "outcome": "12",
+      "probability": 70.8,
+      "trend": -5,
+      "spread": 8.2
+    },
+    {
+      "outcome": "x2",
+      "probability": 43.8,
+      "trend": -12.7,
+      "spread": 10.5
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 37.8,
+      "trend": -13.7,
+      "spread": 15.1
+    },
+    {
+      "outcome": "no",
+      "probability": 62.2,
+      "trend": 6.6,
+      "spread": 15.1
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 86,
+      "trend": -5.8,
+      "spread": 10.2
+    },
+    {
+      "line": "1",
+      "probability": 81.5,
+      "trend": -9.4,
+      "spread": 16.7
+    },
+    {
+      "line": "1.5",
+      "probability": 62.5,
+      "trend": -9.4,
+      "spread": 20.8
+    },
+    {
+      "line": "2",
+      "probability": 46.9,
+      "trend": -14.1,
+      "spread": 23
+    },
+    {
+      "line": "2.5",
+      "probability": 31.7,
+      "trend": -14.4,
+      "spread": 18.3
+    },
+    {
+      "line": "3",
+      "probability": 18.6,
+      "trend": -12.1,
+      "spread": 13.8
+    },
+    {
+      "line": "3.5",
+      "probability": 11.4,
+      "trend": -13.9,
+      "spread": 9.6
+    },
+    {
+      "line": "4",
+      "probability": 6.3,
+      "trend": -8.3,
+      "spread": 6.1
+    },
+    {
+      "line": "4.5",
+      "probability": 5.7,
+      "trend": -7.6,
+      "spread": 5.2
+    },
+    {
+      "line": "5",
+      "probability": 1.9,
+      "trend": -6.6,
+      "spread": 2.3
+    },
+    {
+      "line": "5.5",
+      "probability": 1.8,
+      "trend": -6.5,
+      "spread": 2.1
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 14,
+      "trend": -1.3,
+      "spread": 10.2
+    },
+    {
+      "line": "1",
+      "probability": 18.5,
+      "trend": 2.7,
+      "spread": 16.7
+    },
+    {
+      "line": "1.5",
+      "probability": 37.5,
+      "trend": 3.5,
+      "spread": 20.8
+    },
+    {
+      "line": "2",
+      "probability": 53.1,
+      "trend": 9.1,
+      "spread": 23
+    },
+    {
+      "line": "2.5",
+      "probability": 68.3,
+      "trend": 9.1,
+      "spread": 18.3
+    },
+    {
+      "line": "3",
+      "probability": 81.4,
+      "trend": 6.7,
+      "spread": 13.8
+    },
+    {
+      "line": "3.5",
+      "probability": 88.6,
+      "trend": 7.9,
+      "spread": 9.6
+    },
+    {
+      "line": "4",
+      "probability": 93.7,
+      "trend": 1.9,
+      "spread": 6.1
+    },
+    {
+      "line": "4.5",
+      "probability": 94.3,
+      "trend": 0.8,
+      "spread": 5.2
+    },
+    {
+      "line": "5",
+      "probability": 98.1,
+      "trend": 0,
+      "spread": 2.3
+    },
+    {
+      "line": "5.5",
+      "probability": 98.2,
+      "trend": -0.9,
+      "spread": 2.1
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 76.3,
+      "trend": -3.7,
+      "spread": 14.6
+    },
+    {
+      "line": "1",
+      "probability": 64,
+      "trend": -3.1,
+      "spread": 23.5
+    },
+    {
+      "line": "1.5",
+      "probability": 42.1,
+      "trend": -2.9,
+      "spread": 16.8
+    },
+    {
+      "line": "2",
+      "probability": 23.3,
+      "trend": -3.8,
+      "spread": 14.3
+    },
+    {
+      "line": "2.5",
+      "probability": 17.6,
+      "trend": -5.6,
+      "spread": 10.2
+    },
+    {
+      "line": "3",
+      "probability": 6.6,
+      "trend": null,
+      "spread": 5.2
+    },
+    {
+      "line": "3.5",
+      "probability": 5.8,
+      "trend": -7.7,
+      "spread": 4.4
+    },
+    {
+      "line": "4",
+      "probability": 1.7,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "4.5",
+      "probability": 1.6,
+      "trend": null,
+      "spread": 1.5
+    },
+    {
+      "line": "5",
+      "probability": 0.4,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "5.5",
+      "probability": 0.4,
+      "trend": null,
+      "spread": 0.4
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 23.7,
+      "trend": -4.7,
+      "spread": 14.6
+    },
+    {
+      "line": "1",
+      "probability": 36,
+      "trend": -4.8,
+      "spread": 23.5
+    },
+    {
+      "line": "1.5",
+      "probability": 57.9,
+      "trend": -4.6,
+      "spread": 16.8
+    },
+    {
+      "line": "2",
+      "probability": 76.7,
+      "trend": -4,
+      "spread": 14.3
+    },
+    {
+      "line": "2.5",
+      "probability": 82.4,
+      "trend": -5.3,
+      "spread": 10.2
+    },
+    {
+      "line": "3",
+      "probability": 93.4,
+      "trend": null,
+      "spread": 5.2
+    },
+    {
+      "line": "3.5",
+      "probability": 94.2,
+      "trend": -3.9,
+      "spread": 4.4
+    },
+    {
+      "line": "4",
+      "probability": 98.3,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "4.5",
+      "probability": 98.4,
+      "trend": null,
+      "spread": 1.5
+    },
+    {
+      "line": "5",
+      "probability": 99.6,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "5.5",
+      "probability": 99.6,
+      "trend": null,
+      "spread": 0.4
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 45.7,
+      "trend": -19.7,
+      "spread": 8.2
+    },
+    {
+      "line": "1",
+      "probability": 18.8,
+      "trend": -24.5,
+      "spread": 9.1
+    },
+    {
+      "line": "1.5",
+      "probability": 12.5,
+      "trend": -16.4,
+      "spread": 5.4
+    },
+    {
+      "line": "2",
+      "probability": 2.7,
+      "trend": -10.9,
+      "spread": 2.2
+    },
+    {
+      "line": "2.5",
+      "probability": 2.4,
+      "trend": -13.2,
+      "spread": 1.8
+    },
+    {
+      "line": "3",
+      "probability": 0.4,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "3.5",
+      "probability": 0.4,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 54.3,
+      "trend": 13,
+      "spread": 8.2
+    },
+    {
+      "line": "1",
+      "probability": 81.2,
+      "trend": 19.5,
+      "spread": 9.1
+    },
+    {
+      "line": "1.5",
+      "probability": 87.5,
+      "trend": 9.9,
+      "spread": 5.4
+    },
+    {
+      "line": "2",
+      "probability": 97.3,
+      "trend": 3,
+      "spread": 2.2
+    },
+    {
+      "line": "2.5",
+      "probability": 97.6,
+      "trend": 1.4,
+      "spread": 1.8
+    },
+    {
+      "line": "3",
+      "probability": 99.6,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "3.5",
+      "probability": 99.6,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "5.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 1,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "-4",
+      "probability": 1,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "-3.5",
+      "probability": 3.7,
+      "trend": null,
+      "spread": 2.4
+    },
+    {
+      "line": "-3",
+      "probability": 4,
+      "trend": -4,
+      "spread": 2.7
+    },
+    {
+      "line": "-2.5",
+      "probability": 11.6,
+      "trend": -1.4,
+      "spread": 6
+    },
+    {
+      "line": "-2",
+      "probability": 14.1,
+      "trend": -0.4,
+      "spread": 7.5
+    },
+    {
+      "line": "-1.5",
+      "probability": 29.3,
+      "trend": 2.5,
+      "spread": 10.5
+    },
+    {
+      "line": "-1",
+      "probability": 40.1,
+      "trend": 7.1,
+      "spread": 13.9
+    },
+    {
+      "line": "-0.5",
+      "probability": 56.2,
+      "trend": null,
+      "spread": 10.5
+    },
+    {
+      "line": "0",
+      "probability": 79.3,
+      "trend": 9.9,
+      "spread": 9.2
+    },
+    {
+      "line": "0.5",
+      "probability": 85.4,
+      "trend": null,
+      "spread": 4.5
+    },
+    {
+      "line": "1",
+      "probability": 95.6,
+      "trend": 3,
+      "spread": 1.7
+    },
+    {
+      "line": "1.5",
+      "probability": 96.1,
+      "trend": 1.8,
+      "spread": 1.4
+    },
+    {
+      "line": "2",
+      "probability": 99.3,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "2.5",
+      "probability": 99.3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "3",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "3.5",
+      "probability": 99.9,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0
+    },
+    {
+      "line": "-3.5",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-3",
+      "probability": 0.1,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-2.5",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-2",
+      "probability": 0.7,
+      "trend": null,
+      "spread": 0.4
+    },
+    {
+      "line": "-1.5",
+      "probability": 3.9,
+      "trend": -9,
+      "spread": 1.4
+    },
+    {
+      "line": "-1",
+      "probability": 4.4,
+      "trend": -10.2,
+      "spread": 1.7
+    },
+    {
+      "line": "-0.5",
+      "probability": 14.6,
+      "trend": null,
+      "spread": 4.4
+    },
+    {
+      "line": "0",
+      "probability": 20.7,
+      "trend": -16.6,
+      "spread": 9.2
+    },
+    {
+      "line": "0.5",
+      "probability": 43.8,
+      "trend": null,
+      "spread": 10.5
+    },
+    {
+      "line": "1",
+      "probability": 59.9,
+      "trend": -12.6,
+      "spread": 13.9
+    },
+    {
+      "line": "1.5",
+      "probability": 70.7,
+      "trend": -9.3,
+      "spread": 10.5
+    },
+    {
+      "line": "2",
+      "probability": 85.9,
+      "trend": -6.7,
+      "spread": 7.5
+    },
+    {
+      "line": "2.5",
+      "probability": 88.4,
+      "trend": -5.1,
+      "spread": 6
+    },
+    {
+      "line": "3",
+      "probability": 96,
+      "trend": -3.1,
+      "spread": 2.7
+    },
+    {
+      "line": "3.5",
+      "probability": 96.3,
+      "trend": null,
+      "spread": 2.4
+    },
+    {
+      "line": "4",
+      "probability": 99,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "4.5",
+      "probability": 99,
+      "trend": null,
+      "spread": 0.8
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-16T07:06:11.625Z",
+  "updatedAt": "2026-09-16T07:06:11.625Z",
+  "gameId": "e28d3ef5-a816-49f7-90fa-4e1b7ba238d0",
+  "metadataId": "83bb36a4-6c50-4cc4-82bc-adb7f20ca745"
+}
+
+Match: R. Sociedad vs Bournemouth
+--- gameId: f3aeb460-4153-4603-bfb0-9d16043d1101 ---
+
+{
+  "id": "3a3dd81b-5389-4304-96ef-da6de9cdc8cf",
+  "matchResult": [
+    {
+      "outcome": "1",
+      "probability": 22.1,
+      "trend": -12.2,
+      "spread": 1.8
+    },
+    {
+      "outcome": "x",
+      "probability": 40,
+      "trend": 12.3,
+      "spread": 1.8
+    },
+    {
+      "outcome": "2",
+      "probability": 37.9,
+      "trend": -3.1,
+      "spread": 1.4
+    }
+  ],
+  "doubleChance": [
+    {
+      "outcome": "1x",
+      "probability": 62.1,
+      "trend": -0.2,
+      "spread": 1.4
+    },
+    {
+      "outcome": "12",
+      "probability": 60,
+      "trend": -16,
+      "spread": 1.8
+    },
+    {
+      "outcome": "x2",
+      "probability": 77.9,
+      "trend": 8.5,
+      "spread": 1.8
+    }
+  ],
+  "bothTeamsToScore": [
+    {
+      "outcome": "yes",
+      "probability": 60.5,
+      "trend": -2.8,
+      "spread": 4.7
+    },
+    {
+      "outcome": "no",
+      "probability": 39.5,
+      "trend": -4.3,
+      "spread": 4.7
+    }
+  ],
+  "totalGoalsOver": [
+    {
+      "line": "0.5",
+      "probability": 89.4,
+      "trend": -8.6,
+      "spread": 1.5
+    },
+    {
+      "line": "1",
+      "probability": 88,
+      "trend": -9.1,
+      "spread": 1.9
+    },
+    {
+      "line": "1.5",
+      "probability": 81.1,
+      "trend": -0.8,
+      "spread": 3.7
+    },
+    {
+      "line": "2",
+      "probability": 77.7,
+      "trend": 1.9,
+      "spread": 5.2
+    },
+    {
+      "line": "2.5",
+      "probability": 68,
+      "trend": 11.6,
+      "spread": 6.5
+    },
+    {
+      "line": "3",
+      "probability": 59.6,
+      "trend": 14.4,
+      "spread": 7.4
+    },
+    {
+      "line": "3.5",
+      "probability": 43.1,
+      "trend": 7.1,
+      "spread": 6.5
+    },
+    {
+      "line": "4",
+      "probability": 25.1,
+      "trend": 1.8,
+      "spread": 5.2
+    },
+    {
+      "line": "4.5",
+      "probability": 20.3,
+      "trend": 0.6,
+      "spread": 4
+    },
+    {
+      "line": "5",
+      "probability": 8.8,
+      "trend": -2.2,
+      "spread": 2.9
+    },
+    {
+      "line": "5.5",
+      "probability": 7.6,
+      "trend": -2.4,
+      "spread": 2.4
+    }
+  ],
+  "totalGoalsUnder": [
+    {
+      "line": "0.5",
+      "probability": 10.6,
+      "trend": 3.5,
+      "spread": 1.5
+    },
+    {
+      "line": "1",
+      "probability": 12,
+      "trend": 2.5,
+      "spread": 1.9
+    },
+    {
+      "line": "1.5",
+      "probability": 18.9,
+      "trend": -4.9,
+      "spread": 3.7
+    },
+    {
+      "line": "2",
+      "probability": 22.3,
+      "trend": -9.1,
+      "spread": 5.2
+    },
+    {
+      "line": "2.5",
+      "probability": 32,
+      "trend": -14.7,
+      "spread": 6.5
+    },
+    {
+      "line": "3",
+      "probability": 40.4,
+      "trend": -19.7,
+      "spread": 7.4
+    },
+    {
+      "line": "3.5",
+      "probability": 56.9,
+      "trend": -12.9,
+      "spread": 6.5
+    },
+    {
+      "line": "4",
+      "probability": 74.9,
+      "trend": -9.8,
+      "spread": 5.2
+    },
+    {
+      "line": "4.5",
+      "probability": 79.7,
+      "trend": -6.2,
+      "spread": 4
+    },
+    {
+      "line": "5",
+      "probability": 91.2,
+      "trend": -8.4,
+      "spread": 2.9
+    },
+    {
+      "line": "5.5",
+      "probability": 92.4,
+      "trend": -4.7,
+      "spread": 2.4
+    }
+  ],
+  "homeTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 62.8,
+      "trend": -15.3,
+      "spread": 2.9
+    },
+    {
+      "line": "1",
+      "probability": 59,
+      "trend": -6.8,
+      "spread": 4.4
+    },
+    {
+      "line": "1.5",
+      "probability": 50.1,
+      "trend": 6.2,
+      "spread": 3.6
+    },
+    {
+      "line": "2",
+      "probability": 29.4,
+      "trend": 5,
+      "spread": 3.8
+    },
+    {
+      "line": "2.5",
+      "probability": 22.4,
+      "trend": 3.9,
+      "spread": 2.6
+    },
+    {
+      "line": "3",
+      "probability": 5.2,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "3.5",
+      "probability": 4.6,
+      "trend": -2.3,
+      "spread": 1.3
+    },
+    {
+      "line": "4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "homeTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 37.2,
+      "trend": 9,
+      "spread": 2.9
+    },
+    {
+      "line": "1",
+      "probability": 41,
+      "trend": 0.4,
+      "spread": 4.4
+    },
+    {
+      "line": "1.5",
+      "probability": 49.9,
+      "trend": -12.6,
+      "spread": 3.6
+    },
+    {
+      "line": "2",
+      "probability": 70.6,
+      "trend": -12.1,
+      "spread": 3.8
+    },
+    {
+      "line": "2.5",
+      "probability": 77.6,
+      "trend": -10.9,
+      "spread": 2.6
+    },
+    {
+      "line": "3",
+      "probability": 94.8,
+      "trend": null,
+      "spread": 1.6
+    },
+    {
+      "line": "3.5",
+      "probability": 95.4,
+      "trend": -2.7,
+      "spread": 1.3
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.5
+    },
+    {
+      "line": "5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "awayTotalOver": [
+    {
+      "line": "0.5",
+      "probability": 87,
+      "trend": 5,
+      "spread": 3.4
+    },
+    {
+      "line": "1",
+      "probability": 81.7,
+      "trend": 10.8,
+      "spread": 5.8
+    },
+    {
+      "line": "1.5",
+      "probability": 59.7,
+      "trend": 11.8,
+      "spread": 5.1
+    },
+    {
+      "line": "2",
+      "probability": 30.8,
+      "trend": 0.6,
+      "spread": 5.2
+    },
+    {
+      "line": "2.5",
+      "probability": 23.9,
+      "trend": 1.2,
+      "spread": 3.6
+    },
+    {
+      "line": "3",
+      "probability": 7.8,
+      "trend": null,
+      "spread": 2.2
+    },
+    {
+      "line": "3.5",
+      "probability": 4.5,
+      "trend": -4.6,
+      "spread": 1.8
+    },
+    {
+      "line": "4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "awayTotalUnder": [
+    {
+      "line": "0.5",
+      "probability": 13,
+      "trend": -12,
+      "spread": 3.4
+    },
+    {
+      "line": "1",
+      "probability": 18.3,
+      "trend": -16.2,
+      "spread": 5.8
+    },
+    {
+      "line": "1.5",
+      "probability": 40.3,
+      "trend": -16.5,
+      "spread": 5.1
+    },
+    {
+      "line": "2",
+      "probability": 69.2,
+      "trend": -7.1,
+      "spread": 5.2
+    },
+    {
+      "line": "2.5",
+      "probability": 76.1,
+      "trend": -7.9,
+      "spread": 3.6
+    },
+    {
+      "line": "3",
+      "probability": 92.2,
+      "trend": null,
+      "spread": 2.2
+    },
+    {
+      "line": "3.5",
+      "probability": 95.5,
+      "trend": -2.6,
+      "spread": 1.8
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.8
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.7
+    },
+    {
+      "line": "5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "5.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "handicapHome": [
+    {
+      "line": "-4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "-3.5",
+      "probability": 1.7,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-3",
+      "probability": 1.9,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "-2.5",
+      "probability": 3.6,
+      "trend": -8.2,
+      "spread": 0.6
+    },
+    {
+      "line": "-2",
+      "probability": 3.6,
+      "trend": -5.1,
+      "spread": 0.7
+    },
+    {
+      "line": "-1.5",
+      "probability": 7.4,
+      "trend": -10.1,
+      "spread": 1.3
+    },
+    {
+      "line": "-1",
+      "probability": 8.7,
+      "trend": -12,
+      "spread": 1.7
+    },
+    {
+      "line": "-0.5",
+      "probability": 22.1,
+      "trend": null,
+      "spread": 1.8
+    },
+    {
+      "line": "0",
+      "probability": 42.8,
+      "trend": -4.3,
+      "spread": 1.9
+    },
+    {
+      "line": "0.5",
+      "probability": 62.1,
+      "trend": null,
+      "spread": 1.4
+    },
+    {
+      "line": "1",
+      "probability": 76.6,
+      "trend": -2.1,
+      "spread": 1.9
+    },
+    {
+      "line": "1.5",
+      "probability": 81.5,
+      "trend": -3.3,
+      "spread": 1.6
+    },
+    {
+      "line": "2",
+      "probability": 86.5,
+      "trend": -8.7,
+      "spread": 1.5
+    },
+    {
+      "line": "2.5",
+      "probability": 86.6,
+      "trend": -9.6,
+      "spread": 1.3
+    },
+    {
+      "line": "3",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "3.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.2
+    }
+  ],
+  "handicapAway": [
+    {
+      "line": "-4.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-4",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.2
+    },
+    {
+      "line": "-3.5",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-3",
+      "probability": 0,
+      "trend": null,
+      "spread": 0.6
+    },
+    {
+      "line": "-2.5",
+      "probability": 13.4,
+      "trend": 2.8,
+      "spread": 1.3
+    },
+    {
+      "line": "-2",
+      "probability": 13.5,
+      "trend": 2.1,
+      "spread": 1.5
+    },
+    {
+      "line": "-1.5",
+      "probability": 18.5,
+      "trend": -3.9,
+      "spread": 1.6
+    },
+    {
+      "line": "-1",
+      "probability": 23.4,
+      "trend": -3.1,
+      "spread": 1.9
+    },
+    {
+      "line": "-0.5",
+      "probability": 37.9,
+      "trend": null,
+      "spread": 1.4
+    },
+    {
+      "line": "0",
+      "probability": 57.2,
+      "trend": 1.2,
+      "spread": 1.9
+    },
+    {
+      "line": "0.5",
+      "probability": 77.9,
+      "trend": null,
+      "spread": 1.8
+    },
+    {
+      "line": "1",
+      "probability": 91.3,
+      "trend": 6.6,
+      "spread": 1.7
+    },
+    {
+      "line": "1.5",
+      "probability": 92.6,
+      "trend": 4.1,
+      "spread": 1.3
+    },
+    {
+      "line": "2",
+      "probability": 96.4,
+      "trend": -0.7,
+      "spread": 0.7
+    },
+    {
+      "line": "2.5",
+      "probability": 96.4,
+      "trend": -1.6,
+      "spread": 0.6
+    },
+    {
+      "line": "3",
+      "probability": 98.1,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "3.5",
+      "probability": 98.3,
+      "trend": null,
+      "spread": 0.3
+    },
+    {
+      "line": "4",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.1
+    },
+    {
+      "line": "4.5",
+      "probability": 100,
+      "trend": null,
+      "spread": 0.1
+    }
+  ],
+  "drawNoBet": null,
+  "correctScore": null,
+  "createdAt": "2026-09-15T18:13:17.605Z",
+  "updatedAt": "2026-09-15T18:13:17.605Z",
+  "gameId": "f3aeb460-4153-4603-bfb0-9d16043d1101",
+  "metadataId": "6d3d7ef3-d5c6-4056-a5c1-75ae8f07f713"
+}
+
+2026-09-17 22:01:02 : pid 13288 exited
+with code : 0 / signal : 0

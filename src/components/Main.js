@@ -48,7 +48,7 @@ function Main() {
         
         try {
           state.statusMsg = "Fetching Fixtures & odds...";
-          const fixtures = await getFixturesNOdds("ITA");
+          const fixtures = await getFixturesNOdds("GER");
           
           state.statusMsg = "Running Predictions...";
           

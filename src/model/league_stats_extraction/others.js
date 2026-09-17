@@ -50,8 +50,11 @@ async function getMiscStats(league, statType = "shots_on_target") {
 
 
 (async () => {
-  const data = await getMiscStats('EPL');
-  console.log(JSON.stringify(data, null, 2));
+  const data = await getMiscStats('Serie_A');
+  const participants = data.participants;
+  const names = participants.map(({ name }) => name.includes(" ") ? [name, ''] : null).filter(Boolean);
+  
+  console.log(names)
 })();
 
 //https://prod-cdn-stats-api.lsmedia1.com/api/v1/competition/75/participantStats/group/shots_on_target?limit=3&locale=en

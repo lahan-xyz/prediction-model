@@ -48,4 +48,46 @@ async function processData() {
   //console.log("Final backend result:", finalResult);
 }
 
-module.exports = { before, after, processData }
+const simplifiedNames = new Map([
+  ['AFC Bournemouth', 'Bournemouth'],
+  ['Manchester United', 'Man Utd'],
+  ['Manchester City', 'Man City'],
+  ['Ipswich Town', 'Ipswich'],
+  ['Leeds United', 'Leeds'],
+  ['Hull City', 'Hull'],
+  ['Nottingham Forest', 'Nottingham'],
+  ['Coventry City', 'Coventry'],
+  ['Newcastle United', 'Newcastle'],
+  ['Tottenham Hotspur', 'Tottenham'],
+  
+  ['Real Betis', 'Betis'],
+  ['Deportivo Alaves', 'Alaves'],
+  ['Rayo Vallecano', 'Vallecano'],
+  ['Real Sociedad', 'Sociedad'],
+  ['Atletico Madrid', 'Atletico'],
+  ['Racing Santander', 'Santander'],
+  ['Deportivo A Coruna', 'Dep. La Coruna'],
+  ['Celta Vigo', 'Celta'],
+  
+  ['RB Leipzig', 'Leipzig'],
+  ['Bayern Munich', 'Bayern'],
+  ['Borussia Dortmund', 'Dortmund'],
+  ['Bayer Leverkusen', 'Leverkusen'],
+  ['Union Berlin', ''],
+  ['Mainz 05', 'Mainz'],
+  ['VfB Stuttgart', 'Stuttgart'],
+  ['Eintracht Frankfurt', 'Frankfurt'],
+  ['Schalke 04', 'Schalke'],
+  ['FC Cologne', 'Cologne'],
+  ["Borussia M'gladbach", "M'gladbach"],
+  ['Hamburger SV', 'HSV'],
+  
+  ['Paris Saint-Germain', 'PSG'],
+  ['AS Monaco', 'Monaco'],
+  
+  ['AS Roma', 'Roma'],
+  ['Como 1907', 'Como'],
+  ['AC Milan', 'Milan']
+]);
+
+module.exports = { before, after, processData, simplifiedNames }
